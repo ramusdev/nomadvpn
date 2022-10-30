@@ -14,7 +14,7 @@
         tools:layout_editor_absoluteX="411dp" />
 
     <Button
-        android:id="@+id/button6"
+        android:id="@+id/start_connect"
         android:layout_width="300dp"
         android:layout_height="55dp"
         android:text="Start connect"
