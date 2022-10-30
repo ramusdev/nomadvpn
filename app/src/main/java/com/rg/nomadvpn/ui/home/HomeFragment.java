@@ -29,7 +29,7 @@ public class HomeFragment extends Fragment {
         View root = binding.getRoot();
 
         Button button = root.findViewById(R.id.start_connect);
-        button.setOnClickListener(new StartConnectService());
+        button.setOnClickListener(new StartConnectService(this));
 
         // final TextView textView = binding.textHome;
         /*

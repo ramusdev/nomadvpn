@@ -8,3 +8,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Nomad Vpn"
 include ':app'
+include ':app:vpnLib'
