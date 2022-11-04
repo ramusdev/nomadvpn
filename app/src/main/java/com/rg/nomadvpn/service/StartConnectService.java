@@ -13,11 +13,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import de.blinkt.openvpn.OpenVpnApi;
+import de.blinkt.openvpn.core.OpenVPNService;
+import de.blinkt.openvpn.core.OpenVPNThread;
 
 public class StartConnectService implements View.OnClickListener {
     private final static String LOGTAG = "Logtag";
     private final static String CONFIG = "vpnconfig.ovpn";
     public Fragment fragment;
+
+    private OpenVPNThread openVPNThread = new OpenVPNThread();
+    private OpenVPNService openVPNService = new OpenVPNService();
 
     public StartConnectService(Fragment fragment) {
         this.fragment = fragment;
@@ -82,6 +87,9 @@ public class StartConnectService implements View.OnClickListener {
             }
 
             bufferedReader.readLine();
+
+            // Log.d(LOGTAG, "Configuration text: ");
+            // Log.d(LOGTAG, configurationText);
 
             return configurationText;
 

@@ -16,10 +16,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.rg.nomadvpn.databinding.ActivityMainBinding;
 
+import de.blinkt.openvpn.core.VpnStatus;
+
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
+    public final static String LOGTAG = "Logtag";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
     }
 
     @Override
