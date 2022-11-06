@@ -34,13 +34,16 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        ButtonConnect buttonConnect = new ButtonConnect(root);
+
         // OpenVPNThread openVPNThread = new OpenVPNThread();
         // OpenVPNService openVPNService = new OpenVPNService();
         // OpenVPNThread.stop();
 
-        Button button = root.findViewById(R.id.start_connect);
-        button.setOnClickListener(new StartConnectService(this));
+        // Button button = root.findViewById(R.id.start_connect);
+        // button.setOnClickListener(new StartConnectService(this));
 
+        /*
         Button buttonStatus = root.findViewById(R.id.start_status);
         buttonStatus.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,6 +52,7 @@ public class HomeFragment extends Fragment {
                 Log.d(MainActivity.LOGTAG, "Status connection: " + status);
             }
         });
+        */
 
         VpnStatus.initLogCache(getActivity().getCacheDir());
 
