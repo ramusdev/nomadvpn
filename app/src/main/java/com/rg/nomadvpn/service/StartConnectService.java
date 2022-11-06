@@ -19,6 +19,7 @@ import de.blinkt.openvpn.core.OpenVPNThread;
 public class StartConnectService implements View.OnClickListener {
     private final static String LOGTAG = "Logtag";
     private final static String CONFIG = "vpnconfig.ovpn";
+    // private final static String CONFIG = "server.ovpn";
     public Fragment fragment;
 
     private OpenVPNThread openVPNThread = new OpenVPNThread();
@@ -34,7 +35,9 @@ public class StartConnectService implements View.OnClickListener {
 
         ServerVpnConfiguration serverVpnConfiguration = new ServerVpnConfiguration();
         serverVpnConfiguration.setCountry("Germany");
+        // serverVpnConfiguration.setUser("opentunnel.net-username2");
         serverVpnConfiguration.setUser("vpnuser");
+        // serverVpnConfiguration.setPassword("password2");
         serverVpnConfiguration.setPassword("vpnpassword");
 
         String configuration = readConfiguration();
