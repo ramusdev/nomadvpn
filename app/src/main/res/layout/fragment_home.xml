@@ -13,19 +13,33 @@
 
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/button_connect"
+        android:id="@+id/button_card"
         android:layout_width="match_parent"
         android:layout_height="55dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:cardCornerRadius="5dp"
-        android:backgroundTint="@color/accent"
         tools:layout_editor_absoluteX="1dp"
         tools:layout_editor_absoluteY="536dp" >
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/button_layout"
             android:layout_width="match_parent"
+            android:background="@color/accent"
             android:layout_height="match_parent">
+
+            <ProgressBar
+                android:id="@+id/button_progress"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:progressDrawable="@drawable/progress_background"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:progress="0"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/button_title"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -36,7 +50,7 @@
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:textAllCaps="true"
-                android:text="Connect button" />
+                android:text="Start connection" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 

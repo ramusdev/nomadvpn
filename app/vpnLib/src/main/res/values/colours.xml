@@ -16,6 +16,9 @@
 
     <!-- Button connect -->
     <color name="connect_text">#ffffff</color>
+    <color name="progress_item">#62F811</color>
+    <color name="background_progress">#009688</color>
+    <color name="line_progress">#00C853</color>
 
 
     <color name="switchbar">@android:color/darker_gray</color>
