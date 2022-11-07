@@ -61,8 +61,9 @@ public class ButtonConnect {
         // textView.setText("Start connection");
         // Log.d(MainActivity.LOGTAG, "Button start");
         // progressBar.setAnimation(animationFadeIn);
-        // cardView.setAnimation(animationFadeIn);
-        progressBar.startAnimation(animationFadeIn);
+        // cardView.startAnimation(animationFadeIn);
+        layoutView.startAnimation(animationFadeIn);
+        // progressBar.startAnimation(animationFadeIn);
 
         new Thread(new Runnable() {
             @Override
@@ -90,7 +91,8 @@ public class ButtonConnect {
     }
 
     public void buttonFinished() {
-        progressBar.startAnimation(animationFadeIn);
-        textView.setText("Connected");
+        ButtonConnect.this.layoutView.startAnimation(animationFadeIn);
+        // ButtonConnect.this.cardView.startAnimation(animationFadeIn);
+        ButtonConnect.this.textView.setText("Connected");
     }
 }

@@ -18,12 +18,13 @@
         android:layout_height="55dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:cardCornerRadius="5dp"
+        android:background="@color/dataIn"
+        android:backgroundTintMode="@color/dataIn"
         tools:layout_editor_absoluteX="1dp"
         tools:layout_editor_absoluteY="536dp" >
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/button_layout"
             android:layout_width="match_parent"
-            android:background="@color/accent"
             android:layout_height="match_parent">
 
             <ProgressBar
@@ -47,7 +48,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/connect_text"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:textStyle="bold"
                 android:textAllCaps="true"
                 android:text="Start connection" />
