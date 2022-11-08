@@ -1,27 +1,17 @@
 package com.rg.nomadvpn.ui.home;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.rg.nomadvpn.MainActivity;
-import com.rg.nomadvpn.R;
 import com.rg.nomadvpn.databinding.FragmentHomeBinding;
-import com.rg.nomadvpn.service.StartConnectService;
+import com.rg.nomadvpn.service.StartConnectListener;
 
-import de.blinkt.openvpn.core.OpenVPNService;
-import de.blinkt.openvpn.core.OpenVPNThread;
 import de.blinkt.openvpn.core.VpnStatus;
 
 public class HomeFragment extends Fragment {
@@ -37,6 +27,7 @@ public class HomeFragment extends Fragment {
         View root = binding.getRoot();
 
         ButtonConnect buttonConnect = new ButtonConnect(root);
+        buttonConnect.setOnClickListener(new StartConnectListener(this));
 
         // OpenVPNThread openVPNThread = new OpenVPNThread();
         // OpenVPNService openVPNService = new OpenVPNService();

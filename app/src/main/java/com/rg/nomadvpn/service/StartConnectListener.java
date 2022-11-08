@@ -16,7 +16,7 @@ import de.blinkt.openvpn.OpenVpnApi;
 import de.blinkt.openvpn.core.OpenVPNService;
 import de.blinkt.openvpn.core.OpenVPNThread;
 
-public class StartConnectService implements View.OnClickListener {
+public class StartConnectListener {
     private final static String LOGTAG = "Logtag";
     private final static String CONFIG = "vpnconfig.ovpn";
     // private final static String CONFIG = "server.ovpn";
@@ -25,12 +25,11 @@ public class StartConnectService implements View.OnClickListener {
     private OpenVPNThread openVPNThread = new OpenVPNThread();
     private OpenVPNService openVPNService = new OpenVPNService();
 
-    public StartConnectService(Fragment fragment) {
+    public StartConnectListener(Fragment fragment) {
         this.fragment = fragment;
     }
 
-    @Override
-    public void onClick(View view) {
+    public void onClick() {
         Log.d(LOGTAG, "Button click connect");
 
         ServerVpnConfiguration serverVpnConfiguration = new ServerVpnConfiguration();

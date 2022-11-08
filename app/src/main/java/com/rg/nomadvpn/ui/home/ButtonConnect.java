@@ -14,7 +14,11 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.rg.nomadvpn.MainActivity;
 import com.rg.nomadvpn.R;
+import com.rg.nomadvpn.model.ServerStatusEnum;
+import com.rg.nomadvpn.service.StartConnectListener;
 import com.rg.nomadvpn.utils.MyApplicationContext;
+
+import de.blinkt.openvpn.core.OpenVPNService;
 
 public class ButtonConnect {
     private View rootView;
@@ -24,10 +28,10 @@ public class ButtonConnect {
     private Animation animationFadeIn;
     private Animation animationFadeInTwo;
     private ProgressBar progressBar;
+    private StartConnectListener listener;
 
-    // private final Handler handler = new Handler();
     private Handler handler = new Handler();
-    private int progressItem = 0;
+    private int progressValue = 0;
 
     public ButtonConnect(View rootView) {
         this.rootView = rootView;
@@ -39,6 +43,10 @@ public class ButtonConnect {
         animationFadeIn = AnimationUtils.loadAnimation(MyApplicationContext.getAppContext(), R.anim.fade_in);
         animationFadeInTwo = AnimationUtils.loadAnimation(MyApplicationContext.getAppContext(), R.anim.fade_in);
         clickHandler();
+    }
+
+    public void setOnClickListener(StartConnectListener listener) {
+        this.listener = listener;
     }
 
     public void clickHandler() {
@@ -57,37 +65,57 @@ public class ButtonConnect {
     }
 
     public void buttonStart() {
-        // cardView.setAnimation(animationFadeIn);
-        // textView.setText("Start connection");
-        // Log.d(MainActivity.LOGTAG, "Button start");
-        // progressBar.setAnimation(animationFadeIn);
-        // cardView.startAnimation(animationFadeIn);
+        this.listener.onClick();
         layoutView.startAnimation(animationFadeIn);
-        // progressBar.startAnimation(animationFadeIn);
 
         new Thread(new Runnable() {
             @Override
             public void run() {
-                while (progressItem < 100) {
+                while (true) {
                     try {
-                        Thread.sleep(100);
+                        Thread.sleep(500);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    progressItem += 1;
+
+
+                    progressValue += 1;
+
+                    String status = OpenVPNService.getStatus();
+                    int breakPoint = getBreakPoint(status);
+
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
-                            progressBar.setProgress(progressItem);
-                            textView.setText("Progress  " + progressItem + "%");
-                            if (progressItem == 100) {
-                                ButtonConnect.this.buttonFinished();
-                            }
+                            // progressBar.setProgress(progressValue);
+                            // textView.setText("Progress  " + progressItem + "%");
+                            // String status = OpenVPNService.getStatus();
+                            // Log.d(MainActivity.LOGTAG, "Status: " + status);
+                            // ButtonConnect.this.textView.setText(status);
+                            // ButtonConnect.this.buttonProgress(progressValue);
+
+                            // if (progressItem == 100) {
+                                // ButtonConnect.this.buttonFinished();
+                            // }
                         }
                     });
                 }
             }
         }).start();
+    }
+
+    public int getBreakPoint(String status) {
+        int breakPoint = 0;
+
+        if (status.equals("VPN_GENERATE_CONFIG")) {
+            breakPoint = 15;
+        } else if (status.equals("WAIT")) {
+            breakPoint = 30;
+        } else if (status.equals("AUTH")) {
+            breakPoint = 45;
+        }
+
+        return breakPoint;
     }
 
     public void buttonFinished() {
