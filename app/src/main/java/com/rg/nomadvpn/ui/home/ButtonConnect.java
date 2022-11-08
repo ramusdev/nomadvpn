@@ -73,54 +73,67 @@ public class ButtonConnect {
             public void run() {
                 while (true) {
                     try {
-                        Thread.sleep(500);
+                        Thread.sleep(30);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
 
+                    int breakPoint = ButtonConnect.this.getBreakPoint();
+                    if (progressValue < breakPoint) {
+                        progressValue += 1;
+                    }
 
-                    progressValue += 1;
+                    progressLoading(progressValue);
 
-                    String status = OpenVPNService.getStatus();
-                    int breakPoint = getBreakPoint(status);
-
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            // progressBar.setProgress(progressValue);
-                            // textView.setText("Progress  " + progressItem + "%");
-                            // String status = OpenVPNService.getStatus();
-                            // Log.d(MainActivity.LOGTAG, "Status: " + status);
-                            // ButtonConnect.this.textView.setText(status);
-                            // ButtonConnect.this.buttonProgress(progressValue);
-
-                            // if (progressItem == 100) {
-                                // ButtonConnect.this.buttonFinished();
-                            // }
-                        }
-                    });
+                    if (progressValue >= 100) {
+                        progressFinished(progressValue);
+                        break;
+                    }
                 }
             }
         }).start();
     }
 
-    public int getBreakPoint(String status) {
+    public int getBreakPoint() {
+        String status = OpenVPNService.getStatus();
         int breakPoint = 0;
 
         if (status.equals("VPN_GENERATE_CONFIG")) {
-            breakPoint = 15;
+            return breakPoint = 15;
         } else if (status.equals("WAIT")) {
-            breakPoint = 30;
+            return breakPoint = 30;
         } else if (status.equals("AUTH")) {
-            breakPoint = 45;
+            return breakPoint = 45;
+        } else if (status.equals("GET_CONFIG")) {
+            return breakPoint = 60;
+        } else if (status.equals("ASSIGN_IP")) {
+            return breakPoint = 75;
+        } else if (status.equals("ADD_ROUTES")) {
+            return breakPoint = 85;
+        } else if (status.equals("CONNECTED")) {
+            return breakPoint = 100;
         }
 
         return breakPoint;
     }
 
-    public void buttonFinished() {
-        ButtonConnect.this.layoutView.startAnimation(animationFadeIn);
-        // ButtonConnect.this.cardView.startAnimation(animationFadeIn);
-        ButtonConnect.this.textView.setText("Connected");
+    public void progressLoading(int progressValue) {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                progressBar.setProgress(progressValue);
+                textView.setText("Progress  " + progressValue + " %");
+            }
+        });
+    }
+
+    public void progressFinished(int progressValue) {
+       handler.post(new Runnable() {
+           @Override
+           public void run() {
+               ButtonConnect.this.layoutView.startAnimation(animationFadeIn);
+               ButtonConnect.this.textView.setText("Connected");
+           }
+       });
     }
 }
