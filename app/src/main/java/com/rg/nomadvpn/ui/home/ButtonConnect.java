@@ -1,5 +1,7 @@
 package com.rg.nomadvpn.ui.home;
 
+import static com.rg.nomadvpn.model.ServerStatusEnum.VPN_GENERATE_CONFIG;
+
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
@@ -96,8 +98,10 @@ public class ButtonConnect {
 
     public int getBreakPoint() {
         String status = OpenVPNService.getStatus();
+        ServerStatusEnum serverStatusEnum = ServerStatusEnum.valueOf(status);
         int breakPoint = 0;
 
+        /*
         if (status.equals("VPN_GENERATE_CONFIG")) {
             return breakPoint = 15;
         } else if (status.equals("WAIT")) {
@@ -112,6 +116,26 @@ public class ButtonConnect {
             return breakPoint = 85;
         } else if (status.equals("CONNECTED")) {
             return breakPoint = 100;
+        }
+        */
+
+        switch (serverStatusEnum) {
+            case NOPROCESS:
+                return breakPoint = 10;
+            case VPN_GENERATE_CONFIG:
+                return breakPoint = 20;
+            case WAIT:
+                return breakPoint = 30;
+            case AUTH:
+                return breakPoint = 40;
+            case GET_CONFIG:
+                return breakPoint = 50;
+            case ASSIGN_IP:
+                return breakPoint = 60;
+            case ADD_ROUTES:
+                return breakPoint = 70;
+            case CONNECTED:
+                return breakPoint = 100;
         }
 
         return breakPoint;
