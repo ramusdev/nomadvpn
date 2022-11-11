@@ -1,6 +1,9 @@
 package com.rg.nomadvpn.model;
 
 public enum ServerStatusEnum {
+    DISCONNECTED,
+    NONETWORK,
+    CONNECTRETRY,
     NOPROCESS,
     VPN_GENERATE_CONFIG,
     WAIT,

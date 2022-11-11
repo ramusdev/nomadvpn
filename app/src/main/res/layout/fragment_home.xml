@@ -4,54 +4,98 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingRight="15dp"
     android:paddingLeft="15dp"
     android:paddingTop="15dp"
+    android:paddingRight="15dp"
     android:paddingBottom="15dp"
+    android:id="@+id/constraint_main"
     tools:context=".ui.home.HomeFragment">
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_disconnect"
+        android:layout_width="0dp"
+        app:layout_constraintWidth_percent="0"
+        android:layout_height="50dp"
+        android:background="@color/dataIn"
+        android:backgroundTintMode="@color/dataIn"
+        android:visibility="visible"
+        app:cardCornerRadius="7dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_disconnect"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/disconnect_progress"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:layout_editor_absoluteX="1dp">
+
+            <TextView
+                android:id="@+id/title_disconnect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Disconnect"
+                android:textAllCaps="true"
+                android:textColor="@color/connect_text"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
 
 
 
     <androidx.cardview.widget.CardView
         android:id="@+id/button_card"
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:cardCornerRadius="5dp"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
         android:background="@color/dataIn"
         android:backgroundTintMode="@color/dataIn"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="536dp" >
+        app:cardCornerRadius="7dp"
+        app:layout_constraintWidth_percent="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/button_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
 
             <ProgressBar
                 android:id="@+id/button_progress"
                 style="?android:attr/progressBarStyleHorizontal"
-                android:progressDrawable="@drawable/progress_background"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:progress="0"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:progress="0"
+                android:progressDrawable="@drawable/progress_background"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
 
             <TextView
                 android:id="@+id/button_title"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/connect_text"
-                android:textSize="18sp"
-                android:textStyle="bold"
+                android:text="Start connection"
                 android:textAllCaps="true"
-                android:text="Start connection" />
+                android:textColor="@color/connect_text"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
@@ -67,10 +111,6 @@
         app:layout_constraintLeft_toLeftOf="parent"
         tools:layout_editor_absoluteY="-12dp" />
      -->
-
-
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

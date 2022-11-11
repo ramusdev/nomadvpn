@@ -19,15 +19,11 @@
     <color name="progress_item">#62F811</color>
     <color name="background_progress">#009688</color>
     <color name="line_progress">#00E676</color>
-    <color name="error_progress">#FF1744</color>
+    <color name="disconnect_progress">#E91E63</color>
 
 
     <color name="switchbar">@android:color/darker_gray</color>
-
-
     <color name="background_tab_pressed">#1AFFFFFF</color>
-
-
     <color name="dataIn">#ff0000</color>
     <color name="dataOut">#0000ff</color>
 </resources>

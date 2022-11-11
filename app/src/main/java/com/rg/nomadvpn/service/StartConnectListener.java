@@ -117,4 +117,8 @@ public class StartConnectListener {
             e.printStackTrace();
         }
     }
+
+    public void disconnectServer() {
+        OpenVPNThread.stop();
+    }
 }
