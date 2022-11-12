@@ -314,7 +314,7 @@ public class ButtonConnect {
 
                int layoutWidth = ButtonConnect.this.constraintMain.getMeasuredWidth();
                // Log.d(MainActivity.LOGTAG, "Measured width: " + layoutWidth);
-               int halfLayoutWidth = (int) (layoutWidth / 2) - 80;
+               int halfLayoutWidth = (int) (layoutWidth / 2) - 70;
                int endWidth = halfLayoutWidth;
                int duration = 1500;
 
