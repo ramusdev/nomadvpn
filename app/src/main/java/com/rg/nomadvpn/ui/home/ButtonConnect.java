@@ -1,35 +1,24 @@
 package com.rg.nomadvpn.ui.home;
 
-import static com.rg.nomadvpn.model.ServerStatusEnum.VPN_GENERATE_CONFIG;
-
 import android.animation.Animator;
-import android.animation.AnimatorInflater;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.os.Build;
 import android.os.Handler;
-import android.transition.ChangeBounds;
-import android.transition.TransitionManager;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.animation.AnticipateInterpolator;
-import android.view.animation.BounceInterpolator;
-import android.view.animation.CycleInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
-import android.view.animation.OvershootInterpolator;
-import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.constraintlayout.widget.ConstraintSet;
 
 import com.rg.nomadvpn.MainActivity;
 import com.rg.nomadvpn.R;
@@ -39,7 +28,6 @@ import com.rg.nomadvpn.utils.MyApplicationContext;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicIntegerArray;
 
 import de.blinkt.openvpn.core.OpenVPNService;
@@ -48,7 +36,8 @@ public class ButtonConnect {
     private View rootView;
     private CardView cardConnect;
     private CardView cardDisconnect;
-    private TextView textView;
+    private TextView titleConnect;
+    private TextView titleDisconnect;
     private ConstraintLayout layoutView;
     private ConstraintLayout constraintMain;
     private Animation animationFadeIn;
@@ -57,17 +46,23 @@ public class ButtonConnect {
     private StartConnectListener listener;
     private ExecutorService executorService = Executors.newFixedThreadPool(1);
     private AtomicIntegerArray atomicIntegerArray = new AtomicIntegerArray(2);
+    private int cardConnectWidth;
+    private int buttonLayoutWidth;
     private Handler handler = new Handler();
     private int progressValue = 0;
 
     public ButtonConnect(View rootView) {
         this.rootView = rootView;
         this.cardConnect = rootView.findViewById(R.id.button_card);
-        this.textView = rootView.findViewById(R.id.button_title);
+        this.titleConnect = rootView.findViewById(R.id.button_title);
         this.layoutView = rootView.findViewById(R.id.button_layout);
         this.progressBar = rootView.findViewById(R.id.button_progress);
         this.cardDisconnect = rootView.findViewById(R.id.card_disconnect);
         this.constraintMain = rootView.findViewById(R.id.constraint_main);
+        this.titleDisconnect = rootView.findViewById(R.id.title_disconnect);
+
+        this.cardConnectWidth = this.cardConnect.getMeasuredWidth();
+        this.buttonLayoutWidth = this.layoutView.getMeasuredWidth();
 
         atomicIntegerArray.set(0, 0);
         atomicIntegerArray.set(1, 0);
@@ -282,7 +277,7 @@ public class ButtonConnect {
             @Override
             public void run() {
                 progressBar.setProgress(progressValue);
-                textView.setText("Progress  " + progressValue + " %");
+                titleConnect.setText("Progress  " + progressValue + " %");
 
                 int progress = progressValue;
                 int animationSmoothness = 1000;
@@ -318,6 +313,8 @@ public class ButtonConnect {
                int endWidth = halfLayoutWidth;
                int duration = 1500;
 
+               ButtonConnect.this.cardConnectWidth = cardConnect.getMeasuredWidth();
+
                ValueAnimator valueAnimator = ValueAnimator.ofInt(cardConnect.getMeasuredWidth(), endWidth);
                valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                    @Override
@@ -349,6 +346,8 @@ public class ButtonConnect {
                valueAnimatorDisconnect.setStartDelay(1500);
                valueAnimatorDisconnect.start();
 
+               showFadeinText("Disconnect");
+
 
 
                /*
@@ -368,6 +367,8 @@ public class ButtonConnect {
     }
 
     public void buttonDisconnect() {
+
+        /*
         handler.post(new Runnable() {
             @Override
             public void run() {
@@ -391,9 +392,57 @@ public class ButtonConnect {
 
             }
         });
+        */
+
+
+        // Ui change
+        buttonDisconnectAnimation();
 
         // Program change
         this.listener.disconnectServer();
+    }
+
+    private void buttonDisconnectAnimation() {
+        showFadeoutText();
+
+        // int layoutWidth = ButtonConnect.this.layoutView.getMeasuredWidth();
+        int startWidth = ButtonConnect.this.cardConnect.getMeasuredWidth();
+        int endWidth = ButtonConnect.this.cardConnectWidth;
+        int duration = 1500;
+
+        ValueAnimator valueAnimator = ValueAnimator.ofInt(startWidth, endWidth);
+        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                int val = (Integer) animation.getAnimatedValue();
+                ViewGroup.LayoutParams layoutParams = cardConnect.getLayoutParams();
+                layoutParams.width = val;
+                cardConnect.setLayoutParams(layoutParams);
+            }
+        });
+        valueAnimator.setDuration(duration);
+        valueAnimator.setInterpolator(new LinearInterpolator());
+        valueAnimator.setStartDelay(1550);
+        valueAnimator.start();
+
+        int startDisconnect = cardDisconnect.getMeasuredWidth();
+        ValueAnimator valueAnimatorDisconnect = ValueAnimator.ofInt(startDisconnect, 0);
+        valueAnimatorDisconnect.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                int val = (Integer) animation.getAnimatedValue();
+                ViewGroup.LayoutParams layoutParams = cardDisconnect.getLayoutParams();
+                layoutParams.width = val;
+                cardDisconnect.setLayoutParams(layoutParams);
+            }
+        });
+        valueAnimatorDisconnect.setDuration(duration);
+        valueAnimatorDisconnect.setInterpolator(new LinearInterpolator());
+        valueAnimatorDisconnect.setStartDelay(1500);
+        valueAnimatorDisconnect.start();
+
+        clearProgressAnimation();
+
     }
 
     public Animator.AnimatorListener progressAnimationListener() {
@@ -411,7 +460,7 @@ public class ButtonConnect {
                             handler.post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    ButtonConnect.this.textView.setText("Progress  " + finalNum + "%");
+                                    ButtonConnect.this.titleConnect.setText("Progress  " + finalNum + "%");
                                 }
                             });
 
@@ -442,5 +491,125 @@ public class ButtonConnect {
             }
         };
     }
+
+    public Animator.AnimatorListener progressAnimationClearListener() {
+        // executorService.shutdown();
+        // executorService = Executors.newFixedThreadPool(1);
+        return new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                executorService.submit(new Runnable() {
+                    @Override
+                    public void run() {
+                        int from = 100;
+                        int to = 0;
+                        for (int i = from; i >= to; --i) {
+                            int finalNum = i;
+                            handler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    ButtonConnect.this.titleConnect.setText("Progress  " + finalNum + "%");
+                                }
+                            });
+
+                            try {
+                                Thread.sleep(30);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                    }
+                });
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                showFadeoutfadeinText("Start connect");
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        };
+    }
+
+    public void showFadeoutfadeinText(String text) {
+        Runnable endAction;
+
+        ButtonConnect.this.titleConnect
+                .animate()
+                .alpha(0f)
+                .setDuration(1500)
+                .setStartDelay(0)
+                .withEndAction(endAction = new Runnable() {
+                    @Override
+                    public void run() {
+                        ButtonConnect.this.titleConnect.setText(text);
+                        ButtonConnect.this.titleConnect
+                                .animate()
+                                .alpha(1f)
+                                .setDuration(1500)
+                                .setStartDelay(1500);
+                    }
+                });
+    }
+    public void showFadeinText(String text) {
+        ButtonConnect.this.titleDisconnect.setText(text);
+        // Runnable endAction;
+
+        ButtonConnect.this.titleDisconnect
+                .animate()
+                .alpha(1f)
+                .setDuration(1500)
+                .setStartDelay(2000);
+
+                /*
+        ButtonConnect.this.titleDisconnect
+                .animate()
+                .alpha(0f)
+                .setDuration(1000)
+                .setStartDelay(0)
+                .withEndAction(endAction = new Runnable() {
+                    @Override
+                    public void run() {
+                        ButtonConnect.this.titleDisconnect
+                                .animate()
+                                .alpha(1f)
+                                .setDuration(1000)
+                                .setStartDelay(2000);
+
+                    }
+                });
+
+                 */
+    }
+
+    public void showFadeoutText() {
+        ButtonConnect.this.titleDisconnect
+                .animate()
+                .alpha(0f)
+                .setDuration(1500)
+                .setStartDelay(0);
+    }
+
+   public void clearProgressAnimation() {
+       int animationSmoothness = 1000;
+       int animationDuration = 5000;
+
+       ObjectAnimator objectAnimator = ObjectAnimator.ofInt(ButtonConnect.this.progressBar, "progress", 0);
+       objectAnimator.setDuration(animationDuration);
+       objectAnimator.setInterpolator(new DecelerateInterpolator());
+       objectAnimator.addListener(progressAnimationClearListener());
+       objectAnimator.setStartDelay(3100);
+       objectAnimator.start();
+   }
+
 
 }

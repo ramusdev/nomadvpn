@@ -38,6 +38,7 @@
                 android:layout_height="wrap_content"
                 android:text="Disconnect"
                 android:textAllCaps="true"
+                android:alpha="0"
                 android:textColor="@color/connect_text"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -53,11 +54,10 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/button_card"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginBottom="15dp"
         app:cardCornerRadius="7dp"
-        app:layout_constraintWidth_percent="1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
