@@ -1,15 +1,19 @@
 package com.rg.nomadvpn.ui.home;
 
 import android.animation.Animator;
+import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.os.Build;
 import android.os.Handler;
+import android.renderscript.Sampler;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewPropertyAnimator;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
@@ -23,7 +27,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import com.rg.nomadvpn.MainActivity;
 import com.rg.nomadvpn.R;
 import com.rg.nomadvpn.model.ServerStatusEnum;
-import com.rg.nomadvpn.service.StartConnectListener;
+import com.rg.nomadvpn.service.VpnConnectionService;
 import com.rg.nomadvpn.utils.MyApplicationContext;
 
 import java.util.concurrent.ExecutorService;
@@ -43,7 +47,7 @@ public class ButtonConnect {
     private Animation animationFadeIn;
     private Animation animationProgress;
     private ProgressBar progressBar;
-    private StartConnectListener listener;
+    private VpnConnectionService vpnConnectionService;
     private ExecutorService executorService = Executors.newFixedThreadPool(1);
     private AtomicIntegerArray atomicIntegerArray = new AtomicIntegerArray(2);
     private int cardConnectWidth;
@@ -71,8 +75,8 @@ public class ButtonConnect {
         clickInit();
     }
 
-    public void setOnClickListener(StartConnectListener listener) {
-        this.listener = listener;
+    public void setOnClickListener(VpnConnectionService vpnConnectionService) {
+        this.vpnConnectionService = vpnConnectionService;
     }
 
     public void clickInit() {
@@ -99,7 +103,7 @@ public class ButtonConnect {
 
     public void buttonStart() {
         // Start server
-        this.listener.onClick();
+        this.vpnConnectionService.onClick();
 
         // Ui change
         /*
@@ -367,39 +371,80 @@ public class ButtonConnect {
     }
 
     public void buttonDisconnect() {
-
-        /*
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                // Ui change
-                ButtonConnect.this.cardDisconnect.startAnimation(animationFadeIn);
-
-                ConstraintSet constraintSet = new ConstraintSet();
-                constraintSet.clone(ButtonConnect.this.constraintMain);
-                constraintSet.constrainPercentWidth(R.id.button_card, 1F);
-                constraintSet.constrainPercentWidth(R.id.card_disconnect, 0F);
-
-                final ChangeBounds transition = new ChangeBounds();
-                transition.setDuration(500L);
-                TransitionManager.beginDelayedTransition(ButtonConnect.this.constraintMain, transition);
-                constraintSet.applyTo(ButtonConnect.this.constraintMain);
-
-                ButtonConnect.this.textView.setText("Start connection");
-                // ButtonConnect.this.progressBar.setAnimation(animationFadeIn);
-                // ButtonConnect.this.progressBar.setProgress(0);
-
-
-            }
-        });
-        */
-
-
         // Ui change
-        buttonDisconnectAnimation();
+        // this.buttonDisconnectAnimation();
+        this.buttonDisconnectAnimationTwo();
 
         // Program change
-        this.listener.disconnectServer();
+        this.vpnConnectionService.disconnectServer();
+    }
+
+    public void buttonDisconnectAnimationTwo() {
+
+        int startWidth = ButtonConnect.this.cardConnect.getMeasuredWidth();
+        int endWidth = ButtonConnect.this.cardConnectWidth;
+        int duration = 1500;
+
+        ValueAnimator animationConnect = ValueAnimator.ofInt(startWidth, endWidth);
+        animationConnect.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                int val = (Integer) animation.getAnimatedValue();
+                ViewGroup.LayoutParams layoutParams = cardConnect.getLayoutParams();
+                layoutParams.width = val;
+                cardConnect.setLayoutParams(layoutParams);
+            }
+        });
+        animationConnect.setDuration(duration);
+        animationConnect.setInterpolator(new LinearInterpolator());
+        // animationConnect.setStartDelay(1570);
+        // valueAnimator.start();
+
+        int startDisconnect = cardDisconnect.getMeasuredWidth();
+        ValueAnimator animationDisconnect = ValueAnimator.ofInt(startDisconnect, 0);
+        animationDisconnect.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                int val = (Integer) animation.getAnimatedValue();
+                ViewGroup.LayoutParams layoutParams = cardDisconnect.getLayoutParams();
+                layoutParams.width = val;
+                cardDisconnect.setLayoutParams(layoutParams);
+            }
+        });
+        animationDisconnect.setDuration(duration);
+        animationDisconnect.setInterpolator(new LinearInterpolator());
+        // animationDisconnect.setStartDelay(1500);
+        // valueAnimatorDisconnect.start();
+
+
+
+
+        /*
+        ViewPropertyAnimator animatorText = ButtonConnect.this.titleDisconnect
+                .animate()
+                .alpha(0f)
+                .setDuration(1500)
+                .setStartDelay(0);
+
+         */
+
+        // Text animation disconnect button
+        ValueAnimator animatorText = ValueAnimator.ofFloat(1f, 0f);
+        animatorText.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                float alpha = (float) animation.getAnimatedValue();
+                ButtonConnect.this.titleDisconnect.setAlpha(alpha);
+            }
+        });
+        animatorText.setDuration(1500);
+
+
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.playSequentially(animationConnect, animationDisconnect);
+        // animatorSet.playTogether(animationConnect, animationDisconnect);
+        animatorSet.start();
+
     }
 
     private void buttonDisconnectAnimation() {
@@ -525,7 +570,7 @@ public class ButtonConnect {
 
             @Override
             public void onAnimationEnd(Animator animation) {
-                showFadeoutfadeinText("Start connect");
+                showFadeoutFadeinText("Start connect");
             }
 
             @Override
@@ -540,13 +585,13 @@ public class ButtonConnect {
         };
     }
 
-    public void showFadeoutfadeinText(String text) {
+    public void showFadeoutFadeinText(String text) {
         Runnable endAction;
 
         ButtonConnect.this.titleConnect
                 .animate()
                 .alpha(0f)
-                .setDuration(1500)
+                .setDuration(500)
                 .setStartDelay(0)
                 .withEndAction(endAction = new Runnable() {
                     @Override
@@ -555,8 +600,8 @@ public class ButtonConnect {
                         ButtonConnect.this.titleConnect
                                 .animate()
                                 .alpha(1f)
-                                .setDuration(1500)
-                                .setStartDelay(1500);
+                                .setDuration(500)
+                                .setStartDelay(500);
                     }
                 });
     }

@@ -16,7 +16,7 @@ import de.blinkt.openvpn.OpenVpnApi;
 import de.blinkt.openvpn.core.OpenVPNService;
 import de.blinkt.openvpn.core.OpenVPNThread;
 
-public class StartConnectListener {
+public class VpnConnectionService {
     private final static String LOGTAG = "Logtag";
     private final static String CONFIG = "vpnconfig.ovpn";
     // private final static String CONFIG = "server.ovpn";
@@ -25,7 +25,7 @@ public class StartConnectListener {
     private OpenVPNThread openVPNThread = new OpenVPNThread();
     private OpenVPNService openVPNService = new OpenVPNService();
 
-    public StartConnectListener(Fragment fragment) {
+    public VpnConnectionService(Fragment fragment) {
         this.fragment = fragment;
     }
 

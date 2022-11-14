@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.rg.nomadvpn.databinding.FragmentHomeBinding;
-import com.rg.nomadvpn.service.StartConnectListener;
+import com.rg.nomadvpn.service.VpnConnectionService;
 
 import de.blinkt.openvpn.core.VpnStatus;
 
@@ -27,7 +27,7 @@ public class HomeFragment extends Fragment {
         View root = binding.getRoot();
 
         ButtonConnect buttonConnect = new ButtonConnect(root);
-        buttonConnect.setOnClickListener(new StartConnectListener(this));
+        buttonConnect.setOnClickListener(new VpnConnectionService(this));
 
         // OpenVPNThread openVPNThread = new OpenVPNThread();
         // OpenVPNService openVPNService = new OpenVPNService();
