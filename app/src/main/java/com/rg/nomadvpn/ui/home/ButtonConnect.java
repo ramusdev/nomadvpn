@@ -49,7 +49,6 @@ public class ButtonConnect {
     private ProgressBar progressBar;
     private VpnConnectionService vpnConnectionService;
     private ExecutorService executorService = Executors.newFixedThreadPool(1);
-    private AtomicIntegerArray atomicIntegerArray = new AtomicIntegerArray(2);
     private int cardConnectWidth;
     private int buttonLayoutWidth;
     private Handler handler = new Handler();
@@ -66,16 +65,16 @@ public class ButtonConnect {
         this.titleDisconnect = rootView.findViewById(R.id.title_disconnect);
 
         this.cardConnectWidth = this.cardConnect.getMeasuredWidth();
-        this.buttonLayoutWidth = this.layoutView.getMeasuredWidth();
+        // this.buttonLayoutWidth = this.layoutView.getMeasuredWidth();
 
-        atomicIntegerArray.set(0, 0);
-        atomicIntegerArray.set(1, 0);
+        // atomicIntegerArray.set(0, 0);
+        // atomicIntegerArray.set(1, 0);
 
-        animationFadeIn = AnimationUtils.loadAnimation(MyApplicationContext.getAppContext(), R.anim.fade_in);
+        // animationFadeIn = AnimationUtils.loadAnimation(MyApplicationContext.getAppContext(), R.anim.fade_in);
         clickInit();
     }
 
-    public void setOnClickListener(VpnConnectionService vpnConnectionService) {
+    public void setService(VpnConnectionService vpnConnectionService) {
         this.vpnConnectionService = vpnConnectionService;
     }
 
@@ -116,12 +115,10 @@ public class ButtonConnect {
                     int breakPointCurrent = ButtonConnect.this.getBreakPoint();
                     if (breakPointCurrent != breakPoint) {
                         breakPoint = breakPointCurrent;
-                        atomicIntegerArray.set(1, breakPointCurrent);
                         updateProgressBar(breakPoint);
                     }
 
                     if (breakPointCurrent >= 100) {
-                        // progressFinished(progressValue);
                         break;
                     }
 
@@ -156,43 +153,14 @@ public class ButtonConnect {
                 ObjectAnimator animatorProgress = ObjectAnimator.ofInt(ButtonConnect.this.progressBar, "progress", breakPoint * animationSmoothness);
                 animatorProgress.setDuration(animationDuration);
                 animatorProgress.setInterpolator(new DecelerateInterpolator());
-                // animatorProgress.addListener(progressAnimationListener());
-
-
 
 
                 AnimatorSet animatorSet = new AnimatorSet();
                 animatorSet.play(animatorProgress).with(animatorTitle);
-                // animatorSet.play(getAnimatorFadeOutInText("Connected", titleConnect)).after(animatorProgress);
                 animatorSet.addListener(new Animator.AnimatorListener() {
                     @Override
                     public void onAnimationStart(Animator animation) {
-                        /*
-                        executorService.submit(new Runnable() {
-                            @Override
-                            public void run() {
-                                int from = atomicIntegerArray.get(0);
-                                int to = atomicIntegerArray.get(1);
-                                atomicIntegerArray.set(0, to);
-                                for (int i = from; i <= to; ++i) {
-                                    int finalNum = i;
-                                    handler.post(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            ButtonConnect.this.titleConnect.setText("Progress  " + finalNum + "%");
-                                        }
-                                    });
 
-                                    try {
-                                        Thread.sleep(30);
-                                    } catch (InterruptedException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-
-                            }
-                        });
-                        */
                     }
 
                     @Override
@@ -228,24 +196,6 @@ public class ButtonConnect {
         }
 
         ServerStatusEnum serverStatusEnum = ServerStatusEnum.valueOf(status);
-
-        /*
-        if (status.equals("VPN_GENERATE_CONFIG")) {
-            return breakPoint = 15;
-        } else if (status.equals("WAIT")) {
-            return breakPoint = 30;
-        } else if (status.equals("AUTH")) {
-            return breakPoint = 45;
-        } else if (status.equals("GET_CONFIG")) {
-            return breakPoint = 60;
-        } else if (status.equals("ASSIGN_IP")) {
-            return breakPoint = 75;
-        } else if (status.equals("ADD_ROUTES")) {
-            return breakPoint = 85;
-        } else if (status.equals("CONNECTED")) {
-            return breakPoint = 100;
-        }
-        */
 
         switch (serverStatusEnum) {
             case CONNECTRETRY:
@@ -327,34 +277,6 @@ public class ButtonConnect {
         return animatorSet;
     }
 
-    public void progressLoading(int progressValue) {
-        handler.post(new Runnable() {
-            @RequiresApi(api = Build.VERSION_CODES.N)
-            @Override
-            public void run() {
-                progressBar.setProgress(progressValue);
-                titleConnect.setText("Progress  " + progressValue + " %");
-
-                int progress = progressValue;
-                int animationSmoothness = 1000;
-                int animationDuration = 5000;
-                ButtonConnect.this.progressBar.setMax(100 * animationSmoothness);
-
-
-                ObjectAnimator objectAnimator = ObjectAnimator.ofInt(ButtonConnect.this.progressBar, "progress", progress * animationSmoothness);
-                objectAnimator.setCurrentFraction(0.5F);
-                objectAnimator.setDuration(animationDuration);
-                objectAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
-                objectAnimator.start();
-
-
-
-                // ButtonConnect.this.progressBar.startAnimation(animationProgress);
-
-
-            }
-        });
-    }
 
     public void animationFinishedConnect() {
        handler.post(new Runnable() {
@@ -366,10 +288,6 @@ public class ButtonConnect {
                int duration = 1500;
 
                ButtonConnect.this.cardConnectWidth = cardConnect.getMeasuredWidth();
-
-
-
-
 
 
                ValueAnimator animatorConnect = ValueAnimator.ofInt(cardConnect.getMeasuredWidth(), endWidth);
@@ -435,8 +353,6 @@ public class ButtonConnect {
         });
         animatorConnect.setDuration(duration);
         animatorConnect.setInterpolator(new LinearInterpolator());
-        // animationConnect.setStartDelay(1570);
-        // valueAnimator.start();
 
         // Animation disconnect
         int startDisconnect = cardDisconnect.getMeasuredWidth();
@@ -452,20 +368,6 @@ public class ButtonConnect {
         });
         animatorDisconnect.setDuration(duration);
         animatorDisconnect.setInterpolator(new LinearInterpolator());
-        // animationDisconnect.setStartDelay(1500);
-        // valueAnimatorDisconnect.start();
-
-
-
-
-        /*
-        ViewPropertyAnimator animatorText = ButtonConnect.this.titleDisconnect
-                .animate()
-                .alpha(0f)
-                .setDuration(1500)
-                .setStartDelay(0);
-
-         */
 
         // Text animation disconnect button
         ValueAnimator animatorTextDisconnect = ValueAnimator.ofFloat(1f, 0f);
@@ -545,22 +447,9 @@ public class ButtonConnect {
         animatorSet.play(animatorTextTitleProgress).after(animatorConnect);
         animatorSet.play(animatorProgress).with(animatorTitle).after(animatorTextTitleProgress);
         animatorSet.play(animatorTextDisconnect).before(animatorConnect);
-        // animatorSet.play(animatorTextConnectFadeout).after(animatorProgress);
-        // animatorSet.play(animatorTextConnectFadein).after(animatorTextConnectFadeout);
         animatorSet.play(getAnimatorFadeOutInText("Start connection", titleConnect)).after(animatorProgress);
         animatorSet.start();
 
+
     }
-
-
-
-
-
-
-
-
-
-
-
-
 }

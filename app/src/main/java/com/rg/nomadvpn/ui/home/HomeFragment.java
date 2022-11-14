@@ -27,7 +27,7 @@ public class HomeFragment extends Fragment {
         View root = binding.getRoot();
 
         ButtonConnect buttonConnect = new ButtonConnect(root);
-        buttonConnect.setOnClickListener(new VpnConnectionService(this));
+        buttonConnect.setService(new VpnConnectionService(this));
 
         // OpenVPNThread openVPNThread = new OpenVPNThread();
         // OpenVPNService openVPNService = new OpenVPNService();
