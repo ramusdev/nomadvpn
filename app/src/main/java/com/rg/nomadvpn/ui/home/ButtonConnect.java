@@ -65,12 +65,7 @@ public class ButtonConnect {
         this.titleDisconnect = rootView.findViewById(R.id.title_disconnect);
 
         this.cardConnectWidth = this.cardConnect.getMeasuredWidth();
-        // this.buttonLayoutWidth = this.layoutView.getMeasuredWidth();
 
-        // atomicIntegerArray.set(0, 0);
-        // atomicIntegerArray.set(1, 0);
-
-        // animationFadeIn = AnimationUtils.loadAnimation(MyApplicationContext.getAppContext(), R.anim.fade_in);
         clickInit();
     }
 
@@ -123,7 +118,7 @@ public class ButtonConnect {
                     }
 
                     try {
-                        Thread.sleep(2000);
+                        Thread.sleep(1300);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -137,7 +132,7 @@ public class ButtonConnect {
             @Override
             public void run() {
                 int animationSmoothness = 1000;
-                int animationDuration = 1800;
+                int animationDuration = 1000;
 
                 ValueAnimator animatorTitle = ValueAnimator.ofInt(ButtonConnect.this.progressBar.getProgress(), breakPoint * animationSmoothness);
                 animatorTitle.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -258,7 +253,7 @@ public class ButtonConnect {
 
             }
         });
-        animatorFadeOut.setDuration(600);
+        animatorFadeOut.setDuration(500);
 
         ValueAnimator animatorFadeIn = ValueAnimator.ofFloat(0f, 1f);
         animatorFadeIn.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -268,7 +263,7 @@ public class ButtonConnect {
                 textView.setAlpha(alpha);
             }
         });
-        animatorFadeIn.setDuration(600);
+        animatorFadeIn.setDuration(500);
 
         AnimatorSet animatorSet = new AnimatorSet();
         animatorSet.play(animatorFadeOut);
@@ -285,10 +280,9 @@ public class ButtonConnect {
                int layoutWidth = ButtonConnect.this.constraintMain.getMeasuredWidth();
                int halfLayoutWidth = (int) (layoutWidth / 2) - 60;
                int endWidth = halfLayoutWidth;
-               int duration = 1500;
+               int duration = 500;
 
                ButtonConnect.this.cardConnectWidth = cardConnect.getMeasuredWidth();
-
 
                ValueAnimator animatorConnect = ValueAnimator.ofInt(cardConnect.getMeasuredWidth(), endWidth);
                animatorConnect.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -303,7 +297,6 @@ public class ButtonConnect {
                animatorConnect.setDuration(duration);
                animatorConnect.setInterpolator(new DecelerateInterpolator());
 
-               int durationDisconnect = 1500;
                ValueAnimator animatorDisconnect = ValueAnimator.ofInt(cardDisconnect.getMeasuredWidth(), endWidth);
                animatorDisconnect.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                    @Override
@@ -314,7 +307,7 @@ public class ButtonConnect {
                        cardDisconnect.setLayoutParams(layoutParams);
                    }
                });
-               animatorDisconnect.setDuration(durationDisconnect);
+               animatorDisconnect.setDuration(duration);
                animatorDisconnect.setInterpolator(new DecelerateInterpolator());
 
                AnimatorSet animatorSet = new AnimatorSet();
@@ -338,7 +331,7 @@ public class ButtonConnect {
 
         int startWidth = ButtonConnect.this.cardConnect.getMeasuredWidth();
         int endWidth = ButtonConnect.this.cardConnectWidth;
-        int duration = 1500;
+        int duration = 500;
 
         // Animation connect
         ValueAnimator animatorConnect = ValueAnimator.ofInt(startWidth, endWidth);
@@ -378,7 +371,7 @@ public class ButtonConnect {
                 ButtonConnect.this.titleDisconnect.setAlpha(alpha);
             }
         });
-        animatorTextDisconnect.setDuration(1500);
+        animatorTextDisconnect.setDuration(duration);
 
         // Text animation connect button
         ValueAnimator animatorTextConnectFadeout = ValueAnimator.ofFloat(1f, 0f);
@@ -410,7 +403,7 @@ public class ButtonConnect {
 
             }
         });
-        animatorTextConnectFadeout.setDuration(1500);
+        animatorTextConnectFadeout.setDuration(duration);
 
         // Text animation connect button
         ValueAnimator animatorTextConnectFadein = ValueAnimator.ofFloat(0f, 1f);
@@ -421,9 +414,9 @@ public class ButtonConnect {
                 titleConnect.setAlpha(alpha);
             }
         });
-        animatorTextConnectFadein.setDuration(1500);
+        animatorTextConnectFadein.setDuration(duration);
 
-        int animationDuration = 5000;
+        int animationDuration = 1000;
         ObjectAnimator animatorProgress = ObjectAnimator.ofInt(ButtonConnect.this.progressBar, "progress", 0);
         animatorProgress.setDuration(animationDuration);
         animatorProgress.setInterpolator(new DecelerateInterpolator());
