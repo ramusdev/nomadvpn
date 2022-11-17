@@ -9,6 +9,7 @@
     android:paddingRight="15dp"
     android:paddingBottom="15dp"
     android:id="@+id/constraint_main"
+    android:background="@color/main_background"
     tools:context=".ui.home.HomeFragment">
 
 
@@ -70,7 +71,7 @@
 
             <ProgressBar
                 android:id="@+id/button_progress"
-                android:background="@color/background_from"
+                android:background="@color/connection_background"
                 android:progressDrawable="@drawable/progress_background"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="match_parent"

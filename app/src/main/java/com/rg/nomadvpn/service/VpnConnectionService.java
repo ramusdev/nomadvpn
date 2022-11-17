@@ -5,6 +5,7 @@ import static android.app.Activity.RESULT_OK;
 
 import android.content.Intent;
 import android.net.VpnService;
+import android.os.Handler;
 import android.os.RemoteException;
 import android.util.Log;
 import android.view.View;
@@ -17,6 +18,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+
+import javax.security.auth.callback.Callback;
+
 import de.blinkt.openvpn.OpenVpnApi;
 import de.blinkt.openvpn.core.OpenVPNService;
 import de.blinkt.openvpn.core.OpenVPNThread;
@@ -24,25 +28,24 @@ import de.blinkt.openvpn.core.OpenVPNThread;
 public class VpnConnectionService {
     private final static String LOGTAG = "Logtag";
     private final static String CONFIG = "vpnconfig.ovpn";
-    // private final static String CONFIG = "server.ovpn";
     public Fragment fragment;
-
-    private OpenVPNThread openVPNThread = new OpenVPNThread();
-    private OpenVPNService openVPNService = new OpenVPNService();
-
+    // private OpenVPNThread openVPNThread = new OpenVPNThread();
+    // private OpenVPNService openVPNService = new OpenVPNService();
     public static VpnConnectionService instance;
+    public static Callback callback;
+
+    public interface Callback {
+        void callingBack();
+    }
 
     public VpnConnectionService(Fragment fragment) {
         this.fragment = fragment;
         VpnConnectionService.instance = this;
     }
 
-    public boolean startVpnService() {
-        Log.d(LOGTAG, "Button click connect");
-
-
-
-        return true;
+    public void startVpnService() {
+        ServerVpnConfiguration serverVpnConfiguration = getVpnConfiguration();
+        connectToServer(serverVpnConfiguration);
     }
 
     public ServerVpnConfiguration getVpnConfiguration() {
@@ -56,17 +59,15 @@ public class VpnConnectionService {
             Log.d(LOGTAG, "No configuration");
         }
         serverVpnConfiguration.setConfiguration(configuration);
+
         return serverVpnConfiguration;
     }
 
-    public boolean startConnection(ServerVpnConfiguration serverVpnConfiguration) {
-        connectToServer(serverVpnConfiguration);
-        return true;
-    }
-
-    public void vpnProfileInstall() {
+    public void vpnProfileInstall(Callback callback) {
+        VpnConnectionService.callback = callback;
         Intent intent = VpnService.prepare(MyApplicationContext.getAppContext());
         fragment.startActivityForResult(intent, 1);
+
     }
 
     public boolean isVpnProfileInstalled() {
@@ -77,26 +78,12 @@ public class VpnConnectionService {
         }
 
         return false;
-
-        /*
-        if (intent != null) {
-            Log.d(MainActivity.LOGTAG, "Before");
-            this.fragment.startActivityForResult(intent, 1);
-            Log.d(MainActivity.LOGTAG, "After 1");
-            Log.d(MainActivity.LOGTAG, "After 2");
-            return false;
-            // TODO must implement connect to server
-        } else {
-            return true;
-        }
-
-         */
     }
 
+    // Automatic start from main fragment
     public static void onActivityResult(int requestCode, int resultCode, Intent intent) {
         if (resultCode == RESULT_OK) {
-            // VpnConnectionService.instance.startVpnService(VpnConnectionService.instance.getVpnConfiguration());
-
+            VpnConnectionService.callback.callingBack();
         } else {
             Log.d(LOGTAG, "No permission");
         }

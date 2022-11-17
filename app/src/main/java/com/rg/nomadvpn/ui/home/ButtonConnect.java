@@ -76,18 +76,17 @@ public class ButtonConnect {
     public void init() {
         initComponents();
         buttonInit();
-        clickInit();
     }
 
     public void initComponents() {
-        this.cardConnect = rootView.findViewById(R.id.button_card);
-        this.titleConnect = rootView.findViewById(R.id.button_title);
-        this.layoutView = rootView.findViewById(R.id.button_layout);
-        this.progressBar = rootView.findViewById(R.id.button_progress);
-        this.cardDisconnect = rootView.findViewById(R.id.card_disconnect);
-        this.constraintMain = rootView.findViewById(R.id.constraint_main);
-        this.titleDisconnect = rootView.findViewById(R.id.title_disconnect);
-        this.layoutDisconnect = rootView.findViewById(R.id.layout_disconnect);
+        this.cardConnect = view.findViewById(R.id.button_card);
+        this.titleConnect = view.findViewById(R.id.button_title);
+        this.layoutView = view.findViewById(R.id.button_layout);
+        this.progressBar = view.findViewById(R.id.button_progress);
+        this.cardDisconnect = view.findViewById(R.id.card_disconnect);
+        this.constraintMain = view.findViewById(R.id.constraint_main);
+        this.titleDisconnect = view.findViewById(R.id.title_disconnect);
+        this.layoutDisconnect = view.findViewById(R.id.layout_disconnect);
 
         this.cardConnectWidth = this.cardConnect.getMeasuredWidth();
     }
@@ -98,6 +97,20 @@ public class ButtonConnect {
                 @Override
                 public void run() {
                     titleConnect.setText("Start connection");
+                    titleConnect.setTextColor(MyApplicationContext.getAppContext().getResources().getColor(R.color.connection_text));
+                    progressBar.setBackgroundColor(MyApplicationContext.getAppContext().getResources().getColor(R.color.connection_background));
+                }
+            });
+            cardConnect.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    buttonStart();
+                }
+            });
+            cardDisconnect.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    buttonDisconnect();
                 }
             });
         } else {
@@ -105,20 +118,27 @@ public class ButtonConnect {
                 @Override
                 public void run() {
                     titleConnect.setText("Add vpn profile");
-                    progressBar.setBackgroundColor(MyApplicationContext.getAppContext().getResources().getColor(R.color.background_profile));
+                    titleConnect.setTextColor(MyApplicationContext.getAppContext().getResources().getColor(R.color.profile_text));
+                    progressBar.setBackgroundColor(MyApplicationContext.getAppContext().getResources().getColor(R.color.profile_background));
                 }
             });
-
             cardConnect.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    vpnConnectionService.vpnProfileInstall();
+                    animationActionProfile();
+                    vpnConnectionService.vpnProfileInstall(new VpnConnectionService.Callback() {
+                        @Override
+                        public void callingBack() {
+                            buttonInit();
+                        }
+                    });
                 }
             });
         }
     }
 
     public void clickInit() {
+        /*
         cardConnect.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -133,17 +153,9 @@ public class ButtonConnect {
                 return true;
             }
         });
-
-
-
-        /*
-        cardConnect.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                buttonStart();
-            }
-        });
         */
+
+
 
 
         cardDisconnect.setOnClickListener(new View.OnClickListener() {
@@ -153,7 +165,53 @@ public class ButtonConnect {
             }
         });
 
+    }
 
+    public void animationActionProfile() {
+        int colorFrom = MyApplicationContext.getAppContext().getResources().getColor(R.color.profile_background);
+        int colorTo = MyApplicationContext.getAppContext().getResources().getColor(R.color.profile_background_animation);
+        ValueAnimator animatorClickDown = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom, colorTo);
+        animatorClickDown.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                int value = (int) animation.getAnimatedValue();
+                progressBar.setBackgroundColor(value);
+            }
+        });
+        animatorClickDown.setInterpolator(new LinearInterpolator());
+
+        ValueAnimator animatorClickUp = ValueAnimator.ofObject(new ArgbEvaluator(), colorTo, colorFrom);
+        animatorClickUp.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                int value = (int) animation.getAnimatedValue();
+                progressBar.setBackgroundColor(value);
+            }
+        });
+
+        ValueAnimator animatorTitleFadeOut = ValueAnimator.ofFloat(1f, 0.2f);
+        animatorTitleFadeOut.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                float alpha = (float) animation.getAnimatedValue();
+                titleConnect.setAlpha(alpha);
+            }
+        });
+
+        ValueAnimator animatorTitleFadeIn = ValueAnimator.ofFloat(0.2f, 1f);
+        animatorTitleFadeIn.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                float alpha = (float) animation.getAnimatedValue();
+                titleConnect.setAlpha(alpha);
+            }
+        });
+
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.play(animatorClickDown).with(animatorTitleFadeOut);
+        animatorSet.play(animatorClickUp).with(animatorTitleFadeIn).after(animatorClickDown);
+        animatorSet.setDuration(300);
+        animatorSet.start();
     }
 
     public AnimatorSet buttonAnimationActionDown(String text) {
@@ -296,11 +354,8 @@ public class ButtonConnect {
 
 
     public void buttonStart() {
-        // Start server
-        if (vpnConnectionService.startVpnService()) {
-            // Start animation
-            buttonStartAnimation();
-        }
+        this.buttonStartAnimation();
+        vpnConnectionService.startVpnService();
     }
 
     public void buttonStartAnimation() {
@@ -578,7 +633,7 @@ public class ButtonConnect {
         this.buttonDisconnectAnimation();
 
         // Program change
-        this.vpnConnectionService.disconnectServer();
+        vpnConnectionService.disconnectServer();
     }
 
     public void buttonDisconnectAnimation() {
