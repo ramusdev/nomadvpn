@@ -1,6 +1,8 @@
 package com.rg.nomadvpn.ui.home;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,8 +28,10 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        ButtonConnect buttonConnect = new ButtonConnect(root);
+        ButtonConnect buttonConnect = new ButtonConnect();
+        buttonConnect.setView(root);
         buttonConnect.setService(new VpnConnectionService(this));
+        buttonConnect.init();
 
         // OpenVPNThread openVPNThread = new OpenVPNThread();
         // OpenVPNService openVPNService = new OpenVPNService();
@@ -62,6 +66,12 @@ public class HomeFragment extends Fragment {
          */
 
         return root;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+        VpnConnectionService.onActivityResult(requestCode, resultCode, intent);
     }
 
     @Override

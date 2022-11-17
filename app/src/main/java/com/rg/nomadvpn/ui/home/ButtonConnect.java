@@ -2,19 +2,25 @@ package com.rg.nomadvpn.ui.home;
 
 import android.animation.Animator;
 import android.animation.AnimatorSet;
+import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.content.res.ColorStateList;
 import android.os.Build;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.renderscript.Sampler;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewPropertyAnimator;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
+import android.view.animation.BounceInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 import android.widget.ProgressBar;
@@ -22,6 +28,7 @@ import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.helper.widget.MotionEffect;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.rg.nomadvpn.MainActivity;
@@ -37,13 +44,14 @@ import java.util.concurrent.atomic.AtomicIntegerArray;
 import de.blinkt.openvpn.core.OpenVPNService;
 
 public class ButtonConnect {
-    private View rootView;
+    private View view;
     private CardView cardConnect;
     private CardView cardDisconnect;
     private TextView titleConnect;
     private TextView titleDisconnect;
     private ConstraintLayout layoutView;
     private ConstraintLayout constraintMain;
+    private ConstraintLayout layoutDisconnect;
     private Animation animationFadeIn;
     private Animation animationProgress;
     private ProgressBar progressBar;
@@ -54,8 +62,24 @@ public class ButtonConnect {
     private Handler handler = new Handler();
     private int progressValue = 0;
 
-    public ButtonConnect(View rootView) {
-        this.rootView = rootView;
+    public ButtonConnect() {
+    }
+
+    public void setView(View view) {
+        this.view = view;
+    }
+
+    public void setService(VpnConnectionService vpnConnectionService) {
+        this.vpnConnectionService = vpnConnectionService;
+    }
+
+    public void init() {
+        initComponents();
+        buttonInit();
+        clickInit();
+    }
+
+    public void initComponents() {
         this.cardConnect = rootView.findViewById(R.id.button_card);
         this.titleConnect = rootView.findViewById(R.id.button_title);
         this.layoutView = rootView.findViewById(R.id.button_layout);
@@ -63,23 +87,64 @@ public class ButtonConnect {
         this.cardDisconnect = rootView.findViewById(R.id.card_disconnect);
         this.constraintMain = rootView.findViewById(R.id.constraint_main);
         this.titleDisconnect = rootView.findViewById(R.id.title_disconnect);
+        this.layoutDisconnect = rootView.findViewById(R.id.layout_disconnect);
 
         this.cardConnectWidth = this.cardConnect.getMeasuredWidth();
-
-        clickInit();
     }
 
-    public void setService(VpnConnectionService vpnConnectionService) {
-        this.vpnConnectionService = vpnConnectionService;
+    public void buttonInit() {
+        if (vpnConnectionService.isVpnProfileInstalled()) {
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    titleConnect.setText("Start connection");
+                }
+            });
+        } else {
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    titleConnect.setText("Add vpn profile");
+                    progressBar.setBackgroundColor(MyApplicationContext.getAppContext().getResources().getColor(R.color.background_profile));
+                }
+            });
+
+            cardConnect.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    vpnConnectionService.vpnProfileInstall();
+                }
+            });
+        }
     }
 
     public void clickInit() {
+        cardConnect.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    // buttonStart();
+                    // buttonAnimationActionDown();
+                }
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    buttonStart();
+                }
+
+                return true;
+            }
+        });
+
+
+
+        /*
         cardConnect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 buttonStart();
             }
         });
+        */
+
 
         cardDisconnect.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,17 +152,188 @@ public class ButtonConnect {
                 buttonDisconnect();
             }
         });
+
+
     }
+
+    public AnimatorSet buttonAnimationActionDown(String text) {
+        int colorFrom = MyApplicationContext.getAppContext().getResources().getColor(R.color.background_from);
+        int colorTo = MyApplicationContext.getAppContext().getResources().getColor(R.color.background_to);
+        ValueAnimator animatorClickDown = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom, colorTo);
+        animatorClickDown.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                int value = (int) animation.getAnimatedValue();
+                progressBar.setBackgroundColor(value);
+            }
+        });
+        animatorClickDown.setInterpolator(new LinearInterpolator());
+
+        ValueAnimator animatorClickUp = ValueAnimator.ofObject(new ArgbEvaluator(), colorTo, colorFrom);
+        animatorClickUp.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                int value = (int) animation.getAnimatedValue();
+                progressBar.setBackgroundColor(value);
+            }
+        });
+
+        ValueAnimator animatorTitleFadeOut = ValueAnimator.ofFloat(1f, 0.1f);
+        animatorTitleFadeOut.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                float alpha = (float) animation.getAnimatedValue();
+                titleConnect.setAlpha(alpha);
+            }
+        });
+        animatorTitleFadeOut.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                titleConnect.setText(text);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+
+        ValueAnimator animatorTitleFadeIn = ValueAnimator.ofFloat(0.1f, 1f);
+        animatorTitleFadeIn.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                float alpha = (float) animation.getAnimatedValue();
+                titleConnect.setAlpha(alpha);
+            }
+        });
+
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.play(animatorClickDown).with(animatorTitleFadeOut);
+        animatorSet.play(animatorClickUp).with(animatorTitleFadeIn).after(animatorClickDown);
+        animatorSet.setDuration(300);
+
+        return animatorSet;
+    }
+
+    public AnimatorSet buttonAnimationActionDisconnect(String text) {
+        int colorFrom = MyApplicationContext.getAppContext().getResources().getColor(R.color.background_from_disconnect);
+        int colorTo = MyApplicationContext.getAppContext().getResources().getColor(R.color.background_to_disconnect);
+        ValueAnimator animatorClickDown = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom, colorTo);
+        animatorClickDown.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                int value = (int) animation.getAnimatedValue();
+                layoutDisconnect.setBackgroundColor(value);
+            }
+        });
+        animatorClickDown.setInterpolator(new LinearInterpolator());
+
+        ValueAnimator animatorClickUp = ValueAnimator.ofObject(new ArgbEvaluator(), colorTo, colorFrom);
+        animatorClickUp.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                int value = (int) animation.getAnimatedValue();
+                layoutDisconnect.setBackgroundColor(value);
+            }
+        });
+
+        ValueAnimator animatorTitleFadeOut = ValueAnimator.ofFloat(1f, 0.1f);
+        animatorTitleFadeOut.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                float alpha = (float) animation.getAnimatedValue();
+                titleDisconnect.setAlpha(alpha);
+            }
+        });
+        animatorTitleFadeOut.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                titleDisconnect.setText(text);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+
+        ValueAnimator animatorTitleFadeIn = ValueAnimator.ofFloat(0.1f, 1f);
+        animatorTitleFadeIn.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                float alpha = (float) animation.getAnimatedValue();
+                titleDisconnect.setAlpha(alpha);
+            }
+        });
+
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.play(animatorClickDown).with(animatorTitleFadeOut);
+        animatorSet.play(animatorClickUp).with(animatorTitleFadeIn).after(animatorClickDown);
+        animatorSet.setDuration(300);
+
+        return animatorSet;
+    }
+
 
     public void buttonStart() {
         // Start server
-        vpnConnectionService.onClick();
-
-        // Ui change
-        buttonStartAnimation();
+        if (vpnConnectionService.startVpnService()) {
+            // Start animation
+            buttonStartAnimation();
+        }
     }
 
     public void buttonStartAnimation() {
+        AnimatorSet buttonAnimationAction = buttonAnimationActionDown("Progress: 0%");
+
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.play(buttonAnimationAction);
+        animatorSet.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                buttonStartAnimationProgress();
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+
+        animatorSet.start();
+    }
+
+    public void buttonStartAnimationProgress() {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -118,7 +354,7 @@ public class ButtonConnect {
                     }
 
                     try {
-                        Thread.sleep(1300);
+                        Thread.sleep(1400);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -148,7 +384,6 @@ public class ButtonConnect {
                 ObjectAnimator animatorProgress = ObjectAnimator.ofInt(ButtonConnect.this.progressBar, "progress", breakPoint * animationSmoothness);
                 animatorProgress.setDuration(animationDuration);
                 animatorProgress.setInterpolator(new DecelerateInterpolator());
-
 
                 AnimatorSet animatorSet = new AnimatorSet();
                 animatorSet.play(animatorProgress).with(animatorTitle);
@@ -253,7 +488,6 @@ public class ButtonConnect {
 
             }
         });
-        animatorFadeOut.setDuration(500);
 
         ValueAnimator animatorFadeIn = ValueAnimator.ofFloat(0f, 1f);
         animatorFadeIn.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -263,10 +497,10 @@ public class ButtonConnect {
                 textView.setAlpha(alpha);
             }
         });
-        animatorFadeIn.setDuration(500);
 
         AnimatorSet animatorSet = new AnimatorSet();
         animatorSet.play(animatorFadeOut);
+        animatorSet.setDuration(300);
         animatorSet.play(animatorFadeIn).after(animatorFadeOut);
 
         return animatorSet;
@@ -310,9 +544,29 @@ public class ButtonConnect {
                animatorDisconnect.setDuration(duration);
                animatorDisconnect.setInterpolator(new DecelerateInterpolator());
 
+
+               /*
+               int colorFrom = MyApplicationContext.getAppContext().getResources().getColor(R.color.background_pulsation_from);
+               int colorTo = MyApplicationContext.getAppContext().getResources().getColor(R.color.background_pulsation_to);
+               ValueAnimator animatorPulsation = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom, colorTo);
+               animatorPulsation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                   @Override
+                   public void onAnimationUpdate(ValueAnimator animation) {
+                       int value = (int) animation.getAnimatedValue();
+                       progressBar.setBackgroundColor(value);
+                   }
+               });
+               animatorPulsation.setInterpolator(new LinearInterpolator());
+               animatorPulsation.setRepeatCount(ValueAnimator.INFINITE);
+               animatorPulsation.setRepeatMode(ValueAnimator.REVERSE);
+               animatorPulsation.setDuration(1500);
+               */
+
+               Animator animatorText = getAnimatorFadeOutInText("Connected", titleConnect);
+
                AnimatorSet animatorSet = new AnimatorSet();
                animatorSet.play(animatorConnect).with(animatorDisconnect);
-               animatorSet.play(getAnimatorFadeOutInText("Connected", titleConnect)).with(getAnimatorFadeOutInText("Disconnect", titleDisconnect)).after(animatorConnect);
+               animatorSet.play(animatorText).with(getAnimatorFadeOutInText("Disconnect", titleDisconnect)).after(animatorConnect);
                animatorSet.start();
 
            }
@@ -321,13 +575,13 @@ public class ButtonConnect {
 
     public void buttonDisconnect() {
         // Ui change
-        this.buttonDisconnectAnimationTwo();
+        this.buttonDisconnectAnimation();
 
         // Program change
         this.vpnConnectionService.disconnectServer();
     }
 
-    public void buttonDisconnectAnimationTwo() {
+    public void buttonDisconnectAnimation() {
 
         int startWidth = ButtonConnect.this.cardConnect.getMeasuredWidth();
         int endWidth = ButtonConnect.this.cardConnectWidth;
@@ -434,12 +688,14 @@ public class ButtonConnect {
 
 
         Animator animatorTextTitleProgress = getAnimatorFadeOutInText("Progress  100%", titleConnect);
+        AnimatorSet buttonActionDisconnect = buttonAnimationActionDisconnect("");
 
         AnimatorSet animatorSet = new AnimatorSet();
-        animatorSet.play(animatorConnect).with(animatorDisconnect);
+        animatorSet.play(buttonActionDisconnect);
+        // animatorSet.play(animatorTextDisconnect).after(buttonActionDisconnect);
+        animatorSet.play(animatorConnect).with(animatorDisconnect).after(animatorTextDisconnect);
         animatorSet.play(animatorTextTitleProgress).after(animatorConnect);
         animatorSet.play(animatorProgress).with(animatorTitle).after(animatorTextTitleProgress);
-        animatorSet.play(animatorTextDisconnect).before(animatorConnect);
         animatorSet.play(getAnimatorFadeOutInText("Start connection", titleConnect)).after(animatorProgress);
         animatorSet.start();
 
