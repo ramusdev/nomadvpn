@@ -16,6 +16,7 @@
 
     <!-- Main style -->
     <color name="main_background">#006064</color>
+    <color name="status_background">#005357</color>  <!-- #004B4E #007478 -->
 
     <!-- Button connect -->
     <color name="connect_text">#ffffff</color>
@@ -26,9 +27,9 @@
     <color name="disconnection_text">#FFDBE7</color>
 
     <color name="profile_text">#FFECDE</color>
-    <color name="progress_item">#62F811</color>
+    <color name="progress_item">#66BB6A</color> <!-- #62F811 -->
 
-    <color name="line_progress">#00E676</color>
+    <color name="line_progress">#66BB6A</color>
     <color name="disconnect_progress">#E91E63</color>
     <color name="profile_background">#FF6F00</color>
     <color name="profile_background_animation">#A64900</color>

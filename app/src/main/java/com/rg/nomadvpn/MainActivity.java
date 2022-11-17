@@ -3,6 +3,8 @@ package com.rg.nomadvpn;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
@@ -15,6 +17,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.rg.nomadvpn.databinding.ActivityMainBinding;
+import com.rg.nomadvpn.utils.MyApplicationContext;
 
 import de.blinkt.openvpn.core.VpnStatus;
 
@@ -53,6 +56,12 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+        Window windows = this.getWindow();
+        windows.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        windows.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        windows.setStatusBarColor(MyApplicationContext.getAppContext().getResources().getColor(R.color.status_background));
+        windows.setNavigationBarColor(MyApplicationContext.getAppContext().getResources().getColor(R.color.status_background));
 
     }
 
