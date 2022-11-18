@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
-    public final static String LOGTAG = "Logtag";
+    public final static String LOGTAG = "Logtagname";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
