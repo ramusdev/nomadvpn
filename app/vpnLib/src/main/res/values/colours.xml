@@ -16,7 +16,10 @@
 
     <!-- Main style -->
     <color name="main_background">#006064</color>
-    <color name="status_background">#005357</color>  <!-- #004B4E #007478 -->
+    <color name="status_background">#004F53</color>  <!-- #004B4E #007478 #005357 -->
+
+    <!-- Statistics -->
+    <color name="statistics_text">#B2DFDB</color>
 
     <!-- Button connect -->
     <color name="connect_text">#ffffff</color>
