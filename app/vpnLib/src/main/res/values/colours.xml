@@ -24,6 +24,8 @@
     <!-- Button connect -->
     <color name="connect_text">#ffffff</color>
 
+    <color name="status_value">#66BB6A</color>
+
     <color name="connection_text">#DBFDFA</color>
     <color name="connection_background">#009688</color>
 

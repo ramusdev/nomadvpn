@@ -71,7 +71,7 @@
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout_status"
+        android:id="@+id/layout_status1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -81,10 +81,55 @@
         android:paddingTop="20dp"
         android:paddingRight="15dp"
         android:paddingBottom="20dp"
-        app:layout_constraintEnd_toStartOf="@+id/layout_packets"
+        app:layout_constraintEnd_toStartOf="@+id/layout_status"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layout_time">
+
+        <TextView
+            android:id="@+id/title_status1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Packets"
+            android:textAllCaps="true"
+            android:textColor="@color/statistics_text"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/value_status1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="44dp"
+            android:text="0 kb"
+            android:textAllCaps="true"
+            android:textColor="@color/connect_text"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.496"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_status"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/layout_background"
+        android:paddingLeft="15dp"
+        android:paddingTop="20dp"
+        android:paddingRight="15dp"
+        android:paddingBottom="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/layout_status1"
         app:layout_constraintTop_toBottomOf="@id/layout_time">
 
         <TextView
@@ -100,33 +145,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout_packets"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/layout_background"
-        android:paddingLeft="15dp"
-        android:paddingTop="20dp"
-        android:paddingRight="15dp"
-        android:paddingBottom="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/layout_status"
-        app:layout_constraintTop_toBottomOf="@id/layout_time">
-
         <TextView
-            android:id="@+id/title_packets"
+            android:id="@+id/value_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Packets"
+            android:layout_marginTop="44dp"
+            android:text="Disconnect"
             android:textAllCaps="true"
-            android:textColor="@color/statistics_text"
-            android:textSize="18sp"
+            android:textColor="@color/status_value"
+            android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.496"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

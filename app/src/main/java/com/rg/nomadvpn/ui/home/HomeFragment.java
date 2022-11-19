@@ -30,6 +30,7 @@ public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
     private FragmentHomeBinding binding;
+    private VpnConnectionService vpnConnectionService;
     private View root;
     Handler handler = new Handler();
 
@@ -39,12 +40,16 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         root = binding.getRoot();
 
+        vpnConnectionService = new VpnConnectionService(this);
+
         ButtonConnect buttonConnect = new ButtonConnect();
         buttonConnect.setView(root);
-        buttonConnect.setService(new VpnConnectionService(this));
+        buttonConnect.setService(vpnConnectionService);
         buttonConnect.init();
 
         VpnStatus.initLogCache(getActivity().getCacheDir());
+
+
 
 
 
@@ -57,6 +62,14 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        TextView statusValue = root.findViewById(R.id.value_status);
+        homeViewModel.getStatus().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String value) {
+                statusValue.setText(value);
+            }
+        });
+
         return root;
     }
 
@@ -64,14 +77,21 @@ public class HomeFragment extends Fragment {
         @Override
         public void onReceive(Context context, Intent intent) {
             String duration = intent.getStringExtra("duration");
+            String status = vpnConnectionService.getStatus();
 
             if (duration == null) {
                 duration = "00:00:00";
             }
 
-            Log.d(MainActivity.LOGTAG, "Duration broadcast: " + duration);
-            // updateViewInformation(duration);
+            if (status == null) {
+                status = "Disconnected";
+            }
+
+            // Log.d(MainActivity.LOGTAG, "Duration broadcast: " + duration);
+            Log.d(MainActivity.LOGTAG, "Status broadcast: " + status);
+
             homeViewModel.setDuration(duration);
+            homeViewModel.setStatus(status);
         }
     };
 

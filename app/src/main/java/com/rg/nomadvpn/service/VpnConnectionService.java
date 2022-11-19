@@ -48,6 +48,11 @@ public class VpnConnectionService {
         connectToServer(serverVpnConfiguration);
     }
 
+    public String getStatus() {
+        String status = OpenVPNService.getStatus();
+        return status;
+    }
+
     public ServerVpnConfiguration getVpnConfiguration() {
         ServerVpnConfiguration serverVpnConfiguration = new ServerVpnConfiguration();
         serverVpnConfiguration.setCountry("Germany");
