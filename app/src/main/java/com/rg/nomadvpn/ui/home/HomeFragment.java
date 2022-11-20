@@ -86,6 +86,22 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        TextView speedInValue = root.findViewById(R.id.value_speedin);
+        homeViewModel.getSpeedIn().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String value) {
+                speedInValue.setText(value);
+            }
+        });
+
+        TextView speedOutValue = root.findViewById(R.id.value_speedout);
+        homeViewModel.getSpeedOut().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String value) {
+                speedOutValue.setText(value);
+            }
+        });
+
         return root;
     }
 
@@ -94,12 +110,10 @@ public class HomeFragment extends Fragment {
         public void onReceive(Context context, Intent intent) {
             String duration = intent.getStringExtra("duration");
             String status = vpnConnectionService.getStatus();
-            // String lastPacketReceive = intent.getStringExtra("lastPacketReceive");
-            // String byteIn = intent.getStringExtra("byteIn");
-            // String byteOut = intent.getStringExtra("byteOut");
             String receiveIn = intent.getStringExtra("receiveIn");
             String receiveOut = intent.getStringExtra("receiveOut");
-
+            String speedIn = intent.getStringExtra("speedIn");
+            String speedOut = intent.getStringExtra("speedOut");
 
             if (duration == null) {
                 duration = "00:00:00";
@@ -117,17 +131,22 @@ public class HomeFragment extends Fragment {
                 receiveOut = "0 MB";
             }
 
-            // Log.d(MainActivity.LOGTAG, "Duration broadcast: " + duration);
-            // Log.d(MainActivity.LOGTAG, "Status broadcast: " + status);
-            // Log.d(MainActivity.LOGTAG, "Last packet broadcast: " + lastPacketReceive);
-            // Log.d(MainActivity.LOGTAG, "Receive in broadcast: " + receiveIn);
-            // Log.d(MainActivity.LOGTAG, "Receive out broadcast: " + receiveOut);
-            // Log.d(MainActivity.LOGTAG, "Byte out broadcast: " + byteOut);
+            if (speedIn == null) {
+                speedIn = "0 Mbit/s";
+            }
+
+            if (speedOut == null) {
+                speedOut = "0 Mbit/s";
+            }
+
+            // Log.d(MainActivity.LOGTAG, "Speed out: " + speedOut);
 
             homeViewModel.setDuration(duration);
             homeViewModel.setStatus(status);
             homeViewModel.setReceiveIn(receiveIn);
             homeViewModel.setReceiveOut(receiveOut);
+            homeViewModel.setSpeedIn(speedIn);
+            homeViewModel.setSpeedOut(speedOut);
         }
     };
 

@@ -10,12 +10,24 @@ public class HomeViewModel extends ViewModel {
     private MutableLiveData<String> status;
     private MutableLiveData<String> receiveIn;
     private MutableLiveData<String> receiveOut;
+    private MutableLiveData<String> speedIn;
+    private MutableLiveData<String> speedOut;
 
     public HomeViewModel() {
         duration = new MutableLiveData<>();
         status = new MutableLiveData<>();
         receiveIn = new MutableLiveData<>();
         receiveOut = new MutableLiveData<>();
+        speedIn = new MutableLiveData<>();
+        speedOut = new MutableLiveData<>();
+    }
+
+    public LiveData<String> getSpeedIn() {
+        return speedIn;
+    }
+
+    public LiveData<String> getSpeedOut() {
+        return speedOut;
     }
 
     public LiveData<String> getDuration() {
@@ -32,6 +44,14 @@ public class HomeViewModel extends ViewModel {
 
     public LiveData<String> getReceiveOut() {
         return receiveOut;
+    }
+
+    public void setSpeedIn(String speedIn) {
+        this.speedIn.setValue(speedIn);
+    }
+
+    public void setSpeedOut(String speedOut) {
+        this.speedOut.setValue(speedOut);
     }
 
     public void setDuration(String duration) {

@@ -1302,6 +1302,8 @@ public class OpenVPNService extends VpnService implements StateListener, Callbac
 
             String receiveIn = humanReadableByteCount(in, false, getResources());
             String receiveOut = humanReadableByteCount(out, false, getResources());
+            String speedIn = humanReadableByteCount(diffIn / OpenVPNManagement.mBytecountInterval, true, getResources());
+            String speedOut = humanReadableByteCount(diffOut / OpenVPNManagement.mBytecountInterval, true, getResources());
 
             byteOut = String.format("↑%2$s", getString(R.string.statusline_bytecount),
                     humanReadableByteCount(out, false,getResources())) + " - " + humanReadableByteCount(diffOut / OpenVPNManagement.mBytecountInterval, false, getResources()) + "/s";
@@ -1312,7 +1314,7 @@ public class OpenVPNService extends VpnService implements StateListener, Callbac
             hours = convertTwoDigit((int) ((time / (1000 * 60 * 60)) % 24));
             duration = hours + ":" + minutes + ":" + seconds;
             lastPacketReceive = checkPacketReceive(lastPacketReceive);
-            sendMessage(duration, String.valueOf(lastPacketReceive), byteIn, byteOut, receiveIn, receiveOut);
+            sendMessage(duration, String.valueOf(lastPacketReceive), byteIn, byteOut, receiveIn, receiveOut, speedIn, speedOut);
         }
 
     }
@@ -1429,7 +1431,7 @@ public class OpenVPNService extends VpnService implements StateListener, Callbac
         LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
     }
     //sending message to main activity
-    private void sendMessage(String duration, String lastPacketReceive, String byteIn, String byteOut, String receiveIn, String receiveOut) {
+    private void sendMessage(String duration, String lastPacketReceive, String byteIn, String byteOut, String receiveIn, String receiveOut, String speedIn, String speedOut) {
         Intent intent = new Intent("connectionState");
         intent.putExtra("duration", duration);
         intent.putExtra("lastPacketReceive", lastPacketReceive);
@@ -1438,6 +1440,8 @@ public class OpenVPNService extends VpnService implements StateListener, Callbac
 
         intent.putExtra("receiveIn", receiveIn);
         intent.putExtra("receiveOut", receiveOut);
+        intent.putExtra("speedIn", speedIn);
+        intent.putExtra("speedOut", speedOut);
         LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
     }
     public class LocalBinder extends Binder {
