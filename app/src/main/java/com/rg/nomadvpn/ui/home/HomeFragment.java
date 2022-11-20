@@ -70,6 +70,22 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        TextView receiveInValue = root.findViewById(R.id.value_receivein);
+        homeViewModel.getReceiveIn().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String value) {
+                receiveInValue.setText(value);
+            }
+        });
+
+        TextView receiveOutValue = root.findViewById(R.id.value_receiveout);
+        homeViewModel.getReceiveOut().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String value) {
+                receiveOutValue.setText(value);
+            }
+        });
+
         return root;
     }
 
@@ -78,6 +94,12 @@ public class HomeFragment extends Fragment {
         public void onReceive(Context context, Intent intent) {
             String duration = intent.getStringExtra("duration");
             String status = vpnConnectionService.getStatus();
+            // String lastPacketReceive = intent.getStringExtra("lastPacketReceive");
+            // String byteIn = intent.getStringExtra("byteIn");
+            // String byteOut = intent.getStringExtra("byteOut");
+            String receiveIn = intent.getStringExtra("receiveIn");
+            String receiveOut = intent.getStringExtra("receiveOut");
+
 
             if (duration == null) {
                 duration = "00:00:00";
@@ -87,23 +109,27 @@ public class HomeFragment extends Fragment {
                 status = "Disconnected";
             }
 
+            if (receiveIn == null) {
+                receiveIn = "0 MB";
+            }
+
+            if (receiveOut == null) {
+                receiveOut = "0 MB";
+            }
+
             // Log.d(MainActivity.LOGTAG, "Duration broadcast: " + duration);
-            Log.d(MainActivity.LOGTAG, "Status broadcast: " + status);
+            // Log.d(MainActivity.LOGTAG, "Status broadcast: " + status);
+            // Log.d(MainActivity.LOGTAG, "Last packet broadcast: " + lastPacketReceive);
+            // Log.d(MainActivity.LOGTAG, "Receive in broadcast: " + receiveIn);
+            // Log.d(MainActivity.LOGTAG, "Receive out broadcast: " + receiveOut);
+            // Log.d(MainActivity.LOGTAG, "Byte out broadcast: " + byteOut);
 
             homeViewModel.setDuration(duration);
             homeViewModel.setStatus(status);
+            homeViewModel.setReceiveIn(receiveIn);
+            homeViewModel.setReceiveOut(receiveOut);
         }
     };
-
-    public void updateViewInformation(String duration) {
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                TextView titleDuration = root.findViewById(R.id.value_time);
-                titleDuration.setText(duration);
-            }
-        });
-    }
 
     @Override
     public void onResume() {

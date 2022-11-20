@@ -567,7 +567,7 @@ public class ButtonConnect {
            @Override
            public void run() {
                int layoutWidth = ButtonConnect.this.constraintMain.getMeasuredWidth();
-               int halfLayoutWidth = (int) (layoutWidth / 2) - 60;
+               int halfLayoutWidth = (int) (layoutWidth / 2) - 90;
                int endWidth = halfLayoutWidth;
                int duration = 500;
 

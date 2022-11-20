@@ -12,6 +12,7 @@ import android.view.View;
 import androidx.fragment.app.Fragment;
 
 import com.rg.nomadvpn.MainActivity;
+import com.rg.nomadvpn.model.ServerStatusEnum;
 import com.rg.nomadvpn.model.ServerVpnConfiguration;
 import com.rg.nomadvpn.utils.MyApplicationContext;
 import java.io.BufferedReader;
@@ -49,7 +50,40 @@ public class VpnConnectionService {
     }
 
     public String getStatus() {
-        String status = OpenVPNService.getStatus();
+        String status = null;
+        status = OpenVPNService.getStatus();
+
+        if (status.isEmpty()) {
+            return null;
+        }
+
+        ServerStatusEnum serverStatusEnum = ServerStatusEnum.valueOf(status);
+
+        switch (serverStatusEnum) {
+            case CONNECTRETRY:
+                return "Retry";
+            case DISCONNECTED:
+                return "Disconnected";
+            case NONETWORK:
+                return "No network";
+            case NOPROCESS:
+                return "No process";
+            case VPN_GENERATE_CONFIG:
+                return "Generate conf";
+            case WAIT:
+                return "Wait";
+            case AUTH:
+                return "Auth";
+            case GET_CONFIG:
+                return "Get config";
+            case ASSIGN_IP:
+                return "Assign ip";
+            case ADD_ROUTES:
+                return "Add routes";
+            case CONNECTED:
+                return "Connected";
+        }
+
         return status;
     }
 

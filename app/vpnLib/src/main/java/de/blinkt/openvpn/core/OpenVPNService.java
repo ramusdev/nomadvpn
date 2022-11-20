@@ -1296,8 +1296,13 @@ public class OpenVPNService extends VpnService implements StateListener, Callbac
 
 
             showNotification(netstat, null, NOTIFICATION_CHANNEL_BG_ID, mConnecttime, LEVEL_CONNECTED, null);
-            byteIn = String.format("↓%2$s", getString(R.string.statusline_bytecount),
+            byteIn = String.format("↓%2$s",
+                    getString(R.string.statusline_bytecount),
                     humanReadableByteCount(in,false, getResources())) + " - " + humanReadableByteCount(diffIn / OpenVPNManagement.mBytecountInterval, false, getResources()) + "/s";
+
+            String receiveIn = humanReadableByteCount(in, false, getResources());
+            String receiveOut = humanReadableByteCount(out, false, getResources());
+
             byteOut = String.format("↑%2$s", getString(R.string.statusline_bytecount),
                     humanReadableByteCount(out, false,getResources())) + " - " + humanReadableByteCount(diffOut / OpenVPNManagement.mBytecountInterval, false, getResources()) + "/s";
             time = Calendar.getInstance().getTimeInMillis() - c;
@@ -1307,7 +1312,7 @@ public class OpenVPNService extends VpnService implements StateListener, Callbac
             hours = convertTwoDigit((int) ((time / (1000 * 60 * 60)) % 24));
             duration = hours + ":" + minutes + ":" + seconds;
             lastPacketReceive = checkPacketReceive(lastPacketReceive);
-            sendMessage(duration, String.valueOf(lastPacketReceive), byteIn, byteOut);
+            sendMessage(duration, String.valueOf(lastPacketReceive), byteIn, byteOut, receiveIn, receiveOut);
         }
 
     }
@@ -1424,12 +1429,15 @@ public class OpenVPNService extends VpnService implements StateListener, Callbac
         LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
     }
     //sending message to main activity
-    private void sendMessage(String duration, String lastPacketReceive, String byteIn, String byteOut) {
+    private void sendMessage(String duration, String lastPacketReceive, String byteIn, String byteOut, String receiveIn, String receiveOut) {
         Intent intent = new Intent("connectionState");
         intent.putExtra("duration", duration);
         intent.putExtra("lastPacketReceive", lastPacketReceive);
         intent.putExtra("byteIn", byteIn);
         intent.putExtra("byteOut", byteOut);
+
+        intent.putExtra("receiveIn", receiveIn);
+        intent.putExtra("receiveOut", receiveOut);
         LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
     }
     public class LocalBinder extends Binder {

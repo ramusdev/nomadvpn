@@ -60,7 +60,7 @@
             android:layout_marginTop="40dp"
             android:text="00:00:00"
             android:textAllCaps="true"
-            android:textColor="@color/statistics_text"
+            android:textColor="@color/connect_text"
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -71,7 +71,7 @@
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout_status1"
+        android:id="@+id/layout_packet"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -88,7 +88,7 @@
         app:layout_constraintTop_toBottomOf="@id/layout_time">
 
         <TextView
-            android:id="@+id/title_status1"
+            android:id="@+id/title_packet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Packets"
@@ -101,7 +101,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/value_status1"
+            android:id="@+id/value_packet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="44dp"
@@ -129,7 +129,7 @@
         android:paddingBottom="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/layout_status1"
+        app:layout_constraintStart_toEndOf="@+id/layout_packet"
         app:layout_constraintTop_toBottomOf="@id/layout_time">
 
         <TextView
@@ -150,9 +150,101 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="44dp"
-            android:text="Disconnect"
+            android:text="Disconnected"
             android:textAllCaps="true"
             android:textColor="@color/status_value"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.496"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_receivein"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/layout_background"
+        android:paddingLeft="15dp"
+        android:paddingTop="20dp"
+        android:paddingRight="15dp"
+        android:paddingBottom="20dp"
+        app:layout_constraintEnd_toStartOf="@+id/layout_receiveout"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layout_packet">
+
+        <TextView
+            android:id="@+id/title_receivein"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="↓ Receive"
+            android:textAllCaps="true"
+            android:textColor="@color/statistics_text"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/value_receivein"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="44dp"
+            android:text="0 MB"
+            android:textAllCaps="true"
+            android:textColor="@color/receive_value"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.496"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_receiveout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/layout_background"
+        android:paddingLeft="15dp"
+        android:paddingTop="20dp"
+        android:paddingRight="15dp"
+        android:paddingBottom="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/layout_receivein"
+        app:layout_constraintTop_toBottomOf="@id/layout_status">
+
+        <TextView
+            android:id="@+id/title_receiveout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="↑ Send"
+            android:textAllCaps="true"
+            android:textColor="@color/statistics_text"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/value_receiveout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="44dp"
+            android:text="0 MB"
+            android:textAllCaps="true"
+            android:textColor="@color/receive_value"
             android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -169,7 +261,6 @@
         android:layout_height="60dp"
         android:visibility="visible"
         app:cardCornerRadius="7dp"
-        android:layout_marginBottom="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
