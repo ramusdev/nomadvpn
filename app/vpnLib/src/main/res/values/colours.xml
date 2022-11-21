@@ -20,6 +20,7 @@
 
     <!-- Statistics -->
     <color name="statistics_text">#B2DFDB</color>
+    <color name="speed_text">#D32F2F</color>
 
     <!-- Button connect -->
     <color name="connect_text">#ffffff</color>

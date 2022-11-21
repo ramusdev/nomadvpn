@@ -561,84 +561,41 @@ public class ButtonConnect {
         return animatorSet;
     }
 
-    public void animationFinishedConnect() {
-       handler.post(new Runnable() {
-           @Override
-           public void run() {
-               int layoutWidth = ButtonConnect.this.constraintMain.getMeasuredWidth();
-               int halfLayoutWidth = (int) (layoutWidth / 2) - 90;
-               int endWidth = halfLayoutWidth;
-               int duration = 500;
-
-               ButtonConnect.this.cardConnectWidth = cardConnect.getMeasuredWidth();
-
-               ValueAnimator animatorConnect = ValueAnimator.ofInt(cardConnect.getMeasuredWidth(), endWidth);
-               animatorConnect.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                   @Override
-                   public void onAnimationUpdate(ValueAnimator animation) {
-                       int val = (Integer) animation.getAnimatedValue();
-                       ViewGroup.LayoutParams layoutParams = cardConnect.getLayoutParams();
-                       layoutParams.width = val;
-                       cardConnect.setLayoutParams(layoutParams);
-                   }
-               });
-               animatorConnect.setDuration(duration);
-               animatorConnect.setInterpolator(new DecelerateInterpolator());
-
-               ValueAnimator animatorDisconnect = ValueAnimator.ofInt(cardDisconnect.getMeasuredWidth(), endWidth);
-               animatorDisconnect.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                   @Override
-                   public void onAnimationUpdate(ValueAnimator animation) {
-                       int val = (Integer) animation.getAnimatedValue();
-                       ViewGroup.LayoutParams layoutParams = cardDisconnect.getLayoutParams();
-                       layoutParams.width = val;
-                       cardDisconnect.setLayoutParams(layoutParams);
-                   }
-               });
-               animatorDisconnect.setDuration(duration);
-               animatorDisconnect.setInterpolator(new DecelerateInterpolator());
-
-
-               /*
-               int colorFrom = MyApplicationContext.getAppContext().getResources().getColor(R.color.background_pulsation_from);
-               int colorTo = MyApplicationContext.getAppContext().getResources().getColor(R.color.background_pulsation_to);
-               ValueAnimator animatorPulsation = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom, colorTo);
-               animatorPulsation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                   @Override
-                   public void onAnimationUpdate(ValueAnimator animation) {
-                       int value = (int) animation.getAnimatedValue();
-                       progressBar.setBackgroundColor(value);
-                   }
-               });
-               animatorPulsation.setInterpolator(new LinearInterpolator());
-               animatorPulsation.setRepeatCount(ValueAnimator.INFINITE);
-               animatorPulsation.setRepeatMode(ValueAnimator.REVERSE);
-               animatorPulsation.setDuration(1500);
-               */
-
-               Animator animatorText = getAnimatorFadeOutInText("Connected", titleConnect);
-
-               AnimatorSet animatorSet = new AnimatorSet();
-               animatorSet.play(animatorConnect).with(animatorDisconnect);
-               animatorSet.play(animatorText).with(getAnimatorFadeOutInText("Disconnect", titleDisconnect)).after(animatorConnect);
-               animatorSet.start();
-
-           }
-       });
-    }
 
     public void animationFinishedConnectTwo() {
-        handler.post(new Runnable() {
+        int duration = 500;
+        Animator animatorText = getAnimatorFadeOutInText("Connected", titleConnect);
+
+        AnimatorSet animatorDelay = new AnimatorSet();
+        animatorDelay.setStartDelay(2000);
+        animatorDelay.addListener(new Animator.AnimatorListener() {
             @Override
-            public void run() {
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
                 cardConnect.setVisibility(View.GONE);
                 cardDisconnect.setVisibility(View.VISIBLE);
+            }
 
+            @Override
+            public void onAnimationCancel(Animator animation) {
 
+            }
 
+            @Override
+            public void onAnimationRepeat(Animator animation) {
 
             }
         });
+
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.play(animatorText);
+        animatorSet.play(animatorDelay).after(animatorText);
+        animatorSet.setDuration(duration);
+        animatorSet.start();
     }
 
     public void buttonDisconnect() {
