@@ -60,6 +60,8 @@ public class VpnConnectionService {
         ServerStatusEnum serverStatusEnum = ServerStatusEnum.valueOf(status);
 
         switch (serverStatusEnum) {
+            case RECONNECTING:
+                return "Reconnecting";
             case CONNECTRETRY:
                 return "Retry";
             case DISCONNECTED:

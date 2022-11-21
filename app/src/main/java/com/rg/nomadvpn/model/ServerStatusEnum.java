@@ -1,6 +1,7 @@
 package com.rg.nomadvpn.model;
 
 public enum ServerStatusEnum {
+    RECONNECTING,
     DISCONNECTED,
     NONETWORK,
     CONNECTRETRY,

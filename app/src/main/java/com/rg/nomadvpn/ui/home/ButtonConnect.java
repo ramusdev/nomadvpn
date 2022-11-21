@@ -451,7 +451,7 @@ public class ButtonConnect {
                     @Override
                     public void onAnimationEnd(Animator animation) {
                         if (breakPoint >= 100) {
-                            animationFinishedConnect();
+                            animationFinishedConnectTwo();
                         }
                     }
 
@@ -561,7 +561,6 @@ public class ButtonConnect {
         return animatorSet;
     }
 
-
     public void animationFinishedConnect() {
        handler.post(new Runnable() {
            @Override
@@ -628,6 +627,20 @@ public class ButtonConnect {
        });
     }
 
+    public void animationFinishedConnectTwo() {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                cardConnect.setVisibility(View.GONE);
+                cardDisconnect.setVisibility(View.VISIBLE);
+
+
+
+
+            }
+        });
+    }
+
     public void buttonDisconnect() {
         // Ui change
         this.buttonDisconnectAnimation();
@@ -637,61 +650,58 @@ public class ButtonConnect {
     }
 
     public void buttonDisconnectAnimation() {
-
-        int startWidth = ButtonConnect.this.cardConnect.getMeasuredWidth();
-        int endWidth = ButtonConnect.this.cardConnectWidth;
         int duration = 500;
 
-        // Animation connect
-        ValueAnimator animatorConnect = ValueAnimator.ofInt(startWidth, endWidth);
-        animatorConnect.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                int val = (Integer) animation.getAnimatedValue();
-                ViewGroup.LayoutParams layoutParams = cardConnect.getLayoutParams();
-                layoutParams.width = val;
-                cardConnect.setLayoutParams(layoutParams);
-            }
-        });
-        animatorConnect.setDuration(duration);
-        animatorConnect.setInterpolator(new LinearInterpolator());
-
-        // Animation disconnect
-        int startDisconnect = cardDisconnect.getMeasuredWidth();
-        ValueAnimator animatorDisconnect = ValueAnimator.ofInt(startDisconnect, 0);
-        animatorDisconnect.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                int val = (Integer) animation.getAnimatedValue();
-                ViewGroup.LayoutParams layoutParams = cardDisconnect.getLayoutParams();
-                layoutParams.width = val;
-                cardDisconnect.setLayoutParams(layoutParams);
-            }
-        });
-        animatorDisconnect.setDuration(duration);
-        animatorDisconnect.setInterpolator(new LinearInterpolator());
-
-        // Text animation disconnect button
-        ValueAnimator animatorTextDisconnect = ValueAnimator.ofFloat(1f, 0f);
-        animatorTextDisconnect.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+        // Text
+        ValueAnimator animatorTextOut = ValueAnimator.ofFloat(1f, 0.3f);
+        animatorTextOut.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 float alpha = (float) animation.getAnimatedValue();
                 ButtonConnect.this.titleDisconnect.setAlpha(alpha);
             }
         });
-        animatorTextDisconnect.setDuration(duration);
 
-        // Text animation connect button
-        ValueAnimator animatorTextConnectFadeout = ValueAnimator.ofFloat(1f, 0f);
-        animatorTextConnectFadeout.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+        ValueAnimator animatorTextIn = ValueAnimator.ofFloat(0.3f, 1f);
+        animatorTextIn.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 float alpha = (float) animation.getAnimatedValue();
-                ButtonConnect.this.titleConnect.setAlpha(alpha);
+                ButtonConnect.this.titleDisconnect.setAlpha(alpha);
             }
         });
-        animatorTextConnectFadeout.addListener(new Animator.AnimatorListener() {
+
+        // Button
+        int colorFrom = MyApplicationContext.getAppContext().getResources().getColor(R.color.background_from_disconnect);
+        int colorTo = MyApplicationContext.getAppContext().getResources().getColor(R.color.background_to_disconnect);
+        ValueAnimator animatorButtonOut = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom, colorTo);
+        animatorButtonOut.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                int value = (int) animation.getAnimatedValue();
+                layoutDisconnect.setBackgroundColor(value);
+            }
+        });
+
+        ValueAnimator animatorButtonIn = ValueAnimator.ofObject(new ArgbEvaluator(), colorTo, colorFrom);
+        animatorButtonIn.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                int value = (int) animation.getAnimatedValue();
+                layoutDisconnect.setBackgroundColor(value);
+            }
+        });
+
+
+
+
+
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.play(animatorButtonOut).with(animatorTextOut);
+        animatorSet.play(animatorButtonIn).after(animatorButtonOut);
+        animatorSet.play(animatorTextIn).after(animatorButtonOut);
+        animatorSet.setDuration(duration);
+        animatorSet.addListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
 
@@ -699,7 +709,10 @@ public class ButtonConnect {
 
             @Override
             public void onAnimationEnd(Animator animation) {
+                cardDisconnect.setVisibility(View.GONE);
+                progressBar.setProgress(0);
                 titleConnect.setText("Start connection");
+                cardConnect.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -712,48 +725,6 @@ public class ButtonConnect {
 
             }
         });
-        animatorTextConnectFadeout.setDuration(duration);
-
-        // Text animation connect button
-        ValueAnimator animatorTextConnectFadein = ValueAnimator.ofFloat(0f, 1f);
-        animatorTextConnectFadein.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                float alpha = (float) animation.getAnimatedValue();
-                titleConnect.setAlpha(alpha);
-            }
-        });
-        animatorTextConnectFadein.setDuration(duration);
-
-        int animationDuration = 1000;
-        ObjectAnimator animatorProgress = ObjectAnimator.ofInt(ButtonConnect.this.progressBar, "progress", 0);
-        animatorProgress.setDuration(animationDuration);
-        animatorProgress.setInterpolator(new DecelerateInterpolator());
-
-        ValueAnimator animatorTitle = ValueAnimator.ofInt(100, 0);
-        animatorTitle.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                int value = (int) animation.getAnimatedValue();
-                titleConnect.setText("Progress  " + value + "%");
-            }
-        });
-        animatorTitle.setDuration(animationDuration);
-        animatorTitle.setInterpolator(new DecelerateInterpolator());
-
-
-        Animator animatorTextTitleProgress = getAnimatorFadeOutInText("Progress  100%", titleConnect);
-        AnimatorSet buttonActionDisconnect = buttonAnimationActionDisconnect("");
-
-        AnimatorSet animatorSet = new AnimatorSet();
-        animatorSet.play(buttonActionDisconnect);
-        // animatorSet.play(animatorTextDisconnect).after(buttonActionDisconnect);
-        animatorSet.play(animatorConnect).with(animatorDisconnect).after(animatorTextDisconnect);
-        animatorSet.play(animatorTextTitleProgress).after(animatorConnect);
-        animatorSet.play(animatorProgress).with(animatorTitle).after(animatorTextTitleProgress);
-        animatorSet.play(getAnimatorFadeOutInText("Start connection", titleConnect)).after(animatorProgress);
         animatorSet.start();
-
-
     }
 }
