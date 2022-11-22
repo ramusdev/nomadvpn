@@ -25,7 +25,9 @@
 
     <!-- Statistics -->
     <color name="statistics_text">#B2DFDB</color>
-    <color name="speed_text">#D32F2F</color>
+    <color name="status_text">#F44336</color>
+    <color name="status_textconnected">#66BB6A</color>
+    <color name="support_text">#B2DFDB</color>
 
     <!-- Button connect -->
     <color name="connect_text">#ffffff</color>

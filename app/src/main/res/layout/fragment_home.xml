@@ -187,7 +187,7 @@
             android:layout_marginTop="44dp"
             android:text="0 Mbit/s"
             android:textAllCaps="true"
-            android:textColor="@color/speed_text"
+            android:textColor="@color/receive_value"
             android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -232,7 +232,7 @@
             android:layout_marginTop="44dp"
             android:text="0 Mbit/s"
             android:textAllCaps="true"
-            android:textColor="@color/speed_text"
+            android:textColor="@color/receive_value"
             android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -245,7 +245,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_time"
         android:layout_width="0dp"
-        android:layout_height="175dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
         android:background="@drawable/layout_background"
@@ -324,7 +324,7 @@
             android:layout_marginTop="44dp"
             android:text="Disconnected"
             android:textAllCaps="true"
-            android:textColor="@color/status_value"
+            android:textColor="@color/status_text"
             android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -333,43 +333,6 @@
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/card_disconnecttwo"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="20dp"
-        android:visibility="visible"
-        android:layout_marginLeft="20dp"
-        app:cardCornerRadius="5dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/layout_time"
-        app:layout_constraintTop_toBottomOf="@+id/layout_status">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_disconnecttwo"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/disconnect_progress"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:layout_editor_absoluteX="1dp">
-
-            <TextView
-                android:id="@+id/title_disconnecttwo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Disconnect"
-                android:textAllCaps="true"
-                android:textColor="@color/disconnection_text"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
 
 
     <androidx.cardview.widget.CardView
@@ -407,6 +370,34 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/support_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/layout_background"
+        android:paddingLeft="20dp"
+        android:paddingTop="20dp"
+        android:paddingRight="20dp"
+        android:paddingBottom="20dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/layout_time"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+        <TextView
+            android:id="@+id/support_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="We found that the connection is taking to long. To disconnecion click on the button."
+            android:textAllCaps="true"
+            android:textColor="@color/support_text"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.496"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/button_card"

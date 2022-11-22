@@ -53,6 +53,7 @@ public class HomeFragment extends Fragment {
 
 
 
+
         TextView durationValue = root.findViewById(R.id.value_time);
         HomeViewModel homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         homeViewModel.getDuration().observe(getViewLifecycleOwner(), new Observer<String>() {
@@ -67,6 +68,11 @@ public class HomeFragment extends Fragment {
             @Override
             public void onChanged(String value) {
                 statusValue.setText(value);
+                if (value.equals("Connected")) {
+                    statusValue.setTextColor(getResources().getColor(R.color.status_textconnected));
+                } else {
+                    statusValue.setTextColor(getResources().getColor(R.color.status_text));
+                }
             }
         });
 
