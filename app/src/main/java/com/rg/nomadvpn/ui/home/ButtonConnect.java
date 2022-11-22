@@ -37,6 +37,7 @@ import com.rg.nomadvpn.model.ServerStatusEnum;
 import com.rg.nomadvpn.service.VpnConnectionService;
 import com.rg.nomadvpn.utils.MyApplicationContext;
 
+import java.util.Date;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicIntegerArray;
@@ -52,17 +53,19 @@ public class ButtonConnect {
     private ConstraintLayout layoutView;
     private ConstraintLayout constraintMain;
     private ConstraintLayout layoutDisconnect;
+    private ConstraintLayout supportLayout;
     private Animation animationFadeIn;
     private Animation animationProgress;
     private ProgressBar progressBar;
     private VpnConnectionService vpnConnectionService;
-    private ExecutorService executorService = Executors.newFixedThreadPool(1);
+    // private ExecutorService executorService = Executors.newFixedThreadPool(1);
     private int cardConnectWidth;
     private int buttonLayoutWidth;
     private Handler handler = new Handler();
     private int progressValue = 0;
 
     public ButtonConnect() {
+
     }
 
     public void setView(View view) {
@@ -87,8 +90,7 @@ public class ButtonConnect {
         this.constraintMain = view.findViewById(R.id.constraint_main);
         this.titleDisconnect = view.findViewById(R.id.title_disconnect);
         this.layoutDisconnect = view.findViewById(R.id.layout_disconnect);
-
-        this.cardConnectWidth = this.cardConnect.getMeasuredWidth();
+        this.supportLayout = view.findViewById(R.id.support_layout);
     }
 
     public void buttonInit() {
@@ -154,9 +156,6 @@ public class ButtonConnect {
             }
         });
         */
-
-
-
 
         cardDisconnect.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -394,14 +393,22 @@ public class ButtonConnect {
             public void run() {
                 int breakPoint = 0;
                 int animationSmoothness = 1000;
-
                 ButtonConnect.this.progressBar.setMax(100 * animationSmoothness);
+                long currentDateTime = new Date().getTime();
+                long waitSeconds = 10;
+                long waitMilliseconds = waitSeconds * 1000;
 
                 while (true) {
                     int breakPointCurrent = ButtonConnect.this.getBreakPoint();
                     if (breakPointCurrent != breakPoint) {
                         breakPoint = breakPointCurrent;
                         updateProgressBar(breakPoint);
+                    }
+
+                    long dateTime = new Date().getTime();
+                    long dateDifference = dateTime - currentDateTime;
+                    if (dateDifference > waitMilliseconds) {
+                        showSupportMessage(true);
                     }
 
                     if (breakPointCurrent >= 100) {
@@ -466,6 +473,19 @@ public class ButtonConnect {
                     }
                 });
                 animatorSet.start();
+            }
+        });
+    }
+
+    public void showSupportMessage(boolean isVisible) {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (isVisible) {
+                    supportLayout.setVisibility(View.VISIBLE);
+                } else {
+                    supportLayout.setVisibility(View.GONE);
+                }
             }
         });
     }
@@ -564,6 +584,7 @@ public class ButtonConnect {
 
     public void animationFinishedConnectTwo() {
         int duration = 500;
+        showSupportMessage(false);
         Animator animatorText = getAnimatorFadeOutInText("Connected", titleConnect);
 
         AnimatorSet animatorDelay = new AnimatorSet();
