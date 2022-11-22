@@ -14,6 +14,11 @@
     <color name="gelb">#ffff00</color>
     <color name="rot">#ff0000</color>
 
+    <!-- Main name -->
+    <color name="main_nameone">#B2DFDB</color>
+    <color name="main_nametwo">#e91e63</color>
+    <color name="main_shadow">#313131</color>
+
     <!-- Main style -->
     <color name="main_background">#006064</color>
     <color name="status_background">#004F53</color>  <!-- #004B4E #007478 #005357 -->
