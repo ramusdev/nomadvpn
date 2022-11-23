@@ -98,9 +98,13 @@ public class ButtonConnect {
             handler.post(new Runnable() {
                 @Override
                 public void run() {
+                    cardDisconnect.setVisibility(View.GONE);
+                    progressBar.setProgress(0);
+                    cardConnect.setVisibility(View.VISIBLE);
                     titleConnect.setText("Start connection");
                     titleConnect.setTextColor(MyApplicationContext.getAppContext().getResources().getColor(R.color.connection_text));
                     progressBar.setBackgroundColor(MyApplicationContext.getAppContext().getResources().getColor(R.color.connection_background));
+                    supportLayout.setVisibility(View.GONE);
                 }
             });
             cardConnect.setOnClickListener(new View.OnClickListener() {
@@ -235,7 +239,7 @@ public class ButtonConnect {
             }
         });
 
-        ValueAnimator animatorTitleFadeOut = ValueAnimator.ofFloat(1f, 0.1f);
+        ValueAnimator animatorTitleFadeOut = ValueAnimator.ofFloat(1f, 0.2f);
         animatorTitleFadeOut.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
@@ -251,7 +255,9 @@ public class ButtonConnect {
 
             @Override
             public void onAnimationEnd(Animator animation) {
-                titleConnect.setText(text);
+                if (! text.isEmpty()) {
+                    titleConnect.setText(text);
+                }
             }
 
             @Override
@@ -265,7 +271,7 @@ public class ButtonConnect {
             }
         });
 
-        ValueAnimator animatorTitleFadeIn = ValueAnimator.ofFloat(0.1f, 1f);
+        ValueAnimator animatorTitleFadeIn = ValueAnimator.ofFloat(0.2f, 1f);
         animatorTitleFadeIn.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
@@ -304,7 +310,7 @@ public class ButtonConnect {
             }
         });
 
-        ValueAnimator animatorTitleFadeOut = ValueAnimator.ofFloat(1f, 0.1f);
+        ValueAnimator animatorTitleFadeOut = ValueAnimator.ofFloat(1f, 0.2f);
         animatorTitleFadeOut.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
@@ -334,7 +340,7 @@ public class ButtonConnect {
             }
         });
 
-        ValueAnimator animatorTitleFadeIn = ValueAnimator.ofFloat(0.1f, 1f);
+        ValueAnimator animatorTitleFadeIn = ValueAnimator.ofFloat(0.2f, 1f);
         animatorTitleFadeIn.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
@@ -355,6 +361,13 @@ public class ButtonConnect {
     public void buttonStart() {
         this.buttonStartAnimation();
         vpnConnectionService.startVpnService();
+
+        cardConnect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                buttonStopConnection();
+            }
+        });
     }
 
     public void buttonStartAnimation() {
@@ -395,7 +408,7 @@ public class ButtonConnect {
                 int animationSmoothness = 1000;
                 ButtonConnect.this.progressBar.setMax(100 * animationSmoothness);
                 long currentDateTime = new Date().getTime();
-                long waitSeconds = 10;
+                long waitSeconds = 7;
                 long waitMilliseconds = waitSeconds * 1000;
 
                 while (true) {
@@ -411,7 +424,8 @@ public class ButtonConnect {
                         showSupportMessage(true);
                     }
 
-                    if (breakPointCurrent >= 100) {
+                    String status = vpnConnectionService.getStatus();
+                    if (status.equals("Connected") || status.equals("Disconnected")) {
                         break;
                     }
 
@@ -505,27 +519,27 @@ public class ButtonConnect {
         switch (serverStatusEnum) {
             case CONNECTRETRY:
                 // TODO Connect retry
-                return breakPoint = 10;
+                return breakPoint = 0;
             case DISCONNECTED:
-                return breakPoint = 10;
+                return breakPoint = 0;
                 // TODO Disconnected
             case NONETWORK:
                 // TODO Error no network
-                return breakPoint = 10;
+                return breakPoint = 0;
             case NOPROCESS:
-                return breakPoint = 10;
+                return breakPoint = 0;
             case VPN_GENERATE_CONFIG:
-                return breakPoint = 20;
+                return breakPoint = 10;
             case WAIT:
-                return breakPoint = 40;
+                return breakPoint = 30;
             case AUTH:
-                return breakPoint = 60;
+                return breakPoint = 50;
             case GET_CONFIG:
-                return breakPoint = 80;
+                return breakPoint = 60;
             case ASSIGN_IP:
-                return breakPoint = 85;
+                return breakPoint = 70;
             case ADD_ROUTES:
-                return breakPoint = 90;
+                return breakPoint = 80;
             case CONNECTED:
                 return breakPoint = 100;
         }
@@ -621,17 +635,53 @@ public class ButtonConnect {
 
     public void buttonDisconnect() {
         // Ui change
-        this.buttonDisconnectAnimation();
+        buttonDisconnectAnimation();
 
         // Program change
         vpnConnectionService.disconnectServer();
+    }
+
+    public void buttonStopConnection() {
+        // Disconnect
+        vpnConnectionService.disconnectServer();
+
+        // Animation
+        Animator animator = buttonAnimationActionDown("");
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.play(animator);
+        animatorSet.start();
+
+        AnimatorSet animatorSetConnect = new AnimatorSet();
+        animatorSetConnect.setStartDelay(3000);
+        animatorSetConnect.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                buttonInit();
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+        animatorSetConnect.start();
     }
 
     public void buttonDisconnectAnimation() {
         int duration = 500;
 
         // Text
-        ValueAnimator animatorTextOut = ValueAnimator.ofFloat(1f, 0.3f);
+        ValueAnimator animatorTextOut = ValueAnimator.ofFloat(1f, 0.2f);
         animatorTextOut.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
@@ -640,7 +690,7 @@ public class ButtonConnect {
             }
         });
 
-        ValueAnimator animatorTextIn = ValueAnimator.ofFloat(0.3f, 1f);
+        ValueAnimator animatorTextIn = ValueAnimator.ofFloat(0.2f, 1f);
         animatorTextIn.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
@@ -687,10 +737,7 @@ public class ButtonConnect {
 
             @Override
             public void onAnimationEnd(Animator animation) {
-                cardDisconnect.setVisibility(View.GONE);
-                progressBar.setProgress(0);
-                titleConnect.setText("Start connection");
-                cardConnect.setVisibility(View.VISIBLE);
+                buttonInit();
             }
 
             @Override
