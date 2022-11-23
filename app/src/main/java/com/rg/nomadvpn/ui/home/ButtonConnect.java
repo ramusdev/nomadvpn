@@ -143,33 +143,6 @@ public class ButtonConnect {
         }
     }
 
-    public void clickInit() {
-        /*
-        cardConnect.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    // buttonStart();
-                    // buttonAnimationActionDown();
-                }
-                if (event.getAction() == MotionEvent.ACTION_UP) {
-                    buttonStart();
-                }
-
-                return true;
-            }
-        });
-        */
-
-        cardDisconnect.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                buttonDisconnect();
-            }
-        });
-
-    }
-
     public void animationActionProfile() {
         int colorFrom = MyApplicationContext.getAppContext().getResources().getColor(R.color.profile_background);
         int colorTo = MyApplicationContext.getAppContext().getResources().getColor(R.color.profile_background_animation);
