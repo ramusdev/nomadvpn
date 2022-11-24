@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.renderscript.Sampler;
+import android.transition.TransitionManager;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -30,6 +31,7 @@ import androidx.annotation.RequiresApi;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.helper.widget.MotionEffect;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 
 import com.rg.nomadvpn.MainActivity;
 import com.rg.nomadvpn.R;
@@ -104,7 +106,8 @@ public class ButtonConnect {
                     titleConnect.setText("Start connection");
                     titleConnect.setTextColor(MyApplicationContext.getAppContext().getResources().getColor(R.color.connection_text));
                     progressBar.setBackgroundColor(MyApplicationContext.getAppContext().getResources().getColor(R.color.connection_background));
-                    supportLayout.setVisibility(View.GONE);
+                    // supportLayout.setVisibility(View.GONE);
+                    showSupportMessage(false);
                 }
             });
             cardConnect.setOnClickListener(new View.OnClickListener() {
@@ -383,6 +386,7 @@ public class ButtonConnect {
                 long currentDateTime = new Date().getTime();
                 long waitSeconds = 7;
                 long waitMilliseconds = waitSeconds * 1000;
+                boolean isShowed = false;
 
                 while (true) {
                     int breakPointCurrent = ButtonConnect.this.getBreakPoint();
@@ -394,7 +398,10 @@ public class ButtonConnect {
                     long dateTime = new Date().getTime();
                     long dateDifference = dateTime - currentDateTime;
                     if (dateDifference > waitMilliseconds) {
-                        showSupportMessage(true);
+                        if (! isShowed) {
+                            showSupportMessage(true);
+                            isShowed = true;
+                        }
                     }
 
                     String status = vpnConnectionService.getStatus();
@@ -468,10 +475,33 @@ public class ButtonConnect {
         handler.post(new Runnable() {
             @Override
             public void run() {
+                int duration = 1000;
+                ValueAnimator valueAnimator = new ValueAnimator();
                 if (isVisible) {
-                    supportLayout.setVisibility(View.VISIBLE);
+                    valueAnimator = ValueAnimator.ofFloat(0f, 1f);
+                    valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                        @Override
+                        public void onAnimationUpdate(ValueAnimator animation) {
+                            float alpha = (float) animation.getAnimatedValue();
+                            supportLayout.setAlpha(alpha);
+                        }
+                    });
+                    valueAnimator.setDuration(duration);
+                    valueAnimator.start();
                 } else {
-                    supportLayout.setVisibility(View.GONE);
+                    float alpha = supportLayout.getAlpha();
+                    if (alpha == 1) {
+                        valueAnimator = ValueAnimator.ofFloat(1f, 0f);
+                        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                            @Override
+                            public void onAnimationUpdate(ValueAnimator animation) {
+                                float alpha = (float) animation.getAnimatedValue();
+                                supportLayout.setAlpha(alpha);
+                            }
+                        });
+                        valueAnimator.setDuration(duration);
+                        valueAnimator.start();
+                    }
                 }
             }
         });
