@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -14,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -22,6 +24,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import com.rg.nomadvpn.MainActivity;
 import com.rg.nomadvpn.R;
 import com.rg.nomadvpn.databinding.FragmentHomeBinding;
+import com.rg.nomadvpn.service.NotificationService;
 import com.rg.nomadvpn.service.VpnConnectionService;
 
 import de.blinkt.openvpn.core.VpnStatus;
@@ -41,10 +44,12 @@ public class HomeFragment extends Fragment {
         root = binding.getRoot();
 
         vpnConnectionService = new VpnConnectionService(this);
+        NotificationService notificationService = new NotificationService();
 
         ButtonConnect buttonConnect = new ButtonConnect();
         buttonConnect.setView(root);
         buttonConnect.setService(vpnConnectionService);
+        buttonConnect.setNotification(notificationService);
         buttonConnect.init();
 
         VpnStatus.initLogCache(getActivity().getCacheDir());

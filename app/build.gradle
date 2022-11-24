@@ -7,10 +7,10 @@ android {
 
     defaultConfig {
         applicationId "com.rg.nomadvpn"
-        minSdk 21
+        minSdk 26
         targetSdk 31
-        versionCode 108
-        versionName "1.1.8 (108)"
+        versionCode 109
+        versionName "1.1.9 (109)"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

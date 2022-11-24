@@ -36,6 +36,7 @@ import androidx.constraintlayout.widget.ConstraintSet;
 import com.rg.nomadvpn.MainActivity;
 import com.rg.nomadvpn.R;
 import com.rg.nomadvpn.model.ServerStatusEnum;
+import com.rg.nomadvpn.service.NotificationService;
 import com.rg.nomadvpn.service.VpnConnectionService;
 import com.rg.nomadvpn.utils.MyApplicationContext;
 
@@ -60,6 +61,7 @@ public class ButtonConnect {
     private Animation animationProgress;
     private ProgressBar progressBar;
     private VpnConnectionService vpnConnectionService;
+    private NotificationService notificationService;
     // private ExecutorService executorService = Executors.newFixedThreadPool(1);
     private int cardConnectWidth;
     private int buttonLayoutWidth;
@@ -76,6 +78,10 @@ public class ButtonConnect {
 
     public void setService(VpnConnectionService vpnConnectionService) {
         this.vpnConnectionService = vpnConnectionService;
+    }
+
+    public void setNotification(NotificationService notificationService) {
+        this.notificationService = notificationService;
     }
 
     public void init() {
@@ -337,6 +343,7 @@ public class ButtonConnect {
     public void buttonStart() {
         this.buttonStartAnimation();
         vpnConnectionService.startVpnService();
+        notificationService.notifyMessageConnected(true);
 
         cardConnect.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -637,16 +644,15 @@ public class ButtonConnect {
     }
 
     public void buttonDisconnect() {
-        // Ui change
-        buttonDisconnectAnimation();
+        this.buttonDisconnectAnimation();
 
-        // Program change
-        vpnConnectionService.disconnectServer();
+        this.vpnConnectionService.disconnectServer();
+        this.notificationService.notifyMessageConnected(false);
     }
 
     public void buttonStopConnection() {
-        // Disconnect
-        vpnConnectionService.disconnectServer();
+        this.vpnConnectionService.disconnectServer();
+        this.notificationService.notifyMessageConnected(false);
 
         // Animation
         Animator animator = buttonAnimationActionDown("");

@@ -303,6 +303,7 @@ public class OpenVPNService extends VpnService implements StateListener, Callbac
             channel = createNotificationChannel(channel);
         }
 
+
         NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         Notification.Builder nBuilder = new Notification.Builder(this);
 
