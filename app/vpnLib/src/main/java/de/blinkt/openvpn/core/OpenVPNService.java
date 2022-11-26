@@ -111,6 +111,11 @@ public class OpenVPNService extends VpnService implements StateListener, Callbac
     private boolean mStarting = false;
     private long mConnecttime;
     private OpenVPNManagement mManagement;
+    private static OpenVPNService instance;
+
+    public OpenVPNService() {
+        OpenVPNService.this.instance = this;
+    }
     /*private final IBinder mBinder = new IOpenVPNServiceInternal.Stub() {
 
         @Override
@@ -365,13 +370,16 @@ public class OpenVPNService extends VpnService implements StateListener, Callbac
 
             int notificationId = channel.hashCode();
 
-            mNotificationManager.notify(notificationId, notification);
+            // mNotificationManager.notify(notificationId, notification);
 
-            startForeground(notificationId, notification);
+            // startForeground(notificationId, notification);
+
+            // NotificationService.onServiceStart(this);
+
 
             if (lastChannel != null && !channel.equals(lastChannel)) {
                 // Cancel old notification
-                mNotificationManager.cancel(lastChannel.hashCode());
+                // mNotificationManager.cancel(lastChannel.hashCode());
             }
         } catch (Throwable th) {
             Log.e(getClass().getCanonicalName(), "Error when show notification", th);
@@ -1421,7 +1429,7 @@ public class OpenVPNService extends VpnService implements StateListener, Callbac
 
         int notificationId = channel.hashCode();
 
-        mNotificationManager.notify(notificationId, notification);
+        // mNotificationManager.notify(notificationId, notification);
     }
 
     //sending message to main activity
@@ -1459,5 +1467,8 @@ public class OpenVPNService extends VpnService implements StateListener, Callbac
     }
     public boolean isConnected() {
         return flag;
+    }
+    public static OpenVPNService getInstance() {
+        return instance;
     }
 }

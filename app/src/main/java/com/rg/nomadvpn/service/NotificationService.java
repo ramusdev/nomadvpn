@@ -19,8 +19,10 @@ import com.rg.nomadvpn.MainActivity;
 import com.rg.nomadvpn.R;
 import com.rg.nomadvpn.utils.MyApplicationContext;
 
-public class NotificationService {
+import de.blinkt.openvpn.api.APIVpnProfile;
+import de.blinkt.openvpn.core.OpenVPNService;
 
+public class NotificationService {
     private static final String NOTIFICATION_TITLE = "Namad VPN";
     private static final String TEXT_CONNECTED = "Connection status: connected";
     private static final String TEXT_DISCONNECTED = "Connection status: disconnected";
@@ -29,6 +31,7 @@ public class NotificationService {
     private NotificationManager notificationManager;
     private PendingIntent pendingIntent;
     private SpannableString title;
+    private Notification notification;
 
     public NotificationService() {
         buildNotification();
@@ -60,22 +63,37 @@ public class NotificationService {
         title.setSpan(new ForegroundColorSpan(color), 0, title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
     }
 
-    public void notifyMessageConnected(boolean isConnected) {
+    public void showConnectMessage() {
         SpannableString text = null;
 
-        if (isConnected) {
-            text = new SpannableString(TEXT_CONNECTED);
-            int color = MyApplicationContext.getAppContext().getResources().getColor(R.color.status_textconnected);
-            text.setSpan(new StyleSpan(Typeface.BOLD), 19, text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            text.setSpan(new ForegroundColorSpan(color), 19, text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        } else {
-            text = new SpannableString(TEXT_DISCONNECTED);
-            int color = MyApplicationContext.getAppContext().getResources().getColor(R.color.status_text);
-            text.setSpan(new StyleSpan(Typeface.BOLD), 19, text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            text.setSpan(new ForegroundColorSpan(color), 19, text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        }
+        text = new SpannableString(TEXT_CONNECTED);
+        int color = MyApplicationContext.getAppContext().getResources().getColor(R.color.status_textconnected);
+        text.setSpan(new StyleSpan(Typeface.BOLD), 19, text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        text.setSpan(new ForegroundColorSpan(color), 19, text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-        Notification notification = new Notification.Builder(MyApplicationContext.getAppContext())
+        notification = new Notification.Builder(MyApplicationContext.getAppContext())
+                .setSmallIcon(R.drawable.ic_status)
+                .setChannelId(CHANNEL_ID)
+                .setPriority(Notification.PRIORITY_MAX)
+                .setAutoCancel(false)
+                .setContentIntent(pendingIntent)
+                .setContentTitle(title)
+                .setContentText(text)
+                .build();
+
+        notificationManager.notify(NOTIFY_ID, notification);
+        OpenVPNService.getInstance().startForeground(NOTIFY_ID, notification);
+    }
+
+    public void showDisconnectMessage() {
+        SpannableString text = null;
+
+        text = new SpannableString(TEXT_DISCONNECTED);
+        int color = MyApplicationContext.getAppContext().getResources().getColor(R.color.status_text);
+        text.setSpan(new StyleSpan(Typeface.BOLD), 19, text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        text.setSpan(new ForegroundColorSpan(color), 19, text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        notification = new Notification.Builder(MyApplicationContext.getAppContext())
                 .setSmallIcon(R.drawable.ic_status)
                 .setChannelId(CHANNEL_ID)
                 .setPriority(Notification.PRIORITY_MAX)

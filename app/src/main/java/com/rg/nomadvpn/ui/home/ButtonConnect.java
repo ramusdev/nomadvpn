@@ -342,8 +342,7 @@ public class ButtonConnect {
 
     public void buttonStart() {
         this.buttonStartAnimation();
-        vpnConnectionService.startVpnService();
-        notificationService.notifyMessageConnected(true);
+        this.vpnConnectionService.startVpnService();
 
         cardConnect.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -413,6 +412,7 @@ public class ButtonConnect {
 
                     String status = vpnConnectionService.getStatus();
                     if (status.equals("Connected") || status.equals("Disconnected")) {
+                        notificationService.showConnectMessage();
                         break;
                     }
 
@@ -647,12 +647,12 @@ public class ButtonConnect {
         this.buttonDisconnectAnimation();
 
         this.vpnConnectionService.disconnectServer();
-        this.notificationService.notifyMessageConnected(false);
+        this.notificationService.showDisconnectMessage();
     }
 
     public void buttonStopConnection() {
         this.vpnConnectionService.disconnectServer();
-        this.notificationService.notifyMessageConnected(false);
+        this.notificationService.showDisconnectMessage();
 
         // Animation
         Animator animator = buttonAnimationActionDown("");
