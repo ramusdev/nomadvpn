@@ -9,6 +9,7 @@ import android.view.WindowManager;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -17,6 +18,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.rg.nomadvpn.databinding.ActivityMainBinding;
+import com.rg.nomadvpn.ui.home.HomeFragment;
 import com.rg.nomadvpn.utils.MyApplicationContext;
 
 import de.blinkt.openvpn.core.VpnStatus;
@@ -25,11 +27,13 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
+    private static MainActivity instance;
     public final static String LOGTAG = "Logtagname";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        instance = this;
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -57,12 +61,22 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
+
+        // Change fragment
+        // getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment_content_main, HomeFragment.class, "main_fragment_tag").commit();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.nav_host_fragment_content_main, HomeFragment.class, null, "tag_name_two")
+                .setReorderingAllowed(true)
+                .addToBackStack(null)
+                .commit();
+
+        // Change bar color
         Window windows = this.getWindow();
         windows.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         windows.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         windows.setStatusBarColor(MyApplicationContext.getAppContext().getResources().getColor(R.color.status_background));
         windows.setNavigationBarColor(MyApplicationContext.getAppContext().getResources().getColor(R.color.status_background));
-
     }
 
     @Override
@@ -77,5 +91,9 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    public static MainActivity getInstance() {
+        return MainActivity.instance;
     }
 }

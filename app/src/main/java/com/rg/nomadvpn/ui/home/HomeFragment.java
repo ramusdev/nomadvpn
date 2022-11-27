@@ -23,6 +23,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.rg.nomadvpn.MainActivity;
 import com.rg.nomadvpn.R;
+import com.rg.nomadvpn.controller.ConnectionController;
 import com.rg.nomadvpn.databinding.FragmentHomeBinding;
 import com.rg.nomadvpn.service.NotificationService;
 import com.rg.nomadvpn.service.VpnConnectionService;
@@ -44,20 +45,24 @@ public class HomeFragment extends Fragment {
         root = binding.getRoot();
 
         vpnConnectionService = new VpnConnectionService(this);
-        NotificationService notificationService = new NotificationService();
 
-        ButtonConnect buttonConnect = new ButtonConnect();
-        buttonConnect.setView(root);
-        buttonConnect.setService(vpnConnectionService);
-        buttonConnect.setNotification(notificationService);
-        buttonConnect.init();
+        ConnectionController connectionController = new ConnectionController();
+        connectionController.setView(root);
+        connectionController.setNotificationService(new NotificationService());
+        connectionController.setVpnService(vpnConnectionService);
+        connectionController.init();
+
+
+
+
+
+
+
+
+
+
 
         VpnStatus.initLogCache(getActivity().getCacheDir());
-
-
-
-
-
 
         TextView durationValue = root.findViewById(R.id.value_time);
         HomeViewModel homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);

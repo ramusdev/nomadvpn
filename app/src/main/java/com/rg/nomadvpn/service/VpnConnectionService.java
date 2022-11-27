@@ -1,27 +1,21 @@
 package com.rg.nomadvpn.service;
 
-
 import static android.app.Activity.RESULT_OK;
 
 import android.content.Intent;
-import android.net.VpnService;
-import android.os.Handler;
 import android.os.RemoteException;
 import android.util.Log;
-import android.view.View;
+
 import androidx.fragment.app.Fragment;
 
-import com.rg.nomadvpn.MainActivity;
 import com.rg.nomadvpn.model.ServerStatusEnum;
 import com.rg.nomadvpn.model.ServerVpnConfiguration;
+
 import com.rg.nomadvpn.utils.MyApplicationContext;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-
-import javax.security.auth.callback.Callback;
-
 import de.blinkt.openvpn.OpenVpnApi;
 import de.blinkt.openvpn.core.OpenVPNService;
 import de.blinkt.openvpn.core.OpenVPNThread;
@@ -49,12 +43,53 @@ public class VpnConnectionService {
         connectToServer(serverVpnConfiguration);
     }
 
+    public int getStatusPercent() {
+        int breakPoint = 0;
+        String status = OpenVPNService.getStatus();
+
+        if (status.isEmpty()) {
+            return breakPoint;
+        }
+
+        ServerStatusEnum serverStatusEnum = ServerStatusEnum.valueOf(status);
+
+        switch (serverStatusEnum) {
+            case CONNECTRETRY:
+                // TODO Connect retry
+                return breakPoint = 0;
+            case DISCONNECTED:
+                return breakPoint = 0;
+                 // TODO Disconnected
+            case NONETWORK:
+                // TODO Error no network
+                return breakPoint = 0;
+            case NOPROCESS:
+                return breakPoint = 0;
+            case VPN_GENERATE_CONFIG:
+                return breakPoint = 10;
+            case WAIT:
+                return breakPoint = 30;
+            case AUTH:
+                return breakPoint = 50;
+            case GET_CONFIG:
+                return breakPoint = 60;
+            case ASSIGN_IP:
+                return breakPoint = 70;
+            case ADD_ROUTES:
+                return breakPoint = 80;
+            case CONNECTED:
+                return breakPoint = 100;
+        }
+
+        return breakPoint;
+    }
+
     public String getStatus() {
         String status = null;
         status = OpenVPNService.getStatus();
 
         if (status.isEmpty()) {
-            return null;
+            status = "DISCONNECTED";
         }
 
         ServerStatusEnum serverStatusEnum = ServerStatusEnum.valueOf(status);
@@ -106,13 +141,13 @@ public class VpnConnectionService {
 
     public void vpnProfileInstall(Callback callback) {
         VpnConnectionService.callback = callback;
-        Intent intent = VpnService.prepare(MyApplicationContext.getAppContext());
+        Intent intent = android.net.VpnService.prepare(MyApplicationContext.getAppContext());
         fragment.startActivityForResult(intent, 1);
 
     }
 
     public boolean isVpnProfileInstalled() {
-        Intent intent = VpnService.prepare(MyApplicationContext.getAppContext());
+        Intent intent = android.net.VpnService.prepare(MyApplicationContext.getAppContext());
 
         if (intent == null) {
             return true;
