@@ -48,7 +48,7 @@ public class HomeFragment extends Fragment {
 
         ConnectionController connectionController = new ConnectionController();
         connectionController.setView(root);
-        connectionController.setNotificationService(new NotificationService());
+        connectionController.setNotificationService(new NotificationService(vpnConnectionService));
         connectionController.setVpnService(vpnConnectionService);
         connectionController.init();
 

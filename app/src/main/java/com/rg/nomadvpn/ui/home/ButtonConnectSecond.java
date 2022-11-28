@@ -108,8 +108,10 @@ public class ButtonConnectSecond {
     }
 
     public AnimatorSet buttonAnimationActionDown(String text) {
+        int duration = 150;
         int colorFrom = MyApplicationContext.getAppContext().getResources().getColor(R.color.background_from);
         int colorTo = MyApplicationContext.getAppContext().getResources().getColor(R.color.background_to);
+
         ValueAnimator animatorClickDown = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom, colorTo);
         animatorClickDown.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -129,7 +131,7 @@ public class ButtonConnectSecond {
             }
         });
 
-        ValueAnimator animatorTitleFadeOut = ValueAnimator.ofFloat(1f, 0.2f);
+        ValueAnimator animatorTitleFadeOut = ValueAnimator.ofFloat(1f, 0.3f);
         animatorTitleFadeOut.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
@@ -161,7 +163,7 @@ public class ButtonConnectSecond {
             }
         });
 
-        ValueAnimator animatorTitleFadeIn = ValueAnimator.ofFloat(0.2f, 1f);
+        ValueAnimator animatorTitleFadeIn = ValueAnimator.ofFloat(0.3f, 1f);
         animatorTitleFadeIn.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
@@ -170,14 +172,38 @@ public class ButtonConnectSecond {
             }
         });
 
+        float translateFrom = 0;
+        float translateTo = 7f;
+        ValueAnimator translateBottom = ValueAnimator.ofFloat(translateFrom, translateTo);
+        translateBottom.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                float value = (float) animation.getAnimatedValue();
+                cardConnect.setTranslationY(value);
+            }
+        });
+
+        float translateFromTop = 0f;
+        float translateToTop = -7f;
+        ValueAnimator translateTop = ValueAnimator.ofFloat(translateFromTop, translateToTop);
+        translateTop.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                float value = (float) animation.getAnimatedValue();
+                cardConnect.setTranslationY(value);
+            }
+        });
+
         AnimatorSet animatorSet = new AnimatorSet();
-        animatorSet.play(animatorClickDown).with(animatorTitleFadeOut);
+        animatorSet.play(animatorClickDown).with(animatorTitleFadeOut).with(translateBottom);
         animatorSet.play(animatorClickUp).with(animatorTitleFadeIn).after(animatorClickDown);
-        animatorSet.setDuration(200);
+        animatorSet.play(translateTop).after(animatorClickDown);
+        animatorSet.setDuration(duration);
 
         return animatorSet;
     }
 
+    /*
     public AnimatorSet buttonAnimationActionDisconnect(String text) {
         int colorFrom = MyApplicationContext.getAppContext().getResources().getColor(R.color.background_from_disconnect);
         int colorTo = MyApplicationContext.getAppContext().getResources().getColor(R.color.background_to_disconnect);
@@ -246,6 +272,8 @@ public class ButtonConnectSecond {
 
         return animatorSet;
     }
+
+     */
 
     public void buttonPressAnimation() {
         AnimatorSet buttonAnimationAction = buttonAnimationActionDown("Progress: 0%");
@@ -414,12 +442,6 @@ public class ButtonConnectSecond {
         animatorSet.start();
     }
 
-    public void buttonDisconnect() {
-        this.buttonDisconnectAnimation();
-
-        // this.vpnConnectionService.disconnectServer();
-        // this.notificationService.showDisconnectMessage();
-    }
 
     public void buttonStopConnection() {
         // this.vpnConnectionService.disconnectServer();
@@ -457,79 +479,11 @@ public class ButtonConnectSecond {
         animatorSetConnect.start();
     }
 
-    public void buttonDisconnectAnimation() {
-        int duration = 500;
+    public void hideButton() {
+        cardConnect.setVisibility(View.GONE);
+    }
 
-        // Text
-        ValueAnimator animatorTextOut = ValueAnimator.ofFloat(1f, 0.2f);
-        animatorTextOut.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                float alpha = (float) animation.getAnimatedValue();
-                ButtonConnectSecond.this.titleDisconnect.setAlpha(alpha);
-            }
-        });
-
-        ValueAnimator animatorTextIn = ValueAnimator.ofFloat(0.2f, 1f);
-        animatorTextIn.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                float alpha = (float) animation.getAnimatedValue();
-                ButtonConnectSecond.this.titleDisconnect.setAlpha(alpha);
-            }
-        });
-
-        // Button
-        int colorFrom = MyApplicationContext.getAppContext().getResources().getColor(R.color.background_from_disconnect);
-        int colorTo = MyApplicationContext.getAppContext().getResources().getColor(R.color.background_to_disconnect);
-        ValueAnimator animatorButtonOut = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom, colorTo);
-        animatorButtonOut.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                int value = (int) animation.getAnimatedValue();
-                layoutDisconnect.setBackgroundColor(value);
-            }
-        });
-
-        ValueAnimator animatorButtonIn = ValueAnimator.ofObject(new ArgbEvaluator(), colorTo, colorFrom);
-        animatorButtonIn.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                int value = (int) animation.getAnimatedValue();
-                layoutDisconnect.setBackgroundColor(value);
-            }
-        });
-
-
-
-
-
-        AnimatorSet animatorSet = new AnimatorSet();
-        animatorSet.play(animatorButtonOut).with(animatorTextOut);
-        animatorSet.play(animatorButtonIn).after(animatorButtonOut);
-        animatorSet.play(animatorTextIn).after(animatorButtonOut);
-        animatorSet.setDuration(duration);
-        animatorSet.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                // buttonInit();
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-
-            }
-        });
-        animatorSet.start();
+    public void showButton() {
+        cardConnect.setVisibility(View.VISIBLE);
     }
 }

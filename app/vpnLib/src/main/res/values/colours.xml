@@ -46,7 +46,7 @@
     <color name="line_progress">#66BB6A</color>
     <color name="disconnect_progress">#E91E63</color>
     <color name="profile_background">#FF6F00</color>
-    <color name="profile_background_animation">#A64900</color>
+    <color name="profile_background_animation">#CA5800</color>
 
     <color name="background_from">#009688</color>
     <color name="background_to">#00756A</color>

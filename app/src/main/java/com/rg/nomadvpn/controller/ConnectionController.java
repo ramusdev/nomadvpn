@@ -13,6 +13,7 @@ import com.rg.nomadvpn.service.NotificationService;
 import com.rg.nomadvpn.service.VpnConnectionService;
 import com.rg.nomadvpn.ui.home.ButtonConnectSecond;
 import com.rg.nomadvpn.ui.home.ButtonDisconnect;
+import com.rg.nomadvpn.ui.home.ButtonProfile;
 import com.rg.nomadvpn.ui.home.SupportMessage;
 import com.rg.nomadvpn.utils.MyApplicationContext;
 
@@ -34,6 +35,7 @@ public class ConnectionController {
     private ProgressBar progressBar;
     private ButtonConnectSecond buttonConnectSecond;
     private ButtonDisconnect buttonDisconnect;
+    private ButtonProfile buttonProfile;
 
     Handler handler = new Handler();
 
@@ -67,12 +69,15 @@ public class ConnectionController {
         this.supportMessage = new SupportMessage(view);
         this.buttonConnectSecond = new ButtonConnectSecond(view);
         this.buttonDisconnect = new ButtonDisconnect(view);
+        this.buttonProfile = new ButtonProfile(view);
 
         initClick();
     }
 
     public void initClick() {
         if (vpnConnectionService.isVpnProfileInstalled()) {
+            buttonProfile.hideButton();
+            buttonConnectSecond.showButton();
             handler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -88,7 +93,6 @@ public class ConnectionController {
             buttonConnectSecond.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // button.buttonStart();
                     startConnectionClick();
                 }
             });
@@ -99,6 +103,15 @@ public class ConnectionController {
                 }
             });
         } else {
+            buttonConnectSecond.hideButton();
+            buttonProfile.showButton();
+            buttonProfile.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    profileClick();
+                }
+            });
+            /*
             handler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -107,6 +120,8 @@ public class ConnectionController {
                     // progressBar.setBackgroundColor(MyApplicationContext.getAppContext().getResources().getColor(R.color.profile_background));
                 }
             });
+            */
+
             /*
             cardConnect.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -120,7 +135,9 @@ public class ConnectionController {
                     });
                 }
             });
-            */
+
+             */
+
         }
     }
 
@@ -128,25 +145,35 @@ public class ConnectionController {
         buttonConnectSecond.buttonPressAnimation();
         vpnConnectionService.startVpnService();
         this.startConnectionProgress();
+        // notificationService.showConnectMessage();
 
-        // Change click listener
-        /*
-        cardConnect.setOnClickListener(new View.OnClickListener() {
+        buttonConnectSecond.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // startConnectionClick();
+                stopConnectionClick();
             }
         });
-
-         */
     }
 
     public void disconnectClick() {
-
+        buttonDisconnect.clickAnimation();
+        vpnConnectionService.disconnectServer();
+        notificationService.showDisconnectMessage();
     }
 
     public void stopConnectionClick() {
+        vpnConnectionService.disconnectServer();
+        notificationService.showDisconnectMessage();
+    }
 
+    public void profileClick() {
+        buttonProfile.clickAnimation();
+        vpnConnectionService.vpnProfileInstall(new VpnConnectionService.Callback() {
+            @Override
+            public void callingBack() {
+                initClick();
+            }
+        });
     }
 
     public void startConnectionProgress() {
@@ -155,9 +182,10 @@ public class ConnectionController {
             public void run() {
                 int breakPoint = 0;
                 long currentDateTime = new Date().getTime();
-                long waitSeconds = 7;
+                long waitSeconds = 10;
                 long waitMilliseconds = waitSeconds * 1000;
                 boolean isShowed = false;
+                boolean isShowedNotification = false;
 
                 while (true) {
                     // Update animation
@@ -177,11 +205,20 @@ public class ConnectionController {
                         }
                     }
 
+                    // Notification
+                    if (vpnConnectionService.isOpnVpnServiceCreated()) {
+                        if (! isShowedNotification) {
+                            notificationService.showConnectMessage();
+                            isShowedNotification = true;
+                        }
+                    }
+
                     // Break
                     String status = vpnConnectionService.getStatus();
                     if (status.equals("Connected")) {
-                        notificationService.showConnectMessage();
                         buttonDisconnect.showButton();
+                        break;
+                    } else if (status.equals("Disconnected")) {
                         break;
                     }
 

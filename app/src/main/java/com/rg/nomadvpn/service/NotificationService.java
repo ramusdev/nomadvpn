@@ -32,8 +32,10 @@ public class NotificationService {
     private PendingIntent pendingIntent;
     private SpannableString title;
     private Notification notification;
+    private VpnConnectionService vpnConnectionService;
 
-    public NotificationService() {
+    public NotificationService(VpnConnectionService vpnConnectionService) {
+        this.vpnConnectionService = vpnConnectionService;
         buildNotification();
     }
 
@@ -82,7 +84,8 @@ public class NotificationService {
                 .build();
 
         notificationManager.notify(NOTIFY_ID, notification);
-        OpenVPNService.getInstance().startForeground(NOTIFY_ID, notification);
+
+        vpnConnectionService.startForeground(NOTIFY_ID, notification);
     }
 
     public void showDisconnectMessage() {

@@ -14,7 +14,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import com.rg.nomadvpn.R;
 import com.rg.nomadvpn.utils.MyApplicationContext;
 
-public class ButtonDisconnect {
+public class ButtonProfile {
     private View view;
     private CardView card;
     private ConstraintLayout layout;
@@ -22,15 +22,15 @@ public class ButtonDisconnect {
 
     private Handler handler = new Handler();
 
-    public ButtonDisconnect(View view) {
+    public ButtonProfile(View view) {
         this.view = view;
         init();
     }
 
     private void init() {
-        card = view.findViewById(R.id.card_disconnect);
-        layout = view.findViewById(R.id.layout_disconnect);
-        title = view.findViewById(R.id.title_disconnect);
+        card = view.findViewById(R.id.card_profile);
+        layout = view.findViewById(R.id.layout_profile);
+        title = view.findViewById(R.id.title_profile);
     }
 
     public void setOnClickListener(View.OnClickListener onClickListener) {
@@ -78,8 +78,8 @@ public class ButtonDisconnect {
         });
 
         // Button
-        int colorFrom = MyApplicationContext.getAppContext().getResources().getColor(R.color.background_from_disconnect);
-        int colorTo = MyApplicationContext.getAppContext().getResources().getColor(R.color.background_to_disconnect);
+        int colorFrom = MyApplicationContext.getAppContext().getResources().getColor(R.color.profile_background);
+        int colorTo = MyApplicationContext.getAppContext().getResources().getColor(R.color.profile_background_animation);
         ValueAnimator animatorButtonOut = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom, colorTo);
         animatorButtonOut.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -134,7 +134,7 @@ public class ButtonDisconnect {
 
             @Override
             public void onAnimationEnd(Animator animation) {
-                hideButton();
+                // hideButton();
             }
 
             @Override
@@ -148,5 +148,6 @@ public class ButtonDisconnect {
             }
         });
         animatorSet.start();
+
     }
 }

@@ -2,6 +2,7 @@ package com.rg.nomadvpn.service;
 
 import static android.app.Activity.RESULT_OK;
 
+import android.app.Notification;
 import android.content.Intent;
 import android.os.RemoteException;
 import android.util.Log;
@@ -89,7 +90,7 @@ public class VpnConnectionService {
         status = OpenVPNService.getStatus();
 
         if (status.isEmpty()) {
-            status = "DISCONNECTED";
+            return "";
         }
 
         ServerStatusEnum serverStatusEnum = ServerStatusEnum.valueOf(status);
@@ -216,5 +217,13 @@ public class VpnConnectionService {
 
     public void disconnectServer() {
         OpenVPNThread.stop();
+    }
+
+    public void startForeground(int notifyId, Notification notification) {
+        OpenVPNService.getInstance().startForeground(notifyId, notification);
+    }
+
+    public boolean isOpnVpnServiceCreated() {
+        return OpenVPNService.getInstance() != null;
     }
 }
