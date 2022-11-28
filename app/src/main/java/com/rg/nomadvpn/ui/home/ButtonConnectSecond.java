@@ -40,6 +40,15 @@ public class ButtonConnectSecond {
     private ProgressBar progressBar;
     private Handler handler = new Handler();
     private int progressValue = 0;
+    private ConnectedCallBack connectedCallBack;
+
+    public interface ConnectedCallBack {
+        void onConnected();
+    }
+
+    public void setConnectedCallBack(ConnectedCallBack connectedCallBack) {
+        this.connectedCallBack = connectedCallBack;
+    }
 
     public ButtonConnectSecond(View view) {
         this.view = view;
@@ -58,6 +67,16 @@ public class ButtonConnectSecond {
 
     public void setOnClickListener(View.OnClickListener clickListener) {
         cardConnect.setOnClickListener(clickListener);
+    }
+
+    public void clear() {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                progressBar.setProgress(0);
+                titleConnect.setText("Start connection");
+            }
+        });
     }
 
     public void animationActionProfile() {
@@ -338,7 +357,7 @@ public class ButtonConnectSecond {
                     @Override
                     public void onAnimationEnd(Animator animation) {
                         if (breakPoint >= 100) {
-                            animationFinishedConnectTwo();
+                            animationFinishedConnection();
                         }
                     }
 
@@ -405,7 +424,7 @@ public class ButtonConnectSecond {
         return animatorSet;
     }
 
-    public void animationFinishedConnectTwo() {
+    public void animationFinishedConnection() {
         int duration = 500;
         // showSupportMessage(false);
         Animator animatorText = getAnimatorFadeOutInText("Connected", titleConnect);
@@ -420,8 +439,7 @@ public class ButtonConnectSecond {
 
             @Override
             public void onAnimationEnd(Animator animation) {
-                cardConnect.setVisibility(View.GONE);
-                // cardDisconnect.setVisibility(View.VISIBLE);
+                connectedCallBack.onConnected();
             }
 
             @Override

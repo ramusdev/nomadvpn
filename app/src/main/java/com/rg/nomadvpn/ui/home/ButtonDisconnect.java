@@ -22,6 +22,10 @@ public class ButtonDisconnect {
 
     private Handler handler = new Handler();
 
+    public interface AnimationEndInterface {
+        void animationEnd();
+    }
+
     public ButtonDisconnect(View view) {
         this.view = view;
         init();
@@ -55,7 +59,7 @@ public class ButtonDisconnect {
         });
     }
 
-    public void clickAnimation() {
+    public void clickAnimation(AnimationEndInterface animationEndInterface) {
         int duration = 150;
 
         // Text
@@ -134,7 +138,7 @@ public class ButtonDisconnect {
 
             @Override
             public void onAnimationEnd(Animator animation) {
-                hideButton();
+                animationEndInterface.animationEnd();
             }
 
             @Override
