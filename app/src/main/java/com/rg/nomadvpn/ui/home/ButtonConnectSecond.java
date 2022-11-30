@@ -294,12 +294,22 @@ public class ButtonConnectSecond {
 
      */
 
-    public void buttonPressAnimation() {
-        AnimatorSet buttonAnimationAction = buttonAnimationActionDown("Progress: 0%");
+    public void buttonPressAnimation(String text) {
+        AnimatorSet buttonAnimationAction = buttonAnimationActionDown(text);
+        AnimatorSet animatorSetEnd = new AnimatorSet();
+        animatorSetEnd.setStartDelay(2000);
 
         AnimatorSet animatorSet = new AnimatorSet();
         animatorSet.play(buttonAnimationAction);
-        animatorSet.addListener(new Animator.AnimatorListener() {
+        animatorSet.play(animatorSetEnd).after(buttonAnimationAction);
+        animatorSet.start();
+    }
+
+    public void buttonPressAnimation(String text, ButtonDisconnect.AnimationEndInterface animationCallback) {
+        AnimatorSet buttonAnimationAction = buttonAnimationActionDown(text);
+        AnimatorSet animatorSetEnd = new AnimatorSet();
+        animatorSetEnd.setStartDelay(2000);
+        animatorSetEnd.addListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
 
@@ -307,7 +317,7 @@ public class ButtonConnectSecond {
 
             @Override
             public void onAnimationEnd(Animator animation) {
-                // buttonStartAnimationProgress();
+                animationCallback.animationEnd();
             }
 
             @Override
@@ -321,6 +331,9 @@ public class ButtonConnectSecond {
             }
         });
 
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.play(buttonAnimationAction);
+        animatorSet.play(animatorSetEnd).after(buttonAnimationAction);
         animatorSet.start();
     }
 

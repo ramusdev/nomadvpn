@@ -75,10 +75,16 @@ public class ConnectionController {
 
     public void initClick() {
         if (vpnConnectionService.isVpnProfileInstalled()) {
-            buttonProfile.hideButton();
-            buttonDisconnect.hideButton();
-            buttonConnectSecond.clear();
-            buttonConnectSecond.showButton();
+            if (vpnConnectionService.isOpnVpnServiceConnected()) {
+                buttonProfile.hideButton();
+                buttonConnectSecond.hideButton();
+                buttonDisconnect.showButton();
+            } else {
+                buttonProfile.hideButton();
+                buttonDisconnect.hideButton();
+                buttonConnectSecond.clear();
+                buttonConnectSecond.showButton();
+            }
             buttonConnectSecond.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -105,7 +111,7 @@ public class ConnectionController {
     }
 
     public void startConnectionClick() {
-        buttonConnectSecond.buttonPressAnimation();
+        buttonConnectSecond.buttonPressAnimation("Progress: 0%");
         vpnConnectionService.startVpnService();
         this.startConnectionProgress();
         buttonConnectSecond.setConnectedCallBack(new ButtonConnectSecond.ConnectedCallBack() {
@@ -136,6 +142,12 @@ public class ConnectionController {
     }
 
     public void stopConnectionClick() {
+        buttonConnectSecond.buttonPressAnimation("", new ButtonDisconnect.AnimationEndInterface() {
+            @Override
+            public void animationEnd() {
+                initClick();
+            }
+        });
         vpnConnectionService.disconnectServer();
         notificationService.showDisconnectMessage();
     }

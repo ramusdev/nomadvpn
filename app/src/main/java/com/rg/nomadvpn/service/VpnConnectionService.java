@@ -226,4 +226,12 @@ public class VpnConnectionService {
     public boolean isOpnVpnServiceCreated() {
         return OpenVPNService.getInstance() != null;
     }
+
+    public boolean isOpnVpnServiceConnected() {
+        String status = this.getStatus();
+        if (status.equals("Connected")) {
+            return true;
+        }
+        return false;
+    }
 }
