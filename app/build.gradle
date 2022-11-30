@@ -9,8 +9,8 @@ android {
         applicationId "com.rg.nomadvpn"
         minSdk 26
         targetSdk 31
-        versionCode 110
-        versionName "1.2.0 (110)"
+        versionCode 111
+        versionName "1.2.1 (111)"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
