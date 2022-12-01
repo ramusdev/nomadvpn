@@ -367,7 +367,7 @@
         android:layout_height="60dp"
         android:layout_marginBottom="30dp"
         android:visibility="gone"
-        app:cardCornerRadius="5dp"
+        app:cardCornerRadius="7dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintWidth_percent="0">
@@ -376,7 +376,7 @@
             android:id="@+id/layout_disconnect"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/disconnect_progress"
+            android:background="@drawable/disconnect_background"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             tools:layout_editor_absoluteX="1dp">
@@ -404,7 +404,7 @@
         android:layout_height="60dp"
         android:layout_marginBottom="30dp"
         android:visibility="gone"
-        app:cardCornerRadius="5dp"
+        app:cardCornerRadius="7dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintWidth_percent="0">
@@ -413,7 +413,7 @@
             android:id="@+id/layout_profile"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/profile_background"
+            android:background="@drawable/profile_background"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             tools:layout_editor_absoluteX="1dp">
@@ -473,7 +473,7 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginBottom="30dp"
-        app:cardCornerRadius="5dp"
+        app:cardCornerRadius="7dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 

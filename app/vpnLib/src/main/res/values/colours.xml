@@ -37,15 +37,19 @@
 
     <color name="connection_text">#DBFDFA</color>
     <color name="connection_background">#009688</color>
+    <color name="connection_border">#017C71</color>
 
     <color name="disconnection_text">#FFDBE7</color>
+    <color name="disconnect_border">#B11A4D</color>
+
+    <color name="profile_background">#FF6F00</color>
+    <color name="profile_border">#CD5A01</color>
 
     <color name="profile_text">#FFECDE</color>
     <color name="progress_item">#66BB6A</color> <!-- #62F811 -->
 
     <color name="line_progress">#66BB6A</color>
     <color name="disconnect_progress">#E91E63</color>
-    <color name="profile_background">#FF6F00</color>
     <color name="profile_background_animation">#CA5800</color>
 
     <color name="background_from">#009688</color>

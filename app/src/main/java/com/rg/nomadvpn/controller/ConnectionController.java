@@ -1,10 +1,15 @@
 package com.rg.nomadvpn.controller;
 
+import android.content.Context;
+import android.os.Build;
 import android.os.Handler;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
@@ -111,6 +116,7 @@ public class ConnectionController {
     }
 
     public void startConnectionClick() {
+        this.vibrate();
         buttonConnectSecond.buttonPressAnimation("Progress: 0%");
         vpnConnectionService.startVpnService();
         this.startConnectionProgress();
@@ -131,6 +137,7 @@ public class ConnectionController {
     }
 
     public void disconnectClick() {
+        this.vibrate();
         vpnConnectionService.disconnectServer();
         notificationService.showDisconnectMessage();
         buttonDisconnect.clickAnimation(new ButtonDisconnect.AnimationEndInterface() {
@@ -142,6 +149,7 @@ public class ConnectionController {
     }
 
     public void stopConnectionClick() {
+        this.vibrate();
         buttonConnectSecond.buttonPressAnimation("", new ButtonDisconnect.AnimationEndInterface() {
             @Override
             public void animationEnd() {
@@ -153,6 +161,7 @@ public class ConnectionController {
     }
 
     public void profileClick() {
+        this.vibrate();
         buttonProfile.clickAnimation();
         vpnConnectionService.vpnProfileInstall(new VpnConnectionService.Callback() {
             @Override
@@ -216,5 +225,22 @@ public class ConnectionController {
                 }
             }
         }).start();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.Q)
+    public void vibrate() {
+        long[] pattern = new long[] {25};
+        // int[] amplitudes = new int[] {0, 255};
+        Vibrator vibrator = (Vibrator) MyApplicationContext.getAppContext().getSystemService(Context.VIBRATOR_SERVICE);
+
+        if (vibrator.hasVibrator()) {
+            if (vibrator.hasAmplitudeControl()) {
+                // VibrationEffect vibrationEffect = VibrationEffect.createWaveform(pattern, amplitudes, -1);
+                VibrationEffect vibrationEffect = VibrationEffect.createPredefined(VibrationEffect.EFFECT_CLICK);
+                vibrator.vibrate(vibrationEffect);
+            } else {
+                vibrator.vibrate(pattern, -1);
+            }
+        }
     }
 }

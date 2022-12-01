@@ -5,7 +5,6 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ProgressBar;
-import com.rg.nomadvpn.ui.home.ButtonConnect;
 
 public class AnimatedProgressBar extends ProgressBar {
     private static final int ANIMATION_SMOOTHNESS = 50;

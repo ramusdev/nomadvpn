@@ -101,7 +101,7 @@ public class ButtonConnectSecond {
             }
         });
 
-        ValueAnimator animatorTitleFadeOut = ValueAnimator.ofFloat(1f, 0.2f);
+        ValueAnimator animatorTitleFadeOut = ValueAnimator.ofFloat(1f, 0.3f);
         animatorTitleFadeOut.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
@@ -110,7 +110,7 @@ public class ButtonConnectSecond {
             }
         });
 
-        ValueAnimator animatorTitleFadeIn = ValueAnimator.ofFloat(0.2f, 1f);
+        ValueAnimator animatorTitleFadeIn = ValueAnimator.ofFloat(0.3f, 1f);
         animatorTitleFadeIn.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
@@ -221,78 +221,6 @@ public class ButtonConnectSecond {
 
         return animatorSet;
     }
-
-    /*
-    public AnimatorSet buttonAnimationActionDisconnect(String text) {
-        int colorFrom = MyApplicationContext.getAppContext().getResources().getColor(R.color.background_from_disconnect);
-        int colorTo = MyApplicationContext.getAppContext().getResources().getColor(R.color.background_to_disconnect);
-        ValueAnimator animatorClickDown = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom, colorTo);
-        animatorClickDown.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                int value = (int) animation.getAnimatedValue();
-                layoutDisconnect.setBackgroundColor(value);
-            }
-        });
-        animatorClickDown.setInterpolator(new LinearInterpolator());
-
-        ValueAnimator animatorClickUp = ValueAnimator.ofObject(new ArgbEvaluator(), colorTo, colorFrom);
-        animatorClickUp.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                int value = (int) animation.getAnimatedValue();
-                layoutDisconnect.setBackgroundColor(value);
-            }
-        });
-
-        ValueAnimator animatorTitleFadeOut = ValueAnimator.ofFloat(1f, 0.2f);
-        animatorTitleFadeOut.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                float alpha = (float) animation.getAnimatedValue();
-                titleDisconnect.setAlpha(alpha);
-            }
-        });
-        animatorTitleFadeOut.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                titleDisconnect.setText(text);
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-
-            }
-        });
-
-        ValueAnimator animatorTitleFadeIn = ValueAnimator.ofFloat(0.2f, 1f);
-        animatorTitleFadeIn.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                float alpha = (float) animation.getAnimatedValue();
-                titleDisconnect.setAlpha(alpha);
-            }
-        });
-
-        AnimatorSet animatorSet = new AnimatorSet();
-        animatorSet.play(animatorClickDown).with(animatorTitleFadeOut);
-        animatorSet.play(animatorClickUp).with(animatorTitleFadeIn).after(animatorClickDown);
-        animatorSet.setDuration(300);
-
-        return animatorSet;
-    }
-
-     */
 
     public void buttonPressAnimation(String text) {
         AnimatorSet buttonAnimationAction = buttonAnimationActionDown(text);
@@ -443,7 +371,7 @@ public class ButtonConnectSecond {
         Animator animatorText = getAnimatorFadeOutInText("Connected", titleConnect);
 
         AnimatorSet animatorDelay = new AnimatorSet();
-        animatorDelay.setStartDelay(2000);
+        animatorDelay.setStartDelay(1500);
         animatorDelay.addListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {

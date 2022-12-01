@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.view.View;
 import android.widget.TextView;
@@ -138,6 +139,8 @@ public class ButtonDisconnect {
 
             @Override
             public void onAnimationEnd(Animator animation) {
+                Drawable drawable = MyApplicationContext.getAppContext().getResources().getDrawable(R.drawable.disconnect_background);
+                layout.setBackground(drawable);
                 animationEndInterface.animationEnd();
             }
 
