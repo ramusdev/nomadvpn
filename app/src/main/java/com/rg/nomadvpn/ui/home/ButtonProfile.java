@@ -6,11 +6,14 @@ import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
+import android.transition.TransitionManager;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 
 import com.rg.nomadvpn.R;
 import com.rg.nomadvpn.utils.MyApplicationContext;
@@ -57,6 +60,50 @@ public class ButtonProfile {
     }
 
     public void clickAnimation() {
+
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                int heightIntFrom = (int) (60 * MyApplicationContext.getAppContext().getResources().getDisplayMetrics().density);
+                int heightIntTo = (int) (50 * MyApplicationContext.getAppContext().getResources().getDisplayMetrics().density);
+
+
+                float translateFromTop = 0f;
+                float translateToTop = 7f;
+                ValueAnimator translateTop = ValueAnimator.ofFloat(translateFromTop, translateToTop);
+                translateTop.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animation) {
+                        float value = (float) animation.getAnimatedValue();
+                        card.setTranslationY(value);
+                    }
+                });
+                translateTop.start();
+
+                // ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) card.getLayoutParams();
+                // layoutParams.height = heightInt;
+                // card.setLayoutParams(layoutParams);
+
+                // ConstraintLayout root = view.findViewById(R.id.constraint_main);
+
+                // ConstraintSet constraintSet = new ConstraintSet();
+                // constraintSet.clone(MyApplicationContext.getAppContext(), R.layout.fragment_home_2);
+
+                // TransitionManager.beginDelayedTransition(root);
+                // constraintSet.applyTo(root);
+
+                // ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) card.getLayoutParams();
+                // layoutParams.height = heightIntTo;
+                // card.setLayoutParams(layoutParams);
+
+                // constraintSet.applyTo(layoutParams);
+
+                // Drawable drawable = MyApplicationContext.getAppContext().getResources().getDrawable(R.drawable.profile_backgrounddown);
+                // layout.setBackground(drawable);
+            }
+        });
+
+        /*
         int duration = 150;
 
         // Text
@@ -150,6 +197,10 @@ public class ButtonProfile {
             }
         });
         animatorSet.start();
+
+         */
+
+
 
     }
 }

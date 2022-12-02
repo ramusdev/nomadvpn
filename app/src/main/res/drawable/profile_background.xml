@@ -14,11 +14,30 @@
         </shape>
     </item>
 -->
+
+    <!--
     <item android:id="@android:id/background">
         <shape android:shape="rectangle">
             <corners android:radius="5dp"></corners>
             <solid android:color="@color/profile_background"></solid>
             <stroke android:width="2dp" android:color="@color/profile_border"></stroke>
+        </shape>
+    </item>
+    -->
+
+
+    <item android:id="@android:id/background">
+        <shape android:shape="rectangle">
+            <corners android:radius="5dp"></corners>
+            <solid android:color="@color/connection_border"></solid>
+            <stroke android:width="2dp" android:color="@color/connection_border"></stroke>
+        </shape>
+    </item>
+    <item android:bottom="5dp">
+        <shape android:shape="rectangle">
+            <corners android:radius="8dp"></corners>
+            <solid android:color="@color/connection_background"></solid>
+            <stroke android:width="2dp" android:color="@color/connection_background"></stroke>
         </shape>
     </item>
 

@@ -15,19 +15,24 @@
     </item>
 -->
 
-
-    <item android:id="@android:id/progress">
-        <scale android:scaleWidth="100%">
-            <shape android:shape="rectangle">
-                <corners android:radius="5dp"></corners>
-                <solid android:color="@color/line_progress"></solid>
-            </shape>
-        </scale>
-    </item>
+    <!--
     <item android:id="@android:id/background">
         <shape android:shape="rectangle">
-            <corners android:radius="50dp"></corners>
-
+            <corners android:radius="5dp"></corners>
+            <solid android:color="@color/profile_background"></solid>
+            <stroke android:width="2dp" android:color="@color/profile_border"></stroke>
         </shape>
     </item>
+    -->
+
+
+
+    <item android:bottom="0dp">
+        <shape android:shape="rectangle">
+            <corners android:radius="8dp"></corners>
+            <solid android:color="@color/connection_background"></solid>
+            <stroke android:width="2dp" android:color="@color/connection_background"></stroke>
+        </shape>
+    </item>
+
 </layer-list>

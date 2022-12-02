@@ -5,9 +5,11 @@ import android.animation.AnimatorSet;
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.graphics.Color;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
@@ -223,6 +225,81 @@ public class ButtonConnectSecond {
     }
 
     public void buttonPressAnimation(String text) {
+
+        /*
+        float translateFromTop = 0f;
+        float translateToTop = 3f;
+        ValueAnimator translateTop = ValueAnimator.ofFloat(translateFromTop, translateToTop);
+        translateTop.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                float value = (float) animation.getAnimatedValue();
+                cardConnect.setTranslationY(value);
+            }
+        });
+        translateTop.setDuration(2000);
+        translateTop.start();
+
+
+        float translateHeightFrom = 0f;
+        float translateHeightTo = -3f;
+        ConstraintLayout constraintLayout = view.findViewById(R.id.layout_connectback);
+        ValueAnimator translateHeight = ValueAnimator.ofFloat(translateHeightFrom, translateHeightTo);
+        translateHeight.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                float value = (float) animation.getAnimatedValue();
+                constraintLayout.setTranslationY(value);
+            }
+        });
+
+        translateHeight.setDuration(2000);
+        translateHeight.start();
+        */
+
+        int heightFrom = (int) (60 * MyApplicationContext.getAppContext().getResources().getDisplayMetrics().density);
+        int heightTo = (int) (54 * MyApplicationContext.getAppContext().getResources().getDisplayMetrics().density);
+        ValueAnimator translateHeightDown = ValueAnimator.ofInt(heightFrom, heightTo);
+        translateHeightDown.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                int value = (int) animation.getAnimatedValue();
+
+                ViewGroup.LayoutParams layoutParams = cardConnect.getLayoutParams();
+                layoutParams.height = value;
+                cardConnect.setLayoutParams(layoutParams);
+
+            }
+        });
+        // translateHeightDown.setDuration(500);
+
+        ValueAnimator translateHeightUp = ValueAnimator.ofInt(heightTo, heightFrom);
+        translateHeightUp.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                int value = (int) animation.getAnimatedValue();
+
+                ViewGroup.LayoutParams layoutParams = cardConnect.getLayoutParams();
+                layoutParams.height = value;
+                cardConnect.setLayoutParams(layoutParams);
+
+            }
+        });
+        // translateHeightUp.setDuration(500);
+
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.play(translateHeightDown);
+        animatorSet.play(translateHeightUp).after(translateHeightDown);
+        animatorSet.setDuration(300);
+        animatorSet.start();
+
+
+
+
+
+
+
+        /*
         AnimatorSet buttonAnimationAction = buttonAnimationActionDown(text);
         AnimatorSet animatorSetEnd = new AnimatorSet();
         animatorSetEnd.setStartDelay(2000);
@@ -231,6 +308,8 @@ public class ButtonConnectSecond {
         animatorSet.play(buttonAnimationAction);
         animatorSet.play(animatorSetEnd).after(buttonAnimationAction);
         animatorSet.start();
+
+         */
     }
 
     public void buttonPressAnimation(String text, ButtonDisconnect.AnimationEndInterface animationCallback) {

@@ -118,6 +118,8 @@ public class ConnectionController {
     public void startConnectionClick() {
         this.vibrate();
         buttonConnectSecond.buttonPressAnimation("Progress: 0%");
+
+        /*
         vpnConnectionService.startVpnService();
         this.startConnectionProgress();
         buttonConnectSecond.setConnectedCallBack(new ButtonConnectSecond.ConnectedCallBack() {
@@ -134,6 +136,8 @@ public class ConnectionController {
                 stopConnectionClick();
             }
         });
+
+         */
     }
 
     public void disconnectClick() {
@@ -163,6 +167,7 @@ public class ConnectionController {
     public void profileClick() {
         this.vibrate();
         buttonProfile.clickAnimation();
+
         vpnConnectionService.vpnProfileInstall(new VpnConnectionService.Callback() {
             @Override
             public void callingBack() {
