@@ -6,6 +6,8 @@
         <entry key="..\:/Nomad/app/src/main/res/drawable/connect_background.xml" value="0.165" />
         <entry key="..\:/Nomad/app/src/main/res/drawable/connect_backgroundback.xml" value="0.165" />
         <entry key="..\:/Nomad/app/src/main/res/drawable/disconnect_background.xml" value="0.1" />
+        <entry key="..\:/Nomad/app/src/main/res/drawable/disconnect_background1.xml" value="0.203" />
+        <entry key="..\:/Nomad/app/src/main/res/drawable/disconnect_backgroundback.xml" value="0.203" />
         <entry key="..\:/Nomad/app/src/main/res/drawable/ic_download.xml" value="0.1745" />
         <entry key="..\:/Nomad/app/src/main/res/drawable/ic_duration.xml" value="0.2" />
         <entry key="..\:/Nomad/app/src/main/res/drawable/ic_round_download.xml" value="0.1745" />

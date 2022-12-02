@@ -114,13 +114,16 @@ public class ConnectionController {
                     return true;
                 }
             });
-
-
-
-            buttonDisconnect.setOnClickListener(new View.OnClickListener() {
+            buttonDisconnect.setOnTouchListener(new View.OnTouchListener() {
                 @Override
-                public void onClick(View v) {
-                    disconnectClick();
+                public boolean onTouch(View v, MotionEvent event) {
+                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                        disconnectClickDown();
+                    }
+                    if (event.getAction() == MotionEvent.ACTION_UP) {
+                        disconnectClickUp();
+                    }
+                    return true;
                 }
             });
         } else {
@@ -161,11 +164,15 @@ public class ConnectionController {
         });
     }
 
-    public void disconnectClick() {
+    public void disconnectClickDown() {
         this.vibrate();
+        buttonDisconnect.clickAnimationDown();
+    }
+
+    public void disconnectClickUp() {
         vpnConnectionService.disconnectServer();
         notificationService.showDisconnectMessage();
-        buttonDisconnect.clickAnimation(new ButtonDisconnect.AnimationEndInterface() {
+        buttonDisconnect.clickAnimationUp(new ButtonDisconnect.AnimationEndInterface() {
             @Override
             public void animationEnd() {
                 initClick();
