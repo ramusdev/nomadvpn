@@ -5,6 +5,7 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -59,6 +60,7 @@ public class ConnectionController {
         this.view = view;
     }
 
+
     public void init() {
         // this.cardConnect = view.findViewById(R.id.button_card);
         // this.titleConnect = view.findViewById(R.id.button_title);
@@ -90,12 +92,31 @@ public class ConnectionController {
                 buttonConnectSecond.clear();
                 buttonConnectSecond.showButton();
             }
+
+
+            /*
             buttonConnectSecond.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     startConnectionClick();
                 }
             });
+            */
+            buttonConnectSecond.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                        startConnectionClickDown();
+                    }
+                    if (event.getAction() == MotionEvent.ACTION_UP) {
+                        startConnectionClickUp();
+                    }
+                    return true;
+                }
+            });
+
+
+
             buttonDisconnect.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -115,11 +136,13 @@ public class ConnectionController {
         }
     }
 
-    public void startConnectionClick() {
+    public void startConnectionClickDown() {
         this.vibrate();
-        buttonConnectSecond.buttonPressAnimation("Progress: 0%");
+        buttonConnectSecond.buttonPressDownAnimation();
+    }
+    public void startConnectionClickUp() {
+        buttonConnectSecond.buttonPressUpAnimation("Progress: 0%");
 
-        /*
         vpnConnectionService.startVpnService();
         this.startConnectionProgress();
         buttonConnectSecond.setConnectedCallBack(new ButtonConnectSecond.ConnectedCallBack() {
@@ -136,8 +159,6 @@ public class ConnectionController {
                 stopConnectionClick();
             }
         });
-
-         */
     }
 
     public void disconnectClick() {

@@ -57,6 +57,10 @@ public class ButtonConnectSecond {
         init();
     }
 
+    public void setOnTouchListener(View.OnTouchListener onTouchListener) {
+        cardConnect.setOnTouchListener(onTouchListener);
+    }
+
     public void init() {
         this.cardConnect = view.findViewById(R.id.button_card);
         this.titleConnect = view.findViewById(R.id.button_title);
@@ -224,39 +228,7 @@ public class ButtonConnectSecond {
         return animatorSet;
     }
 
-    public void buttonPressAnimation(String text) {
-
-        /*
-        float translateFromTop = 0f;
-        float translateToTop = 3f;
-        ValueAnimator translateTop = ValueAnimator.ofFloat(translateFromTop, translateToTop);
-        translateTop.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                float value = (float) animation.getAnimatedValue();
-                cardConnect.setTranslationY(value);
-            }
-        });
-        translateTop.setDuration(2000);
-        translateTop.start();
-
-
-        float translateHeightFrom = 0f;
-        float translateHeightTo = -3f;
-        ConstraintLayout constraintLayout = view.findViewById(R.id.layout_connectback);
-        ValueAnimator translateHeight = ValueAnimator.ofFloat(translateHeightFrom, translateHeightTo);
-        translateHeight.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                float value = (float) animation.getAnimatedValue();
-                constraintLayout.setTranslationY(value);
-            }
-        });
-
-        translateHeight.setDuration(2000);
-        translateHeight.start();
-        */
-
+    public void buttonPressDownAnimation() {
         int heightFrom = (int) (60 * MyApplicationContext.getAppContext().getResources().getDisplayMetrics().density);
         int heightTo = (int) (54 * MyApplicationContext.getAppContext().getResources().getDisplayMetrics().density);
         ValueAnimator translateHeightDown = ValueAnimator.ofInt(heightFrom, heightTo);
@@ -271,8 +243,16 @@ public class ButtonConnectSecond {
 
             }
         });
-        // translateHeightDown.setDuration(500);
 
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.play(translateHeightDown);
+        animatorSet.setDuration(200);
+        animatorSet.start();
+    }
+
+    public void buttonPressUpAnimation(String text) {
+        int heightFrom = (int) (60 * MyApplicationContext.getAppContext().getResources().getDisplayMetrics().density);
+        int heightTo = (int) (54 * MyApplicationContext.getAppContext().getResources().getDisplayMetrics().density);
         ValueAnimator translateHeightUp = ValueAnimator.ofInt(heightTo, heightFrom);
         translateHeightUp.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -285,21 +265,12 @@ public class ButtonConnectSecond {
 
             }
         });
-        // translateHeightUp.setDuration(500);
-
         AnimatorSet animatorSet = new AnimatorSet();
-        animatorSet.play(translateHeightDown);
-        animatorSet.play(translateHeightUp).after(translateHeightDown);
-        animatorSet.setDuration(300);
+        animatorSet.play(translateHeightUp);
+        animatorSet.setDuration(200);
         animatorSet.start();
 
-
-
-
-
-
-
-        /*
+          /*
         AnimatorSet buttonAnimationAction = buttonAnimationActionDown(text);
         AnimatorSet animatorSetEnd = new AnimatorSet();
         animatorSetEnd.setStartDelay(2000);
@@ -308,7 +279,6 @@ public class ButtonConnectSecond {
         animatorSet.play(buttonAnimationAction);
         animatorSet.play(animatorSetEnd).after(buttonAnimationAction);
         animatorSet.start();
-
          */
     }
 
