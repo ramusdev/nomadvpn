@@ -415,15 +415,25 @@
         android:layout_marginBottom="30dp"
         android:visibility="gone"
         app:cardCornerRadius="7dp"
+        app:cardBackgroundColor="@android:color/transparent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintWidth_percent="0">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_profile"
+            android:id="@+id/layout_profileback"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/profile_background"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:layout_editor_absoluteX="1dp" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_profile"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:background="@drawable/profile_backgroundback"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             tools:layout_editor_absoluteX="1dp">

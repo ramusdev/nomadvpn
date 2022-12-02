@@ -92,16 +92,6 @@ public class ConnectionController {
                 buttonConnectSecond.clear();
                 buttonConnectSecond.showButton();
             }
-
-
-            /*
-            buttonConnectSecond.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    startConnectionClick();
-                }
-            });
-            */
             buttonConnectSecond.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
@@ -130,10 +120,16 @@ public class ConnectionController {
             buttonConnectSecond.hideButton();
             buttonDisconnect.hideButton();
             buttonProfile.showButton();
-            buttonProfile.setOnClickListener(new View.OnClickListener() {
+            buttonProfile.setOnTouchListener(new View.OnTouchListener() {
                 @Override
-                public void onClick(View v) {
-                    profileClick();
+                public boolean onTouch(View v, MotionEvent event) {
+                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                        profileClickDown();
+                    }
+                    if (event.getAction() == MotionEvent.ACTION_UP) {
+                        profileClickUp();
+                    }
+                    return true;
                 }
             });
         }
@@ -192,10 +188,13 @@ public class ConnectionController {
         notificationService.showDisconnectMessage();
     }
 
-    public void profileClick() {
+    public void profileClickDown() {
         this.vibrate();
-        buttonProfile.clickAnimation();
+        buttonProfile.clickAnimationDown();
+    }
 
+    public void profileClickUp() {
+        buttonProfile.clickAnimationUp();
         vpnConnectionService.vpnProfileInstall(new VpnConnectionService.Callback() {
             @Override
             public void callingBack() {

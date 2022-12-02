@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.transition.TransitionManager;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -39,6 +40,10 @@ public class ButtonProfile {
 
     public void setOnClickListener(View.OnClickListener onClickListener) {
         card.setOnClickListener(onClickListener);
+    }
+
+    public void setOnTouchListener(View.OnTouchListener onTouchListener) {
+        card.setOnTouchListener(onTouchListener);
     }
 
     public void showButton() {
@@ -199,8 +204,68 @@ public class ButtonProfile {
         animatorSet.start();
 
          */
+    }
 
+    public void clickAnimationDown() {
+        int heightFrom = (int) (60 * MyApplicationContext.getAppContext().getResources().getDisplayMetrics().density);
+        int heightTo = (int) (54 * MyApplicationContext.getAppContext().getResources().getDisplayMetrics().density);
+        ValueAnimator translateHeightDown = ValueAnimator.ofInt(heightFrom, heightTo);
+        translateHeightDown.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                int value = (int) animation.getAnimatedValue();
 
+                ViewGroup.LayoutParams layoutParams = card.getLayoutParams();
+                layoutParams.height = value;
+                card.setLayoutParams(layoutParams);
+            }
+        });
 
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.play(translateHeightDown);
+        animatorSet.setDuration(200);
+        animatorSet.start();
+    }
+
+    public void clickAnimationUp() {
+        int heightFrom = (int) (60 * MyApplicationContext.getAppContext().getResources().getDisplayMetrics().density);
+        int heightTo = (int) (54 * MyApplicationContext.getAppContext().getResources().getDisplayMetrics().density);
+        ValueAnimator translateHeightUp = ValueAnimator.ofInt(heightTo, heightFrom);
+        translateHeightUp.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                int value = (int) animation.getAnimatedValue();
+
+                ViewGroup.LayoutParams layoutParams = card.getLayoutParams();
+                layoutParams.height = value;
+                card.setLayoutParams(layoutParams);
+
+            }
+        });
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.play(translateHeightUp);
+        animatorSet.setDuration(200);
+        animatorSet.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                // animationEndInterface.animationEnd();
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+        animatorSet.start();
     }
 }
