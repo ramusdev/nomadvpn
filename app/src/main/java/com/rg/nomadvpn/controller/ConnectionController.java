@@ -16,10 +16,9 @@ import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.rg.nomadvpn.MainActivity;
-import com.rg.nomadvpn.R;
 import com.rg.nomadvpn.service.NotificationService;
 import com.rg.nomadvpn.service.VpnConnectionService;
-import com.rg.nomadvpn.ui.home.ButtonConnectSecond;
+import com.rg.nomadvpn.ui.home.ButtonConnect;
 import com.rg.nomadvpn.ui.home.ButtonDisconnect;
 import com.rg.nomadvpn.ui.home.ButtonProfile;
 import com.rg.nomadvpn.ui.home.SupportMessage;
@@ -41,7 +40,7 @@ public class ConnectionController {
     private ConstraintLayout layoutDisconnect;
     private ConstraintLayout supportLayout;
     private ProgressBar progressBar;
-    private ButtonConnectSecond buttonConnectSecond;
+    private ButtonConnect buttonConnect;
     private ButtonDisconnect buttonDisconnect;
     private ButtonProfile buttonProfile;
     private Handler handler = new Handler();
@@ -75,7 +74,7 @@ public class ConnectionController {
         // this.supportLayout = view.findViewById(R.id.support_layout);
 
         this.supportMessage = new SupportMessage(view);
-        this.buttonConnectSecond = new ButtonConnectSecond(view);
+        this.buttonConnect = new ButtonConnect(view);
         this.buttonDisconnect = new ButtonDisconnect(view);
         this.buttonProfile = new ButtonProfile(view);
 
@@ -87,16 +86,16 @@ public class ConnectionController {
             if (vpnConnectionService.isOpnVpnServiceConnected()) {
                 Log.d(MainActivity.LOGTAG, "Init 1");
                 buttonProfile.hideButton();
-                buttonConnectSecond.hideButton();
+                buttonConnect.hideButton();
                 buttonDisconnect.showButton();
             } else {
                 Log.d(MainActivity.LOGTAG, "Init 2");
                 buttonProfile.hideButton();
                 buttonDisconnect.hideButton();
-                buttonConnectSecond.clear();
-                buttonConnectSecond.showButton();
+                buttonConnect.clear();
+                buttonConnect.showButton();
             }
-            buttonConnectSecond.setOnTouchListener(new View.OnTouchListener() {
+            buttonConnect.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
                     if (event.getAction() == MotionEvent.ACTION_DOWN) {
@@ -121,7 +120,7 @@ public class ConnectionController {
                 }
             });
         } else {
-            buttonConnectSecond.hideButton();
+            buttonConnect.hideButton();
             buttonDisconnect.hideButton();
             buttonProfile.showButton();
             buttonProfile.setOnTouchListener(new View.OnTouchListener() {
@@ -141,22 +140,21 @@ public class ConnectionController {
 
     public void startConnectionClickDown() {
         this.vibrate();
-        buttonConnectSecond.buttonPressDownAnimation();
+        buttonConnect.buttonPressDownAnimation();
     }
     public void startConnectionClickUp() {
-        buttonConnectSecond.buttonPressUpAnimation("Progress: 0%");
-
         vpnConnectionService.startVpnService();
+        buttonConnect.buttonPressUpAnimation();
         this.startConnectionProgress();
-        buttonConnectSecond.setConnectedCallBack(new ButtonConnectSecond.ConnectedCallBack() {
+        buttonConnect.setConnectedCallBack(new ButtonConnect.ConnectedCallBack() {
             @Override
             public void onConnected() {
-                buttonConnectSecond.hideButton();
+                buttonConnect.hideButton();
                 buttonDisconnect.showButton();
             }
         });
 
-        buttonConnectSecond.setOnTouchListener(new View.OnTouchListener() {
+        buttonConnect.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
@@ -181,26 +179,43 @@ public class ConnectionController {
         buttonDisconnect.clickAnimationUp(new ButtonDisconnect.AnimationEndInterface() {
             @Override
             public void animationEnd() {
-                initClick();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        // vpnConnectionService.disconnectServer();
+                        // notificationService.showDisconnectMessage();
+                        initClick();
+                    }
+                }).start();
             }
         });
     }
 
     public void stopConnectionClickDown() {
         this.vibrate();
-        buttonConnectSecond.buttonPressDownAnimation();
+        buttonConnect.buttonPressDownAnimation();
     }
 
     public void stopConnectionClickUp() {
-        notificationService.showDisconnectMessage();
-        vpnConnectionService.disconnectServer();
-        buttonConnectSecond.buttonPressUpAnimation("", new ButtonDisconnect.AnimationEndInterface() {
+        buttonConnect.buttonPressUpAnimation();
+        new Thread(new Runnable() {
             @Override
-            public void animationEnd() {
-                Log.d(MainActivity.LOGTAG, "Stop connection click interface inside");
+            public void run() {
+                try {
+                    Thread.sleep(1000);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                vpnConnectionService.disconnectServer();
+                notificationService.showDisconnectMessage();
                 initClick();
             }
-        });
+        }).start();
     }
 
     public void profileClickDown() {
@@ -230,11 +245,18 @@ public class ConnectionController {
                 boolean isShowedNotification = false;
 
                 while (true) {
+                    // Thread sleep
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
                     // Update animation
                     int breakPointCurrent = vpnConnectionService.getStatusPercent();
                     if (breakPointCurrent != breakPoint) {
                         breakPoint = breakPointCurrent;
-                        buttonConnectSecond.updateProgressBar(breakPoint);
+                        buttonConnect.updateProgressBar(breakPoint);
                     }
 
                     // Support message
@@ -260,12 +282,13 @@ public class ConnectionController {
                     if (status.equals("Connected")) {
                         break;
                     } else if (status.equals("Disconnected")) {
+                        // initClick();
                         break;
                     }
 
                     // Thread sleep
                     try {
-                        Thread.sleep(1000);
+                        Thread.sleep(500);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -274,8 +297,13 @@ public class ConnectionController {
         }).start();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.Q)
     public void vibrate() {
+        this.vibrateApiTen();
+        this.vibrateApiEight();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.Q)
+    public void vibrateApiTen() {
         long[] pattern = new long[] {25};
         Vibrator vibrator = (Vibrator) MyApplicationContext.getAppContext().getSystemService(Context.VIBRATOR_SERVICE);
 
@@ -287,5 +315,12 @@ public class ConnectionController {
                 vibrator.vibrate(pattern, -1);
             }
         }
+    }
+
+    public void vibrateApiEight() {
+        int pattern = 25;
+        Vibrator vibrator = (Vibrator) MyApplicationContext.getAppContext().getSystemService(Context.VIBRATOR_SERVICE);
+
+        vibrator.vibrate(pattern);
     }
 }

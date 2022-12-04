@@ -5,12 +5,10 @@ import android.animation.AnimatorSet;
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
-import android.graphics.Color;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 import android.widget.ProgressBar;
@@ -21,16 +19,9 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.rg.nomadvpn.MainActivity;
 import com.rg.nomadvpn.R;
-import com.rg.nomadvpn.model.ServerStatusEnum;
-import com.rg.nomadvpn.service.NotificationService;
-import com.rg.nomadvpn.service.VpnConnectionService;
 import com.rg.nomadvpn.utils.MyApplicationContext;
 
-import java.util.Date;
-
-import de.blinkt.openvpn.core.OpenVPNService;
-
-public class ButtonConnectSecond {
+public class ButtonConnect {
     private View view;
     private CardView cardConnect;
     private TextView titleConnect;
@@ -52,7 +43,7 @@ public class ButtonConnectSecond {
         this.connectedCallBack = connectedCallBack;
     }
 
-    public ButtonConnectSecond(View view) {
+    public ButtonConnect(View view) {
         this.view = view;
         init();
     }
@@ -252,7 +243,7 @@ public class ButtonConnectSecond {
         animatorSet.start();
     }
 
-    public void buttonPressUpAnimation(String text) {
+    public void buttonPressUpAnimation() {
         int heightFrom = (int) (60 * MyApplicationContext.getAppContext().getResources().getDisplayMetrics().density);
         int heightTo = (int) (54 * MyApplicationContext.getAppContext().getResources().getDisplayMetrics().density);
         ValueAnimator translateHeightUp = ValueAnimator.ofInt(heightTo, heightFrom);
@@ -303,7 +294,7 @@ public class ButtonConnectSecond {
                     @Override
                     public void run() {
                         try {
-                            Thread.sleep(1500);
+                            Thread.sleep(1000);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -364,7 +355,7 @@ public class ButtonConnectSecond {
                 int animationSmoothness = 1000;
                 int animationDuration = 900;
 
-                ValueAnimator animatorTitle = ValueAnimator.ofInt(ButtonConnectSecond.this.progressBar.getProgress(), breakPoint * animationSmoothness);
+                ValueAnimator animatorTitle = ValueAnimator.ofInt(ButtonConnect.this.progressBar.getProgress(), breakPoint * animationSmoothness);
                 animatorTitle.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                     @Override
                     public void onAnimationUpdate(ValueAnimator animation) {
@@ -375,7 +366,7 @@ public class ButtonConnectSecond {
                 animatorTitle.setDuration(animationDuration);
                 animatorTitle.setInterpolator(new DecelerateInterpolator());
 
-                ObjectAnimator animatorProgress = ObjectAnimator.ofInt(ButtonConnectSecond.this.progressBar, "progress", breakPoint * animationSmoothness);
+                ObjectAnimator animatorProgress = ObjectAnimator.ofInt(ButtonConnect.this.progressBar, "progress", breakPoint * animationSmoothness);
                 animatorProgress.setDuration(animationDuration);
                 animatorProgress.setInterpolator(new DecelerateInterpolator());
 
@@ -415,7 +406,7 @@ public class ButtonConnectSecond {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 float alpha = (float) animation.getAnimatedValue();
-                ButtonConnectSecond.this.titleConnect.setAlpha(alpha);
+                ButtonConnect.this.titleConnect.setAlpha(alpha);
             }
         });
         animatorFadeOut.addListener(new Animator.AnimatorListener() {
@@ -531,10 +522,20 @@ public class ButtonConnectSecond {
     }
 
     public void hideButton() {
-        cardConnect.setVisibility(View.GONE);
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                cardConnect.setVisibility(View.GONE);
+            }
+        });
     }
 
     public void showButton() {
-        cardConnect.setVisibility(View.VISIBLE);
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                cardConnect.setVisibility(View.VISIBLE);
+            }
+        });
     }
 }
