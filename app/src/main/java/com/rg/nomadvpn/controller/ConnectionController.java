@@ -213,6 +213,11 @@ public class ConnectionController {
                 }
                 vpnConnectionService.disconnectServer();
                 notificationService.showDisconnectMessage();
+                try {
+                    Thread.sleep(3000);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 initClick();
             }
         }).start();
@@ -298,8 +303,11 @@ public class ConnectionController {
     }
 
     public void vibrate() {
-        this.vibrateApiTen();
-        this.vibrateApiEight();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            this.vibrateApiTen();
+        } else {
+            this.vibrateApiEight();
+        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.Q)
