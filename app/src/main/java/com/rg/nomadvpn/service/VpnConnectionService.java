@@ -55,14 +55,13 @@ public class VpnConnectionService {
         ServerStatusEnum serverStatusEnum = ServerStatusEnum.valueOf(status);
 
         switch (serverStatusEnum) {
+            case EXITING:
+                return breakPoint = 0;
             case CONNECTRETRY:
-                // TODO Connect retry
                 return breakPoint = 0;
             case DISCONNECTED:
                 return breakPoint = 0;
-                 // TODO Disconnected
             case NONETWORK:
-                // TODO Error no network
                 return breakPoint = 0;
             case NOPROCESS:
                 return breakPoint = 0;
@@ -96,6 +95,8 @@ public class VpnConnectionService {
         ServerStatusEnum serverStatusEnum = ServerStatusEnum.valueOf(status);
 
         switch (serverStatusEnum) {
+            case EXITING:
+                return "Exiting";
             case RECONNECTING:
                 return "Reconnecting";
             case CONNECTRETRY:
@@ -221,6 +222,10 @@ public class VpnConnectionService {
 
     public void startForeground(int notifyId, Notification notification) {
         OpenVPNService.getInstance().startForeground(notifyId, notification);
+    }
+
+    public void stopForeground() {
+        OpenVPNService.getInstance().stopForeground(false);
     }
 
     public boolean isOpnVpnServiceCreated() {

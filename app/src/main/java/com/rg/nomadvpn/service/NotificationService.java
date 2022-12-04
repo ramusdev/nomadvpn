@@ -85,6 +85,7 @@ public class NotificationService {
 
         notificationManager.notify(NOTIFY_ID, notification);
 
+        vpnConnectionService.stopForeground();
         vpnConnectionService.startForeground(NOTIFY_ID, notification);
     }
 
@@ -107,5 +108,7 @@ public class NotificationService {
                 .build();
 
         notificationManager.notify(NOTIFY_ID, notification);
+
+        vpnConnectionService.stopForeground();
     }
 }

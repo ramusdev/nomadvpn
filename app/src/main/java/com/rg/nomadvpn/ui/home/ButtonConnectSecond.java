@@ -81,6 +81,8 @@ public class ButtonConnectSecond {
             public void run() {
                 progressBar.setProgress(0);
                 titleConnect.setText("Start connection");
+
+                Log.d(MainActivity.LOGTAG, "Clear");
             }
         });
     }
@@ -269,17 +271,58 @@ public class ButtonConnectSecond {
         animatorSet.play(translateHeightUp);
         animatorSet.setDuration(200);
         animatorSet.start();
+    }
 
-          /*
-        AnimatorSet buttonAnimationAction = buttonAnimationActionDown(text);
-        AnimatorSet animatorSetEnd = new AnimatorSet();
-        animatorSetEnd.setStartDelay(2000);
+    public void buttonPressUpAnimation(String text, ButtonDisconnect.AnimationEndInterface animationEndInterface) {
+        int heightFrom = (int) (60 * MyApplicationContext.getAppContext().getResources().getDisplayMetrics().density);
+        int heightTo = (int) (54 * MyApplicationContext.getAppContext().getResources().getDisplayMetrics().density);
+        ValueAnimator translateHeightUp = ValueAnimator.ofInt(heightTo, heightFrom);
+        translateHeightUp.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                int value = (int) animation.getAnimatedValue();
 
+                ViewGroup.LayoutParams layoutParams = cardConnect.getLayoutParams();
+                layoutParams.height = value;
+                cardConnect.setLayoutParams(layoutParams);
+
+            }
+        });
         AnimatorSet animatorSet = new AnimatorSet();
-        animatorSet.play(buttonAnimationAction);
-        animatorSet.play(animatorSetEnd).after(buttonAnimationAction);
+        animatorSet.play(translateHeightUp);
+        animatorSet.setDuration(200);
+        animatorSet.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Thread.sleep(1500);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        animationEndInterface.animationEnd();
+                    }
+                }).start();
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
         animatorSet.start();
-         */
     }
 
     public void buttonPressAnimation(String text, ButtonDisconnect.AnimationEndInterface animationCallback) {
@@ -319,7 +362,7 @@ public class ButtonConnectSecond {
             @Override
             public void run() {
                 int animationSmoothness = 1000;
-                int animationDuration = 1000;
+                int animationDuration = 900;
 
                 ValueAnimator animatorTitle = ValueAnimator.ofInt(ButtonConnectSecond.this.progressBar.getProgress(), breakPoint * animationSmoothness);
                 animatorTitle.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {

@@ -5,6 +5,7 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -14,6 +15,7 @@ import androidx.annotation.RequiresApi;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import com.rg.nomadvpn.MainActivity;
 import com.rg.nomadvpn.R;
 import com.rg.nomadvpn.service.NotificationService;
 import com.rg.nomadvpn.service.VpnConnectionService;
@@ -83,10 +85,12 @@ public class ConnectionController {
     public void initClick() {
         if (vpnConnectionService.isVpnProfileInstalled()) {
             if (vpnConnectionService.isOpnVpnServiceConnected()) {
+                Log.d(MainActivity.LOGTAG, "Init 1");
                 buttonProfile.hideButton();
                 buttonConnectSecond.hideButton();
                 buttonDisconnect.showButton();
             } else {
+                Log.d(MainActivity.LOGTAG, "Init 2");
                 buttonProfile.hideButton();
                 buttonDisconnect.hideButton();
                 buttonConnectSecond.clear();
@@ -152,10 +156,16 @@ public class ConnectionController {
             }
         });
 
-        buttonConnectSecond.setOnClickListener(new View.OnClickListener() {
+        buttonConnectSecond.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View v) {
-                stopConnectionClick();
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    stopConnectionClickDown();
+                }
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    stopConnectionClickUp();
+                }
+                return true;
             }
         });
     }
@@ -176,16 +186,21 @@ public class ConnectionController {
         });
     }
 
-    public void stopConnectionClick() {
+    public void stopConnectionClickDown() {
         this.vibrate();
-        buttonConnectSecond.buttonPressAnimation("", new ButtonDisconnect.AnimationEndInterface() {
+        buttonConnectSecond.buttonPressDownAnimation();
+    }
+
+    public void stopConnectionClickUp() {
+        notificationService.showDisconnectMessage();
+        vpnConnectionService.disconnectServer();
+        buttonConnectSecond.buttonPressUpAnimation("", new ButtonDisconnect.AnimationEndInterface() {
             @Override
             public void animationEnd() {
+                Log.d(MainActivity.LOGTAG, "Stop connection click interface inside");
                 initClick();
             }
         });
-        vpnConnectionService.disconnectServer();
-        notificationService.showDisconnectMessage();
     }
 
     public void profileClickDown() {
@@ -250,7 +265,7 @@ public class ConnectionController {
 
                     // Thread sleep
                     try {
-                        Thread.sleep(1400);
+                        Thread.sleep(1000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -262,12 +277,10 @@ public class ConnectionController {
     @RequiresApi(api = Build.VERSION_CODES.Q)
     public void vibrate() {
         long[] pattern = new long[] {25};
-        // int[] amplitudes = new int[] {0, 255};
         Vibrator vibrator = (Vibrator) MyApplicationContext.getAppContext().getSystemService(Context.VIBRATOR_SERVICE);
 
         if (vibrator.hasVibrator()) {
             if (vibrator.hasAmplitudeControl()) {
-                // VibrationEffect vibrationEffect = VibrationEffect.createWaveform(pattern, amplitudes, -1);
                 VibrationEffect vibrationEffect = VibrationEffect.createPredefined(VibrationEffect.EFFECT_CLICK);
                 vibrator.vibrate(vibrationEffect);
             } else {
