@@ -7,9 +7,9 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
-    <string name="menu_home">Home</string>
-    <string name="menu_gallery">Gallery</string>
+    <string name="menu_connection">Connection</string>
+    <string name="menu_settings">Settings</string>
     <string name="menu_slideshow">Slideshow</string>
 
-    <string name="support_message">We found that the connection is taking to long.\n\nTo disconnection click on the button.</string>
+    <string name="support_message">The connection is taking to long.\n\nTo disconnection click on the button.</string>
 </resources>

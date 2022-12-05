@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="NavigationDrawerStyle" parent="Widget.MaterialComponents.NavigationView">
+        <item name="itemTextAppearance">@style/AppNavigationViewItemTextAppearance</item>
+    </style>
+
+    <style name="AppNavigationViewItemTextAppearance" parent="@style/TextAppearance.MaterialComponents.Subtitle2">
+        <item name="android:textSize">15sp</item>
+        <item name="itemFillColor">@color/red</item>
+        <item name="itemIconTint">@color/red</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+
+
+</resources>
+
