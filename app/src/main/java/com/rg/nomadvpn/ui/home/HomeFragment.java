@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -27,6 +28,7 @@ import com.rg.nomadvpn.controller.ConnectionController;
 import com.rg.nomadvpn.databinding.FragmentHomeBinding;
 import com.rg.nomadvpn.service.NotificationService;
 import com.rg.nomadvpn.service.VpnConnectionService;
+import com.rg.nomadvpn.utils.MyApplicationContext;
 
 import de.blinkt.openvpn.core.VpnStatus;
 
@@ -44,8 +46,12 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         root = binding.getRoot();
 
-        vpnConnectionService = new VpnConnectionService(this);
+        // Toolbar
+        Toolbar toolbar = getActivity().findViewById(R.id.toolbar);
+        toolbar.setTitle("Connection");
 
+        // Connection service
+        vpnConnectionService = new VpnConnectionService(this);
         ConnectionController connectionController = new ConnectionController();
         connectionController.setView(root);
         connectionController.setNotificationService(new NotificationService(vpnConnectionService));

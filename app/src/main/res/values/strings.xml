@@ -12,4 +12,17 @@
     <string name="menu_slideshow">Slideshow</string>
 
     <string name="support_message">The connection is taking to long.\n\nTo disconnection click on the button.</string>
+
+    <string name="about_text">
+        <![CDATA[
+            Nomad VPN fast and secure VPN for you. <br><br>
+            <font color=#ffffff>Legal notice</font><br><br>
+            Privacy Policy <a href="https://ramusdev.github.io/android/nomadvpn/privacy/privacy_policy.html">read.</a><br><br>
+            The copyright of the images and materials contained is owned by Ronin Group and is the intellectual property of Ronin Group. © 2023 Ronin Group. All rights reserved.<br><br>
+            Nomad VPN and the Nomand VPN logo are registered trademarks or trademarks of Ronin Group.<br><br>
+            <font color=#ffffff>Additional information</font><br><br>
+            - Current version: 1.2.9<br>
+            - Developer: Ronin Group<br>
+        ]]>
+    </string>
 </resources>

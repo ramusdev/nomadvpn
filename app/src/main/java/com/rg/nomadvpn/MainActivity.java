@@ -42,11 +42,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         instance = this;
+        // binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(R.layout.activity_main);
+        // setSupportActionBar(binding.appBarMain.toolbar);
 
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
 
-        setSupportActionBar(binding.appBarMain.toolbar);
         /*
         binding.appBarMain.fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,7 +109,8 @@ public class MainActivity extends AppCompatActivity {
                         public void run() {
                             item.setChecked(true);
                             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                            fragmentTransaction.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+                            // fragmentTransaction.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+                            fragmentTransaction.setCustomAnimations(R.anim.slide_in, R.anim.slide_out);
                             fragmentTransaction.replace(R.id.nav_host_fragment_content_main, HomeFragment.class, null).commit();
                         }
                     }, 275);
@@ -120,7 +121,8 @@ public class MainActivity extends AppCompatActivity {
                         public void run() {
                             item.setChecked(true);
                             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                            fragmentTransaction.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+                            // fragmentTransaction.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+                            fragmentTransaction.setCustomAnimations(R.anim.slide_in, R.anim.slide_out);
                             fragmentTransaction.replace(R.id.nav_host_fragment_content_main, GalleryFragment.class, null).commit();
                         }
                     }, 275);
