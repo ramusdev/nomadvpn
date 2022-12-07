@@ -129,8 +129,8 @@ public class VpnConnectionService {
     public ServerVpnConfiguration getVpnConfiguration() {
         ServerVpnConfiguration serverVpnConfiguration = new ServerVpnConfiguration();
         serverVpnConfiguration.setCountry("Germany");
-        serverVpnConfiguration.setUser("vpnuser");
-        serverVpnConfiguration.setPassword("vpnpassword");
+        serverVpnConfiguration.setUser("username219");
+        serverVpnConfiguration.setPassword("password219");
 
         String configuration = readConfiguration();
         if (configuration == null) {

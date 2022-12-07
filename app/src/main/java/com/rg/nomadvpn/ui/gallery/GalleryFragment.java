@@ -2,6 +2,7 @@ package com.rg.nomadvpn.ui.gallery;
 
 import android.os.Bundle;
 import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,7 @@ public class GalleryFragment extends Fragment {
         // Set text
         String text = MyApplicationContext.getAppContext().getResources().getString(R.string.about_text);
         TextView textView = view.findViewById(R.id.main_text);
+        textView.setMovementMethod(LinkMovementMethod.getInstance());
         textView.setText(Html.fromHtml(text));
 
         return view;
