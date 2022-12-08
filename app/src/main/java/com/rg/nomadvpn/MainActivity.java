@@ -3,14 +3,10 @@ package com.rg.nomadvpn;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.Menu;
 import android.view.Window;
 import android.view.WindowManager;
-
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
@@ -22,18 +18,13 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.rg.nomadvpn.databinding.ActivityMainBinding;
-import com.rg.nomadvpn.ui.gallery.GalleryFragment;
-import com.rg.nomadvpn.ui.home.HomeFragment;
+import com.rg.nomadvpn.ui.settings.SettingsFragment;
+import com.rg.nomadvpn.ui.connection.ConnectionFragment;
 import com.rg.nomadvpn.utils.MyApplicationContext;
-
-import de.blinkt.openvpn.core.VpnStatus;
 
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
-    private ActivityMainBinding binding;
     private static MainActivity instance;
     public final static String LOGTAG = "Logtagname";
     private Handler handler = new Handler();
@@ -75,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         // getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment_content_main, HomeFragment.class, "main_fragment_tag").commit();
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.nav_host_fragment_content_main, HomeFragment.class, null, "tag_name_two")
+                .replace(R.id.nav_host_fragment_content_main, ConnectionFragment.class, null, "tag_name_two")
                 .setReorderingAllowed(true)
                 .addToBackStack(null)
                 .commit();
@@ -111,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
                             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                             // fragmentTransaction.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
                             fragmentTransaction.setCustomAnimations(R.anim.slide_in, R.anim.slide_out);
-                            fragmentTransaction.replace(R.id.nav_host_fragment_content_main, HomeFragment.class, null).commit();
+                            fragmentTransaction.replace(R.id.nav_host_fragment_content_main, ConnectionFragment.class, null).commit();
                         }
                     }, 275);
                 }
@@ -123,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
                             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                             // fragmentTransaction.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
                             fragmentTransaction.setCustomAnimations(R.anim.slide_in, R.anim.slide_out);
-                            fragmentTransaction.replace(R.id.nav_host_fragment_content_main, GalleryFragment.class, null).commit();
+                            fragmentTransaction.replace(R.id.nav_host_fragment_content_main, SettingsFragment.class, null).commit();
                         }
                     }, 275);
                 }

@@ -7,15 +7,15 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.rg.nomadvpn.ui.home.HomeFragment"
+        android:name="com.rg.nomadvpn.ui.connection.ConnectionFragment"
         android:label="@string/menu_connection"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_connection" />
 
     <fragment
         android:id="@+id/nav_gallery"
-        android:name="com.rg.nomadvpn.ui.gallery.GalleryFragment"
+        android:name="com.rg.nomadvpn.ui.settings.SettingsFragment"
         android:label="@string/menu_settings"
-        tools:layout="@layout/fragment_gallery" />
+        tools:layout="@layout/fragment_settings" />
 
     <fragment
         android:id="@+id/nav_slideshow"

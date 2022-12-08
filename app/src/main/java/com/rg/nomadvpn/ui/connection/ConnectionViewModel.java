@@ -1,10 +1,10 @@
-package com.rg.nomadvpn.ui.home;
+package com.rg.nomadvpn.ui.connection;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class HomeViewModel extends ViewModel {
+public class ConnectionViewModel extends ViewModel {
 
     private MutableLiveData<String> duration;
     private MutableLiveData<String> status;
@@ -13,7 +13,7 @@ public class HomeViewModel extends ViewModel {
     private MutableLiveData<String> speedIn;
     private MutableLiveData<String> speedOut;
 
-    public HomeViewModel() {
+    public ConnectionViewModel() {
         duration = new MutableLiveData<>();
         status = new MutableLiveData<>();
         receiveIn = new MutableLiveData<>();

@@ -1,4 +1,4 @@
-package com.rg.nomadvpn.ui.home;
+package com.rg.nomadvpn.ui.connection;
 
 import android.animation.Animator;
 import android.animation.AnimatorSet;

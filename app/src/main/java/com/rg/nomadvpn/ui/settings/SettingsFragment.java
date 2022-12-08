@@ -1,4 +1,4 @@
-package com.rg.nomadvpn.ui.gallery;
+package com.rg.nomadvpn.ui.settings;
 
 import android.os.Bundle;
 import android.text.Html;
@@ -7,19 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-
 import com.rg.nomadvpn.R;
-import com.rg.nomadvpn.databinding.FragmentGalleryBinding;
 import com.rg.nomadvpn.utils.MyApplicationContext;
 
-public class GalleryFragment extends Fragment {
+public class SettingsFragment extends Fragment {
 
     private View view;
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -29,7 +23,7 @@ public class GalleryFragment extends Fragment {
         toolbar.setTitle("Settings");
 
         // View
-        view = inflater.inflate(R.layout.fragment_gallery, container, false);
+        view = inflater.inflate(R.layout.fragment_settings, container, false);
 
         // Set text
         String text = MyApplicationContext.getAppContext().getResources().getString(R.string.about_text);

@@ -1,10 +1,8 @@
-package com.rg.nomadvpn.ui.home;
+package com.rg.nomadvpn.ui.connection;
 
 import android.animation.Animator;
 import android.animation.AnimatorSet;
-import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
-import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.view.View;
 import android.view.ViewGroup;

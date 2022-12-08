@@ -1,6 +1,9 @@
 package com.rg.nomadvpn.controller;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Handler;
 import android.os.VibrationEffect;
@@ -14,14 +17,20 @@ import android.widget.TextView;
 import androidx.annotation.RequiresApi;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.rg.nomadvpn.MainActivity;
+import com.rg.nomadvpn.R;
 import com.rg.nomadvpn.service.NotificationService;
 import com.rg.nomadvpn.service.VpnConnectionService;
-import com.rg.nomadvpn.ui.home.ButtonConnect;
-import com.rg.nomadvpn.ui.home.ButtonDisconnect;
-import com.rg.nomadvpn.ui.home.ButtonProfile;
-import com.rg.nomadvpn.ui.home.SupportMessage;
+import com.rg.nomadvpn.ui.connection.ButtonConnect;
+import com.rg.nomadvpn.ui.connection.ButtonDisconnect;
+import com.rg.nomadvpn.ui.connection.ButtonProfile;
+import com.rg.nomadvpn.ui.connection.ConnectionFragment;
+import com.rg.nomadvpn.ui.connection.ConnectionViewModel;
+import com.rg.nomadvpn.ui.connection.SupportMessage;
 import com.rg.nomadvpn.utils.MyApplicationContext;
 
 import java.util.Date;
@@ -30,6 +39,7 @@ public class ConnectionController {
     private VpnConnectionService vpnConnectionService;
     private NotificationService notificationService;
     private View view;
+    private ConnectionFragment fragment;
     private SupportMessage supportMessage;
     private CardView cardConnect;
     private CardView cardDisconnect;
@@ -40,9 +50,11 @@ public class ConnectionController {
     private ConstraintLayout layoutDisconnect;
     private ConstraintLayout supportLayout;
     private ProgressBar progressBar;
+    public static BroadcastReceiver broadcastReceiverStatic;
     private ButtonConnect buttonConnect;
     private ButtonDisconnect buttonDisconnect;
     private ButtonProfile buttonProfile;
+    private ConnectionViewModel connectionViewModel;
     private Handler handler = new Handler();
 
     public ConnectionController() {
@@ -61,6 +73,9 @@ public class ConnectionController {
         this.view = view;
     }
 
+    public void setFragment(ConnectionFragment fragment) {
+        this.fragment = fragment;
+    }
 
     public void init() {
         // this.cardConnect = view.findViewById(R.id.button_card);
@@ -78,6 +93,8 @@ public class ConnectionController {
         this.buttonDisconnect = new ButtonDisconnect(view);
         this.buttonProfile = new ButtonProfile(view);
 
+        updateData();
+        broadcastReceiverRegister();
         initClick();
     }
 
@@ -300,6 +317,113 @@ public class ConnectionController {
                 }
             }
         }).start();
+    }
+
+    public void updateData() {
+        TextView durationValue = view.findViewById(R.id.value_time);
+        connectionViewModel = new ViewModelProvider(fragment).get(ConnectionViewModel.class);
+        connectionViewModel.getDuration().observe(fragment.getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String value) {
+                durationValue.setText(value);
+            }
+        });
+
+        TextView statusValue = view.findViewById(R.id.value_status);
+        connectionViewModel.getStatus().observe(fragment.getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String value) {
+                statusValue.setText(value);
+                if (value.equals("Connected")) {
+                    statusValue.setTextColor(MyApplicationContext.getAppContext().getResources().getColor(R.color.status_textconnected));
+                } else {
+                    statusValue.setTextColor(MyApplicationContext.getAppContext().getResources().getColor(R.color.status_text));
+                }
+            }
+        });
+
+        TextView receiveInValue = view.findViewById(R.id.value_receivein);
+        connectionViewModel.getReceiveIn().observe(fragment.getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String value) {
+                receiveInValue.setText(value);
+            }
+        });
+
+        TextView receiveOutValue = view.findViewById(R.id.value_receiveout);
+        connectionViewModel.getReceiveOut().observe(fragment.getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String value) {
+                receiveOutValue.setText(value);
+            }
+        });
+
+        TextView speedInValue = view.findViewById(R.id.value_speedin);
+        connectionViewModel.getSpeedIn().observe(fragment.getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String value) {
+                speedInValue.setText(value);
+            }
+        });
+
+        TextView speedOutValue = view.findViewById(R.id.value_speedout);
+        connectionViewModel.getSpeedOut().observe(fragment.getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String value) {
+                speedOutValue.setText(value);
+            }
+        });
+    }
+
+    public void broadcastReceiverRegister() {
+        BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                String duration = intent.getStringExtra("duration");
+                String status = vpnConnectionService.getStatus();
+                String receiveIn = intent.getStringExtra("receiveIn");
+                String receiveOut = intent.getStringExtra("receiveOut");
+                String speedIn = intent.getStringExtra("speedIn");
+                String speedOut = intent.getStringExtra("speedOut");
+
+                if (duration == null) {
+                    duration = "00:00:00";
+                }
+
+                if (status == null) {
+                    status = "Disconnected";
+                }
+
+                if (receiveIn == null) {
+                    receiveIn = "0 MB";
+                }
+
+                if (receiveOut == null) {
+                    receiveOut = "0 MB";
+                }
+
+                if (speedIn == null) {
+                    speedIn = "0 Mbit/s";
+                }
+
+                if (speedOut == null) {
+                    speedOut = "0 Mbit/s";
+                }
+
+                connectionViewModel.setDuration(duration);
+                connectionViewModel.setStatus(status);
+                connectionViewModel.setReceiveIn(receiveIn);
+                connectionViewModel.setReceiveOut(receiveOut);
+                connectionViewModel.setSpeedIn(speedIn);
+                connectionViewModel.setSpeedOut(speedOut);
+            }
+        };
+
+        ConnectionController.broadcastReceiverStatic = broadcastReceiver;
+    }
+
+    public static void onResume(ConnectionFragment connectionFragment) {
+        LocalBroadcastManager.getInstance(connectionFragment.getActivity()).registerReceiver(broadcastReceiverStatic, new IntentFilter("connectionState"));
     }
 
     public void vibrate() {
