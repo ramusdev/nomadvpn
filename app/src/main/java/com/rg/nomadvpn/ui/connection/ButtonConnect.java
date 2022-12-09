@@ -71,9 +71,7 @@ public class ButtonConnect {
             @Override
             public void run() {
                 progressBar.setProgress(0);
-                titleConnect.setText("Start connection");
-
-                Log.d(MainActivity.LOGTAG, "Clear");
+                titleConnect.setText(MyApplicationContext.getAppContext().getResources().getString(R.string.start_connection));
             }
         });
     }
@@ -349,6 +347,7 @@ public class ButtonConnect {
     }
 
     public void updateProgressBar(int breakPoint) {
+        String progressText = MyApplicationContext.getAppContext().getString(R.string.progress_text);
         handler.post(new Runnable() {
             @Override
             public void run() {
@@ -360,7 +359,7 @@ public class ButtonConnect {
                     @Override
                     public void onAnimationUpdate(ValueAnimator animation) {
                         int value = ((int) animation.getAnimatedValue()) / 1000;
-                        titleConnect.setText("Progress  " + value + "%");
+                        titleConnect.setText(progressText + ":  " + value + "%");
                     }
                 });
                 animatorTitle.setDuration(animationDuration);
@@ -450,8 +449,8 @@ public class ButtonConnect {
 
     public void animationFinishedConnection() {
         int duration = 500;
-        // showSupportMessage(false);
-        Animator animatorText = getAnimatorFadeOutInText("Connected", titleConnect);
+        String text = MyApplicationContext.getAppContext().getResources().getString(R.string.connected_status);
+        Animator animatorText = getAnimatorFadeOutInText(text, titleConnect);
 
         AnimatorSet animatorDelay = new AnimatorSet();
         animatorDelay.setStartDelay(1500);

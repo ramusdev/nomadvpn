@@ -20,7 +20,7 @@ public class SettingsFragment extends Fragment {
 
         // Toolbar
         Toolbar toolbar = getActivity().findViewById(R.id.toolbar);
-        toolbar.setTitle("Settings");
+        toolbar.setTitle(MyApplicationContext.getAppContext().getResources().getString(R.string.menu_settings));
 
         // View
         view = inflater.inflate(R.layout.fragment_settings, container, false);

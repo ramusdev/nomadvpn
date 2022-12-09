@@ -380,7 +380,7 @@ public class ConnectionController {
             @Override
             public void onReceive(Context context, Intent intent) {
                 String duration = intent.getStringExtra("duration");
-                String status = vpnConnectionService.getStatus();
+                String status = vpnConnectionService.getStatusName();
                 String receiveIn = intent.getStringExtra("receiveIn");
                 String receiveOut = intent.getStringExtra("receiveOut");
                 String speedIn = intent.getStringExtra("speedIn");
@@ -391,7 +391,7 @@ public class ConnectionController {
                 }
 
                 if (status == null) {
-                    status = "Disconnected";
+                    status = MyApplicationContext.getAppContext().getString(R.string.disconnected_status);
                 }
 
                 if (receiveIn == null) {

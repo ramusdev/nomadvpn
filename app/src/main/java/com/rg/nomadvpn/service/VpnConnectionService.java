@@ -9,6 +9,7 @@ import android.util.Log;
 
 import androidx.fragment.app.Fragment;
 
+import com.rg.nomadvpn.R;
 import com.rg.nomadvpn.model.ServerStatusEnum;
 import com.rg.nomadvpn.model.ServerVpnConfiguration;
 
@@ -124,6 +125,64 @@ public class VpnConnectionService {
         }
 
         return status;
+    }
+
+    public String getStatusName() {
+        String status = null;
+        int statusNameInt = 0;
+        status = OpenVPNService.getStatus();
+
+        if (status.isEmpty()) {
+            return "";
+        }
+
+        ServerStatusEnum serverStatusEnum = ServerStatusEnum.valueOf(status);
+
+        switch (serverStatusEnum) {
+            case EXITING:
+                statusNameInt = R.string.exiting_status;
+                break;
+            case RECONNECTING:
+                statusNameInt = R.string.reconnecting_status;
+                break;
+            case CONNECTRETRY:
+                statusNameInt = R.string.retry_status;
+                break;
+            case DISCONNECTED:
+                statusNameInt = R.string.disconnected_status;
+                break;
+            case NONETWORK:
+                statusNameInt = R.string.nonetwork_status;
+                break;
+            case NOPROCESS:
+                statusNameInt = R.string.noprocess_status;
+                break;
+            case VPN_GENERATE_CONFIG:
+                statusNameInt = R.string.generateconf_status;
+                break;
+            case WAIT:
+                statusNameInt = R.string.wait_status;
+                break;
+            case AUTH:
+                statusNameInt = R.string.auth_status;
+                break;
+            case GET_CONFIG:
+                statusNameInt = R.string.getconfig_status;
+                break;
+            case ASSIGN_IP:
+                statusNameInt = R.string.assignip_status;
+                break;
+            case ADD_ROUTES:
+                statusNameInt = R.string.addroutes_status;
+                break;
+            case CONNECTED:
+                statusNameInt = R.string.connected_status;
+                break;
+        }
+
+        String statusName = MyApplicationContext.getAppContext().getResources().getString(statusNameInt);
+
+        return statusName;
     }
 
     public ServerVpnConfiguration getVpnConfiguration() {

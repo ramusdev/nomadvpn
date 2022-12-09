@@ -20,6 +20,8 @@ import com.rg.nomadvpn.R;
 import com.rg.nomadvpn.controller.ConnectionController;
 import com.rg.nomadvpn.service.NotificationService;
 import com.rg.nomadvpn.service.VpnConnectionService;
+import com.rg.nomadvpn.utils.MyApplicationContext;
+
 import de.blinkt.openvpn.core.VpnStatus;
 
 public class ConnectionFragment extends Fragment {
@@ -34,7 +36,7 @@ public class ConnectionFragment extends Fragment {
 
         // Toolbar
         Toolbar toolbar = getActivity().findViewById(R.id.toolbar);
-        toolbar.setTitle("Connection");
+        toolbar.setTitle(MyApplicationContext.getAppContext().getResources().getString(R.string.menu_connection));
 
         // Connection service
         vpnConnectionService = new VpnConnectionService(this);
@@ -49,51 +51,6 @@ public class ConnectionFragment extends Fragment {
 
         return view;
     }
-
-    BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String duration = intent.getStringExtra("duration");
-            String status = vpnConnectionService.getStatus();
-            String receiveIn = intent.getStringExtra("receiveIn");
-            String receiveOut = intent.getStringExtra("receiveOut");
-            String speedIn = intent.getStringExtra("speedIn");
-            String speedOut = intent.getStringExtra("speedOut");
-
-            if (duration == null) {
-                duration = "00:00:00";
-            }
-
-            if (status == null) {
-                status = "Disconnected";
-            }
-
-            if (receiveIn == null) {
-                receiveIn = "0 MB";
-            }
-
-            if (receiveOut == null) {
-                receiveOut = "0 MB";
-            }
-
-            if (speedIn == null) {
-                speedIn = "0 Mbit/s";
-            }
-
-            if (speedOut == null) {
-                speedOut = "0 Mbit/s";
-            }
-
-            // Log.d(MainActivity.LOGTAG, "Speed out: " + speedOut);
-
-            connectionViewModel.setDuration(duration);
-            connectionViewModel.setStatus(status);
-            connectionViewModel.setReceiveIn(receiveIn);
-            connectionViewModel.setReceiveOut(receiveOut);
-            connectionViewModel.setSpeedIn(speedIn);
-            connectionViewModel.setSpeedOut(speedOut);
-        }
-    };
 
     @Override
     public void onResume() {

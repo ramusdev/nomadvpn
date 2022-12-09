@@ -1,0 +1,48 @@
+<resources>
+    <string name="app_name">Nomad VPN</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Настройки</string>
+    <string name="menu_connection">Подключение</string>
+    <string name="menu_settings">Настройки</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="support_message">Соединение занимает слишком много времени.\n\nЧтобы отключиться, нажмите кнопку.</string>
+    <string name="traffic_download">Трафик</string>
+    <string name="speed_download">Скорость</string>
+    <string name="duration_download">Время</string>
+    <string name="title_status">Статус</string>
+    <string name="start_connection">Старт подключения</string>
+    <string name="button_disconnect">Отключиться</string>
+    <string name="button_profile">Добавить профиль подключения</string>
+    <string name="progress_text">Прогресс</string>
+
+    <string name="exiting_status">Выход</string>
+    <string name="reconnecting_status">Переподключ</string>
+    <string name="retry_status">Повтор</string>
+    <string name="disconnected_status">Отключено</string>
+    <string name="nonetwork_status">Нет интернета</string>
+    <string name="noprocess_status">Нет процесса</string>
+    <string name="generateconf_status">Ген конф</string>
+    <string name="wait_status">Ожидание</string>
+    <string name="auth_status">Авторизация</string>
+    <string name="getconfig_status">Пол конф</string>
+    <string name="assignip_status">Присвоение ип</string>
+    <string name="addroutes_status">Доб роутинга</string>
+    <string name="connected_status">Подключено</string>
+
+    <string name="about_text">
+        <![CDATA[
+             Nomad VPN быстрый и безопасный VPN для вас. <br><br>
+             <font color=#ffffff>Политика конфиденциальности</font><br><br>
+             Политика конфиденциальности <a href="https://ramusdev.github.io/android/nomadvpn/privacy/privacy_policy.html">читать.</a><br><br>
+             Авторские права на содержащиеся изображения и материалы принадлежат Ronin Group и являются интеллектуальной собственностью Ronin Group. © 2023 Ronin Group. Все права защищены.<br><br>
+             Nomad VPN и логотип Nomand VPN являются зарегистрированными товарными знаками или товарными знаками Ronin Group.<br><br>
+             <font color=#ffffff>Дополнительная информация</font><br><br>
+             - Текущая версия: 1.2.9<br>
+             - Разработчик: Ronin Group<br>
+        ]]>
+    </string>
+</resources>
