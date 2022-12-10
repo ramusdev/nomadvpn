@@ -294,7 +294,8 @@ public class ConnectionController {
                     // Notification
                     if (vpnConnectionService.isOpnVpnServiceCreated()) {
                         if (! isShowedNotification) {
-                            notificationService.showConnectMessage();
+                            // notificationService.showConnectMessage();
+                            notificationService.showWaitingMessage();
                             isShowedNotification = true;
                         }
                     }
@@ -302,6 +303,7 @@ public class ConnectionController {
                     // Break
                     String status = vpnConnectionService.getStatus();
                     if (status.equals("Connected")) {
+                        notificationService.showConnectMessage();
                         break;
                     } else if (status.equals("Disconnected")) {
                         // initClick();
@@ -321,6 +323,8 @@ public class ConnectionController {
 
     public void updateData() {
         TextView durationValue = view.findViewById(R.id.value_time);
+        String textStatus = MyApplicationContext.getAppContext().getString(R.string.connected_status);
+
         connectionViewModel = new ViewModelProvider(fragment).get(ConnectionViewModel.class);
         connectionViewModel.getDuration().observe(fragment.getViewLifecycleOwner(), new Observer<String>() {
             @Override
@@ -334,7 +338,7 @@ public class ConnectionController {
             @Override
             public void onChanged(String value) {
                 statusValue.setText(value);
-                if (value.equals("Connected")) {
+                if (value.equals(textStatus)) {
                     statusValue.setTextColor(MyApplicationContext.getAppContext().getResources().getColor(R.color.status_textconnected));
                 } else {
                     statusValue.setTextColor(MyApplicationContext.getAppContext().getResources().getColor(R.color.status_text));

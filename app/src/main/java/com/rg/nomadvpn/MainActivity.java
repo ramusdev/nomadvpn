@@ -36,12 +36,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // Change fragment
-        // getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment_content_main, HomeFragment.class, "main_fragment_tag").commit();
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.nav_host_fragment_content_main, ConnectionFragment.class, null, "tag_name_two")
-                .setReorderingAllowed(true)
-                .addToBackStack(null)
+                .replace(R.id.nav_host_fragment_content_main, ConnectionFragment.class, null)
+                // .setReorderingAllowed(true)
+                // .addToBackStack(null)
                 .commit();
 
         // Set toolbar title

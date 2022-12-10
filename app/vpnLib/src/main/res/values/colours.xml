@@ -26,6 +26,7 @@
     <!-- Statistics -->
     <color name="statistics_text">#B2DFDB</color>
     <color name="status_text">#F44336</color>
+    <color name="status_textwaiting">#FF6F00</color>
     <color name="status_textconnected">#66BB6A</color>
     <color name="support_text">#B2DFDB</color>
 

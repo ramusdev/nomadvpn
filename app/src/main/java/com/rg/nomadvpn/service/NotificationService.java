@@ -24,8 +24,9 @@ import de.blinkt.openvpn.core.OpenVPNService;
 
 public class NotificationService {
     private static final String NOTIFICATION_TITLE = "Namad VPN";
-    private static final String TEXT_CONNECTED = "Connection status: connected";
-    private static final String TEXT_DISCONNECTED = "Connection status: disconnected";
+    private static final String TEXT_CONNECTED = MyApplicationContext.getAppContext().getString(R.string.notification_connected);
+    private static final String TEXT_DISCONNECTED = MyApplicationContext.getAppContext().getString(R.string.notification_disconnected);
+    private static final String TEXT_WAITING = MyApplicationContext.getAppContext().getString(R.string.notification_waiting);
     private static final String CHANNEL_ID = "channel_id";
     private static final int NOTIFY_ID = 100;
     private NotificationManager notificationManager;
@@ -70,6 +71,27 @@ public class NotificationService {
 
         text = new SpannableString(TEXT_CONNECTED);
         int color = MyApplicationContext.getAppContext().getResources().getColor(R.color.status_textconnected);
+        text.setSpan(new StyleSpan(Typeface.BOLD), 19, text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        text.setSpan(new ForegroundColorSpan(color), 19, text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        notification = new Notification.Builder(MyApplicationContext.getAppContext())
+                .setSmallIcon(R.drawable.ic_status)
+                .setChannelId(CHANNEL_ID)
+                .setPriority(Notification.PRIORITY_MAX)
+                .setAutoCancel(false)
+                .setContentIntent(pendingIntent)
+                .setContentTitle(title)
+                .setContentText(text)
+                .build();
+
+        notificationManager.notify(NOTIFY_ID, notification);
+    }
+
+    public void showWaitingMessage() {
+        SpannableString text = null;
+
+        text = new SpannableString(TEXT_WAITING);
+        int color = MyApplicationContext.getAppContext().getResources().getColor(R.color.status_textwaiting);
         text.setSpan(new StyleSpan(Typeface.BOLD), 19, text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         text.setSpan(new ForegroundColorSpan(color), 19, text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 

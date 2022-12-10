@@ -32,6 +32,9 @@
     <string name="assignip_status">Assign ip</string>
     <string name="addroutes_status">Add routes</string>
     <string name="connected_status">Connected</string>
+    <string name="notification_connected">Connection status: connected</string>
+    <string name="notification_disconnected">Connection status: disconnected</string>
+    <string name="notification_waiting">Connection status: waiting</string>
 
     <string name="about_text">
         <![CDATA[

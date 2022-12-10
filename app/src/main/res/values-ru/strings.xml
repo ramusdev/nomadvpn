@@ -32,6 +32,9 @@
     <string name="assignip_status">Присвоение ип</string>
     <string name="addroutes_status">Доб роутинга</string>
     <string name="connected_status">Подключено</string>
+    <string name="notification_connected">Статус подключения: подключено</string>
+    <string name="notification_disconnected">Статус подключения: отключено</string>
+    <string name="notification_waiting">Статус подключения: ожидание</string>
 
     <string name="about_text">
         <![CDATA[
