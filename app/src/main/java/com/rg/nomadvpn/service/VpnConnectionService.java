@@ -9,9 +9,10 @@ import android.util.Log;
 
 import androidx.fragment.app.Fragment;
 
+import com.rg.nomadvpn.MainActivity;
 import com.rg.nomadvpn.R;
 import com.rg.nomadvpn.model.ServerStatusEnum;
-import com.rg.nomadvpn.model.ServerVpnConfiguration;
+import com.rg.nomadvpn.model.ServerHolderConfiguration;
 
 import com.rg.nomadvpn.utils.MyApplicationContext;
 import java.io.BufferedReader;
@@ -24,7 +25,7 @@ import de.blinkt.openvpn.core.OpenVPNThread;
 
 public class VpnConnectionService {
     private final static String LOGTAG = "Logtag";
-    private final static String CONFIG = "vpnconfig.ovpn";
+    private final static String CONFIG = "config_germany.ovpn";
     public Fragment fragment;
     // private OpenVPNThread openVPNThread = new OpenVPNThread();
     // private OpenVPNService openVPNService = new OpenVPNService();
@@ -40,9 +41,9 @@ public class VpnConnectionService {
         VpnConnectionService.instance = this;
     }
 
-    public void startVpnService() {
-        ServerVpnConfiguration serverVpnConfiguration = getVpnConfiguration();
-        connectToServer(serverVpnConfiguration);
+    public void startVpnService(ServerHolderConfiguration serverHolderConfiguration) {
+        // ServerHolderConfiguration serverHolderConfiguration = getVpnConfiguration();
+        connectToServer(serverHolderConfiguration);
     }
 
     public int getStatusPercent() {
@@ -185,19 +186,13 @@ public class VpnConnectionService {
         return statusName;
     }
 
-    public ServerVpnConfiguration getVpnConfiguration() {
-        ServerVpnConfiguration serverVpnConfiguration = new ServerVpnConfiguration();
-        serverVpnConfiguration.setCountry("Germany");
-        serverVpnConfiguration.setUser("username219");
-        serverVpnConfiguration.setPassword("password219");
-
-        String configuration = readConfiguration();
-        if (configuration == null) {
+    public String getVpnConfiguration(String fileName) {
+        String stringConfiguration = readConfiguration(fileName);
+        if (stringConfiguration.isEmpty()) {
             Log.d(LOGTAG, "No configuration");
         }
-        serverVpnConfiguration.setConfiguration(configuration);
 
-        return serverVpnConfiguration;
+        return stringConfiguration;
     }
 
     public void vpnProfileInstall(Callback callback) {
@@ -226,9 +221,9 @@ public class VpnConnectionService {
         }
     }
 
-    private String readConfiguration() {
+    private String readConfiguration(String fileName) {
         try {
-            InputStream inputStream = this.fragment.getActivity().getAssets().open(CONFIG);
+            InputStream inputStream = this.fragment.getActivity().getAssets().open(fileName);
             InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
             BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 
@@ -259,16 +254,18 @@ public class VpnConnectionService {
         return null;
     }
 
-    private void connectToServer(ServerVpnConfiguration serverVpnConfiguration) {
-        Log.d(LOGTAG, "Connect");
+    private void connectToServer(ServerHolderConfiguration serverHolderConfiguration) {
+        Log.d(MainActivity.LOGTAG, "Connect -------------------->");
+        Log.d(MainActivity.LOGTAG, "Connect conf: " + serverHolderConfiguration.getFileName());
 
+        String configuration = getVpnConfiguration(serverHolderConfiguration.getFileName());
         try {
             OpenVpnApi.startVpn(
                     fragment.getContext(),
-                    serverVpnConfiguration.getConfiguration(),
-                    serverVpnConfiguration.getCountry(),
-                    serverVpnConfiguration.getUser(),
-                    serverVpnConfiguration.getPassword()
+                    configuration,
+                    serverHolderConfiguration.getCountry(),
+                    serverHolderConfiguration.getUser(),
+                    serverHolderConfiguration.getPassword()
             );
         } catch (RemoteException e) {
             e.printStackTrace();
@@ -278,6 +275,12 @@ public class VpnConnectionService {
     public void disconnectServer() {
         OpenVPNThread.stop();
     }
+
+    /*
+    public static void disconnectServerStatic() {
+        OpenVPNThread.stop();
+    }
+    */
 
     public void startForeground(int notifyId, Notification notification) {
         OpenVPNService.getInstance().startForeground(notifyId, notification);

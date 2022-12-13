@@ -2,6 +2,7 @@ package com.rg.nomadvpn;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.Menu;
 import android.view.Window;
@@ -18,6 +19,8 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.rg.nomadvpn.ui.server.ServerFragment;
 import com.rg.nomadvpn.ui.settings.SettingsFragment;
 import com.rg.nomadvpn.ui.connection.ConnectionFragment;
 import com.rg.nomadvpn.utils.MyApplicationContext;
@@ -26,7 +29,8 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private static MainActivity instance;
-    public final static String LOGTAG = "Logtagname";
+    public final static String LOGTAG = "Logname";
+    public NavigationView navigationView;
     private Handler handler = new Handler();
 
     @Override
@@ -50,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Navigation
         DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.navigation_view);
+        navigationView = findViewById(R.id.navigation_view);
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(
                 this,
                 drawerLayout,
@@ -61,6 +65,9 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
         navigationView.bringToFront();
+
+        // MenuItem menuItem = navigationView.getMenu().findItem(R.id.nav_connection);
+        // menuItem.setChecked(true);
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -75,6 +82,17 @@ public class MainActivity extends AppCompatActivity {
                             // fragmentTransaction.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
                             fragmentTransaction.setCustomAnimations(R.anim.slide_in, R.anim.slide_out);
                             fragmentTransaction.replace(R.id.nav_host_fragment_content_main, ConnectionFragment.class, null).commit();
+                        }
+                    }, 275);
+                }
+                if (item.getItemId() == R.id.nav_server) {
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            item.setChecked(true);
+                            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                            fragmentTransaction.setCustomAnimations(R.anim.slide_in, R.anim.slide_out);
+                            fragmentTransaction.replace(R.id.nav_host_fragment_content_main, ServerFragment.class, null).commit();
                         }
                     }, 275);
                 }

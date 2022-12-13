@@ -8,6 +8,7 @@
     <string name="action_settings">Настройки</string>
     <string name="menu_connection">Подключение</string>
     <string name="menu_settings">Настройки</string>
+    <string name="menu_server">Сервер</string>
     <string name="menu_slideshow">Slideshow</string>
     <string name="support_message">Соединение занимает слишком много времени.\n\nЧтобы отключиться, нажмите кнопку.</string>
     <string name="traffic_download">Трафик</string>

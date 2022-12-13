@@ -23,6 +23,9 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.rg.nomadvpn.MainActivity;
 import com.rg.nomadvpn.R;
+import com.rg.nomadvpn.db.ServerCurrent;
+import com.rg.nomadvpn.db.ServerHolder;
+import com.rg.nomadvpn.model.ServerHolderConfiguration;
 import com.rg.nomadvpn.service.NotificationService;
 import com.rg.nomadvpn.service.VpnConnectionService;
 import com.rg.nomadvpn.ui.connection.ButtonConnect;
@@ -56,9 +59,10 @@ public class ConnectionController {
     private ButtonProfile buttonProfile;
     private ConnectionViewModel connectionViewModel;
     private Handler handler = new Handler();
+    private static ConnectionController instance;
 
     public ConnectionController() {
-
+        instance = this;
     }
 
     public void setVpnService(VpnConnectionService vpnConnectionService) {
@@ -160,7 +164,10 @@ public class ConnectionController {
         buttonConnect.buttonPressDownAnimation();
     }
     public void startConnectionClickUp() {
-        vpnConnectionService.startVpnService();
+        ServerHolder serverHolder = new ServerHolder();
+        ServerHolderConfiguration serverHolderConfiguration = serverHolder.getServerById(ServerCurrent.getServerIndex());
+
+        vpnConnectionService.startVpnService(serverHolderConfiguration);
         buttonConnect.buttonPressUpAnimation();
         this.startConnectionProgress();
         buttonConnect.setConnectedCallBack(new ButtonConnect.ConnectedCallBack() {
@@ -211,6 +218,11 @@ public class ConnectionController {
                 }).start();
             }
         });
+    }
+
+    public void disconnectClickSleep() {
+        vpnConnectionService.disconnectServer();
+        notificationService.showDisconnectMessage();
     }
 
     public void stopConnectionClickDown() {
@@ -458,5 +470,9 @@ public class ConnectionController {
         Vibrator vibrator = (Vibrator) MyApplicationContext.getAppContext().getSystemService(Context.VIBRATOR_SERVICE);
 
         vibrator.vibrate(pattern);
+    }
+
+    public static ConnectionController getInstance() {
+        return instance;
     }
 }
