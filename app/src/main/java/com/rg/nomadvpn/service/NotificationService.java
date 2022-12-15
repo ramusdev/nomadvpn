@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Build;
+import android.telecom.ConnectionService;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
@@ -17,12 +18,14 @@ import androidx.annotation.RequiresApi;
 
 import com.rg.nomadvpn.MainActivity;
 import com.rg.nomadvpn.R;
+import com.rg.nomadvpn.locator.ServiceBase;
+import com.rg.nomadvpn.locator.ServiceLocator;
 import com.rg.nomadvpn.utils.MyApplicationContext;
 
 import de.blinkt.openvpn.api.APIVpnProfile;
 import de.blinkt.openvpn.core.OpenVPNService;
 
-public class NotificationService {
+public class NotificationService extends ServiceBase {
     private static final String NOTIFICATION_TITLE = "Namad VPN";
     private static final String TEXT_CONNECTED = MyApplicationContext.getAppContext().getString(R.string.notification_connected);
     private static final String TEXT_DISCONNECTED = MyApplicationContext.getAppContext().getString(R.string.notification_disconnected);
@@ -35,8 +38,8 @@ public class NotificationService {
     private Notification notification;
     private VpnConnectionService vpnConnectionService;
 
-    public NotificationService(VpnConnectionService vpnConnectionService) {
-        this.vpnConnectionService = vpnConnectionService;
+    public NotificationService() {
+        vpnConnectionService = (VpnConnectionService) ServiceLocator.getService(VpnConnectionService.class);
         buildNotification();
     }
 
@@ -107,7 +110,7 @@ public class NotificationService {
 
         notificationManager.notify(NOTIFY_ID, notification);
 
-        vpnConnectionService.stopForeground();
+        vpnConnectionService.stopForeground(); // Null object
         vpnConnectionService.startForeground(NOTIFY_ID, notification);
     }
 

@@ -1,19 +1,16 @@
 package com.rg.nomadvpn.service;
 
 import static android.app.Activity.RESULT_OK;
-
 import android.app.Notification;
 import android.content.Intent;
 import android.os.RemoteException;
 import android.util.Log;
-
 import androidx.fragment.app.Fragment;
-
 import com.rg.nomadvpn.MainActivity;
 import com.rg.nomadvpn.R;
+import com.rg.nomadvpn.locator.ServiceBase;
 import com.rg.nomadvpn.model.ServerStatusEnum;
 import com.rg.nomadvpn.model.ServerHolderConfiguration;
-
 import com.rg.nomadvpn.utils.MyApplicationContext;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -23,7 +20,7 @@ import de.blinkt.openvpn.OpenVpnApi;
 import de.blinkt.openvpn.core.OpenVPNService;
 import de.blinkt.openvpn.core.OpenVPNThread;
 
-public class VpnConnectionService {
+public class VpnConnectionService extends ServiceBase {
     private final static String LOGTAG = "Logtag";
     private final static String CONFIG = "config_germany.ovpn";
     public Fragment fragment;
@@ -36,9 +33,12 @@ public class VpnConnectionService {
         void callingBack();
     }
 
-    public VpnConnectionService(Fragment fragment) {
-        this.fragment = fragment;
+    public VpnConnectionService() {
         VpnConnectionService.instance = this;
+    }
+
+    public void setFragment(Fragment fragment) {
+        this.fragment = fragment;
     }
 
     public void startVpnService(ServerHolderConfiguration serverHolderConfiguration) {

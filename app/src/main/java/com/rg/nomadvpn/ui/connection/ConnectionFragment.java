@@ -23,6 +23,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.rg.nomadvpn.MainActivity;
 import com.rg.nomadvpn.R;
 import com.rg.nomadvpn.controller.ConnectionController;
+import com.rg.nomadvpn.locator.ServiceLocator;
 import com.rg.nomadvpn.service.NotificationService;
 import com.rg.nomadvpn.service.VpnConnectionService;
 import com.rg.nomadvpn.utils.MyApplicationContext;
@@ -44,12 +45,12 @@ public class ConnectionFragment extends Fragment {
         toolbar.setTitle(MyApplicationContext.getAppContext().getResources().getString(R.string.menu_connection));
 
         // Connection service
-        vpnConnectionService = new VpnConnectionService(this);
+        // vpnConnectionService = new VpnConnectionService(this);
         ConnectionController connectionController = new ConnectionController();
         connectionController.setView(view);
         connectionController.setFragment(this);
-        connectionController.setNotificationService(new NotificationService(vpnConnectionService));
-        connectionController.setVpnService(vpnConnectionService);
+        // connectionController.setNotificationService(new NotificationService(vpnConnectionService));
+        // connectionController.setVpnService(vpnConnectionService);
         connectionController.init();
 
         // VpnStatus.initLogCache(getActivity().getCacheDir());

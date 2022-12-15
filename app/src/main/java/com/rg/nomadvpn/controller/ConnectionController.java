@@ -25,6 +25,7 @@ import com.rg.nomadvpn.MainActivity;
 import com.rg.nomadvpn.R;
 import com.rg.nomadvpn.db.ServerCurrent;
 import com.rg.nomadvpn.db.ServerHolder;
+import com.rg.nomadvpn.locator.ServiceLocator;
 import com.rg.nomadvpn.model.ServerHolderConfiguration;
 import com.rg.nomadvpn.service.NotificationService;
 import com.rg.nomadvpn.service.VpnConnectionService;
@@ -63,14 +64,18 @@ public class ConnectionController {
 
     public ConnectionController() {
         instance = this;
+
+        // vpnConnectionService = (VpnConnectionService) ServiceLocator.getService(VpnConnectionService.class);
+        // vpnConnectionService.setFragment(fragment);
+        // notificationService = (NotificationService) ServiceLocator.getService(NotificationService.class);
     }
 
     public void setVpnService(VpnConnectionService vpnConnectionService) {
-        this.vpnConnectionService = vpnConnectionService;
+        // this.vpnConnectionService = vpnConnectionService;
     }
 
     public void setNotificationService(NotificationService notificationService) {
-        this.notificationService = notificationService;
+        // this.notificationService = notificationService;
     }
 
     public void setView(View view) {
@@ -91,6 +96,10 @@ public class ConnectionController {
         // this.titleDisconnect = view.findViewById(R.id.title_disconnect);
         // this.layoutDisconnect = view.findViewById(R.id.layout_disconnect);
         // this.supportLayout = view.findViewById(R.id.support_layout);
+
+        vpnConnectionService = (VpnConnectionService) ServiceLocator.getService(VpnConnectionService.class);
+        vpnConnectionService.setFragment(fragment);
+        notificationService = (NotificationService) ServiceLocator.getService(NotificationService.class);
 
         this.supportMessage = new SupportMessage(view);
         this.buttonConnect = new ButtonConnect(view);
