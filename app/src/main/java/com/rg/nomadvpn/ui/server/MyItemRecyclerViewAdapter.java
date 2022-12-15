@@ -94,7 +94,6 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
                 }
             }).start();
 
-            ConnectionController.getInstance().disconnectClickSleep();
             ServerCurrent.setServerId(mItem.getId());
 
             FragmentTransaction fragmentTransaction = MainActivity.getInstance().getSupportFragmentManager().beginTransaction();

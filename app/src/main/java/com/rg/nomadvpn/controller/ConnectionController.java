@@ -221,8 +221,10 @@ public class ConnectionController {
     }
 
     public void disconnectClickSleep() {
-        vpnConnectionService.disconnectServer();
-        notificationService.showDisconnectMessage();
+        if (vpnConnectionService.isOpnVpnServiceConnected()) {
+            vpnConnectionService.disconnectServer();
+            notificationService.showDisconnectMessage();
+        }
     }
 
     public void stopConnectionClickDown() {

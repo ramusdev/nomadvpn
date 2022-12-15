@@ -44,7 +44,7 @@ public class NotificationService {
         Intent intent = new Intent(MyApplicationContext.getAppContext(), MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
-        pendingIntent = PendingIntent.getActivity(MyApplicationContext.getAppContext(), 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        pendingIntent = PendingIntent.getActivity(MyApplicationContext.getAppContext(), 0, intent, PendingIntent.FLAG_MUTABLE);
 
         // Notification channel
         String channelName = "channel_name";
