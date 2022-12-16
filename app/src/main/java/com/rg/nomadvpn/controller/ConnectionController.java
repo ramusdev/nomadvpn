@@ -17,6 +17,8 @@ import android.widget.TextView;
 import androidx.annotation.RequiresApi;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -32,9 +34,11 @@ import com.rg.nomadvpn.service.VpnConnectionService;
 import com.rg.nomadvpn.ui.connection.ButtonConnect;
 import com.rg.nomadvpn.ui.connection.ButtonDisconnect;
 import com.rg.nomadvpn.ui.connection.ButtonProfile;
+import com.rg.nomadvpn.ui.connection.ButtonServer;
 import com.rg.nomadvpn.ui.connection.ConnectionFragment;
 import com.rg.nomadvpn.ui.connection.ConnectionViewModel;
 import com.rg.nomadvpn.ui.connection.SupportMessage;
+import com.rg.nomadvpn.ui.server.ServerFragment;
 import com.rg.nomadvpn.utils.MyApplicationContext;
 
 import java.util.Date;
@@ -58,6 +62,7 @@ public class ConnectionController {
     private ButtonConnect buttonConnect;
     private ButtonDisconnect buttonDisconnect;
     private ButtonProfile buttonProfile;
+    private ButtonServer buttonServer;
     private ConnectionViewModel connectionViewModel;
     private Handler handler = new Handler();
     private static ConnectionController instance;
@@ -94,6 +99,7 @@ public class ConnectionController {
         this.buttonConnect = new ButtonConnect(view);
         this.buttonDisconnect = new ButtonDisconnect(view);
         this.buttonProfile = new ButtonProfile(view);
+        this.buttonServer = new ButtonServer(view);
 
         updateData();
         broadcastReceiverRegister();
@@ -138,6 +144,13 @@ public class ConnectionController {
                     return true;
                 }
             });
+            buttonServer.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    openServerFragment();
+                }
+            });
+            initServerButton();
         } else {
             buttonConnect.hideButton();
             buttonDisconnect.hideButton();
@@ -440,6 +453,16 @@ public class ConnectionController {
 
     public static void onResume(ConnectionFragment connectionFragment) {
         LocalBroadcastManager.getInstance(connectionFragment.getActivity()).registerReceiver(broadcastReceiverStatic, new IntentFilter("connectionState"));
+    }
+
+    public void openServerFragment() {
+        FragmentTransaction fragmentTransaction = MainActivity.getInstance().getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.setCustomAnimations(R.anim.slide_in, R.anim.slide_out);
+        fragmentTransaction.replace(R.id.nav_host_fragment_content_main, ServerFragment.class, null).commit();
+    }
+
+    public void initServerButton() {
+        buttonServer.initServerButton();
     }
 
     public void vibrate() {
