@@ -16,8 +16,6 @@ public class ServiceLocatorCache {
                 .filter(e -> e.getClass().hashCode() == serviceBase.hashCode())
                 .findFirst();
 
-        System.out.println("Size: " + services.size());
-
         return optionalService.orElse(null);
     }
 

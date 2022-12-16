@@ -45,12 +45,9 @@ public class ConnectionFragment extends Fragment {
         toolbar.setTitle(MyApplicationContext.getAppContext().getResources().getString(R.string.menu_connection));
 
         // Connection service
-        // vpnConnectionService = new VpnConnectionService(this);
         ConnectionController connectionController = new ConnectionController();
         connectionController.setView(view);
         connectionController.setFragment(this);
-        // connectionController.setNotificationService(new NotificationService(vpnConnectionService));
-        // connectionController.setVpnService(vpnConnectionService);
         connectionController.init();
 
         // VpnStatus.initLogCache(getActivity().getCacheDir());

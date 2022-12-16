@@ -64,18 +64,6 @@ public class ConnectionController {
 
     public ConnectionController() {
         instance = this;
-
-        // vpnConnectionService = (VpnConnectionService) ServiceLocator.getService(VpnConnectionService.class);
-        // vpnConnectionService.setFragment(fragment);
-        // notificationService = (NotificationService) ServiceLocator.getService(NotificationService.class);
-    }
-
-    public void setVpnService(VpnConnectionService vpnConnectionService) {
-        // this.vpnConnectionService = vpnConnectionService;
-    }
-
-    public void setNotificationService(NotificationService notificationService) {
-        // this.notificationService = notificationService;
     }
 
     public void setView(View view) {
@@ -99,6 +87,7 @@ public class ConnectionController {
 
         vpnConnectionService = (VpnConnectionService) ServiceLocator.getService(VpnConnectionService.class);
         vpnConnectionService.setFragment(fragment);
+
         notificationService = (NotificationService) ServiceLocator.getService(NotificationService.class);
 
         this.supportMessage = new SupportMessage(view);
