@@ -8,8 +8,11 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.google.android.material.navigation.NavigationView;
 import com.rg.nomadvpn.R;
 import com.rg.nomadvpn.db.ServerHolder;
 import com.rg.nomadvpn.model.ServerHolderConfiguration;
@@ -51,6 +54,11 @@ public class ServerFragment extends Fragment {
         // Toolbar
         Toolbar toolbar = getActivity().findViewById(R.id.toolbar);
         toolbar.setTitle(MyApplicationContext.getAppContext().getResources().getString(R.string.menu_server));
+
+        // Navigation
+        NavigationView navigationView = getActivity().findViewById(R.id.navigation_view);
+        MenuItem menuItem = navigationView.getMenu().findItem(R.id.nav_server);
+        menuItem.setChecked(true);
 
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);

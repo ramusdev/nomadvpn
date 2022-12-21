@@ -22,7 +22,6 @@ import de.blinkt.openvpn.core.OpenVPNThread;
 
 public class VpnConnectionService extends ServiceBase {
     private final static String LOGTAG = "Logtag";
-    private final static String CONFIG = "config_germany.ovpn";
     public Fragment fragment;
     // private OpenVPNThread openVPNThread = new OpenVPNThread();
     // private OpenVPNService openVPNService = new OpenVPNService();

@@ -50,7 +50,5 @@ public class ButtonServer {
                 imageFlag.setImageDrawable(drawable);
             }
         });
-
     }
-
 }
