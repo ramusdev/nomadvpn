@@ -150,7 +150,6 @@ public class ConnectionController {
                     openServerFragment();
                 }
             });
-            initServerButton();
         } else {
             buttonConnect.hideButton();
             buttonDisconnect.hideButton();
@@ -168,6 +167,7 @@ public class ConnectionController {
                 }
             });
         }
+        initServerButton();
     }
 
     public void startConnectionClickDown() {

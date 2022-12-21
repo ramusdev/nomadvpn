@@ -37,6 +37,11 @@
     <string name="notification_disconnected">Статус подключения: отключено</string>
     <string name="notification_waiting">Статус подключения: ожидание</string>
 
+    <string name="country_notherland">Нидерланды</string>
+    <string name="city_amsterdam">Амстердам</string>
+    <string name="country_russia">Россия</string>
+    <string name="city_moscow">Москва</string>
+
     <string name="about_text">
         <![CDATA[
              Nomad VPN быстрый и безопасный VPN для вас. <br><br>

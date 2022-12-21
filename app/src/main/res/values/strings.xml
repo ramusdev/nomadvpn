@@ -37,6 +37,11 @@
     <string name="notification_disconnected">Connection status: disconnected</string>
     <string name="notification_waiting">Connection status: waiting</string>
 
+    <string name="country_notherland">Notherland</string>
+    <string name="city_amsterdam">Amsterdam</string>
+    <string name="country_russia">Russia</string>
+    <string name="city_moscow">Moscow</string>
+
     <string name="about_text">
         <![CDATA[
             Nomad VPN fast and secure VPN for you. <br><br>

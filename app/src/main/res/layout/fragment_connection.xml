@@ -506,7 +506,7 @@
             android:layout_height="36dp"
             android:layout_marginRight="20dp"
             android:scaleType="fitXY"
-            app:srcCompat="@drawable/germanyflag" />
+            app:srcCompat="@drawable/notherland_flag" />
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
