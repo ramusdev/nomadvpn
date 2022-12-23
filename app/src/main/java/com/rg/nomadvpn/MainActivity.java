@@ -23,6 +23,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.rg.nomadvpn.ui.server.ServerFragment;
 import com.rg.nomadvpn.ui.settings.SettingsFragment;
 import com.rg.nomadvpn.ui.connection.ConnectionFragment;
+import com.rg.nomadvpn.ui.speed.SpeedFragment;
 import com.rg.nomadvpn.utils.MyApplicationContext;
 
 public class MainActivity extends AppCompatActivity {
@@ -42,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         // Change fragment
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.nav_host_fragment_content_main, ConnectionFragment.class, null)
+                .replace(R.id.nav_host_fragment_content_main, SpeedFragment.class, null)
                 // .setReorderingAllowed(true)
                 // .addToBackStack(null)
                 .commit();
