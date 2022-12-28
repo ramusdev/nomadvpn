@@ -3,13 +3,12 @@
     <item android:id="@android:id/background">
         <shape android:shape="oval">
             <gradient
-                android:centerColor="#4d512881"
+                android:centerColor="#4d434F5A"
                 android:endColor="@android:color/transparent"
-                android:startColor="#80512881"
-                android:gradientRadius="130dp"
+                android:startColor="#434F5A"
+                android:gradientRadius="95dp"
                 android:type="radial">
             </gradient>
-            <stroke android:width="3dp" android:color="#1aececec" />
         </shape>
     </item>
 </layer-list>
