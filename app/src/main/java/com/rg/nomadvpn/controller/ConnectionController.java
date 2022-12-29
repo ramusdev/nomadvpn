@@ -351,6 +351,8 @@ public class ConnectionController {
         String textStatus = MyApplicationContext.getAppContext().getString(R.string.connected_status);
 
         connectionViewModel = new ViewModelProvider(fragment).get(ConnectionViewModel.class);
+
+        /*
         connectionViewModel.getDuration().observe(fragment.getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(String value) {
@@ -400,6 +402,20 @@ public class ConnectionController {
             @Override
             public void onChanged(String value) {
                 speedOutValue.setText(value);
+            }
+        });
+
+        */
+
+
+
+
+
+        TextView downloadSpeedTextView = view.findViewById(R.id.download_speed);
+        connectionViewModel.getSpeedIn().observe(fragment.getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String value) {
+                downloadSpeedTextView.setText(value);
             }
         });
     }

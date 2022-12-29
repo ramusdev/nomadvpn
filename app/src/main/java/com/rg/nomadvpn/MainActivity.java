@@ -43,8 +43,8 @@ public class MainActivity extends AppCompatActivity {
         // Change fragment
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.nav_host_fragment_content_main, SpeedFragment.class, null)
-                // .replace(R.id.nav_host_fragment_content_main, ConnectionFragment.class, null)
+                // .replace(R.id.nav_host_fragment_content_main, SpeedFragment.class, null)
+                .replace(R.id.nav_host_fragment_content_main, ConnectionFragment.class, null)
                 // .setReorderingAllowed(true)
                 // .addToBackStack(null)
                 .commit();
