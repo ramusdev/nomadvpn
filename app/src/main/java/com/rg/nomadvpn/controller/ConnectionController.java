@@ -39,6 +39,7 @@ import com.rg.nomadvpn.ui.connection.ConnectionFragment;
 import com.rg.nomadvpn.ui.connection.ConnectionViewModel;
 import com.rg.nomadvpn.ui.connection.SupportMessage;
 import com.rg.nomadvpn.ui.server.ServerFragment;
+import com.rg.nomadvpn.ui.speed.SpeedView;
 import com.rg.nomadvpn.utils.MyApplicationContext;
 
 import java.util.Date;
@@ -66,6 +67,8 @@ public class ConnectionController {
     private ConnectionViewModel connectionViewModel;
     private Handler handler = new Handler();
     private static ConnectionController instance;
+    private TextView downloadSpeedTextView;
+    private StringBuilder speedDownloadStore = new StringBuilder("0.0");
 
     public ConnectionController() {
         instance = this;
@@ -89,6 +92,8 @@ public class ConnectionController {
         // this.titleDisconnect = view.findViewById(R.id.title_disconnect);
         // this.layoutDisconnect = view.findViewById(R.id.layout_disconnect);
         // this.supportLayout = view.findViewById(R.id.support_layout);
+
+        downloadSpeedTextView = view.findViewById(R.id.download_speed);
 
         vpnConnectionService = (VpnConnectionService) ServiceLocator.getService(VpnConnectionService.class);
         vpnConnectionService.setFragment(fragment);
@@ -411,13 +416,21 @@ public class ConnectionController {
 
 
 
-        TextView downloadSpeedTextView = view.findViewById(R.id.download_speed);
+
+        SpeedView speedView = view.findViewById(R.id.speed_view);
+        speedView.setView(view);
+        speedView.init();
         connectionViewModel.getSpeedIn().observe(fragment.getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(String value) {
-                downloadSpeedTextView.setText(value);
+                String mbitString = value.replace(",", ".");
+                // downloadSpeedTextView.setText(mbitString);
+
+                speedView.downloadAnimation(value);
             }
         });
+
+
     }
 
     public void broadcastReceiverRegister() {
@@ -448,11 +461,11 @@ public class ConnectionController {
                 }
 
                 if (speedIn == null) {
-                    speedIn = "0 Mbit/s";
+                    speedIn = "0";
                 }
 
                 if (speedOut == null) {
-                    speedOut = "0 Mbit/s";
+                    speedOut = "0";
                 }
 
                 connectionViewModel.setDuration(duration);

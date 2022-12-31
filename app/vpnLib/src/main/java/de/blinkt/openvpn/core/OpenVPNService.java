@@ -161,6 +161,17 @@ public class OpenVPNService extends VpnService implements StateListener, Callbac
     private Toast mlastToast;
     private Runnable mOpenVPNThread;
 
+    public static String humanReadableSpeed(long bytes, boolean speed, Resources res) {
+        bytes = bytes * 8;
+        int unit = 1000;
+
+        float bytesUnit = (float) (bytes / Math.pow(unit, 2));
+        String mbit = String.format("%.1f", bytesUnit);
+        String mbitString = mbit.replace(",", ".");
+
+        return mbitString;
+    }
+
     // From: http://stackoverflow.com/questions/3758606/how-to-convert-byte-size-into-human-readable-format-in-java
     public static String humanReadableByteCount(long bytes, boolean speed, Resources res) {
         if (speed)
@@ -1309,8 +1320,8 @@ public class OpenVPNService extends VpnService implements StateListener, Callbac
 
             String receiveIn = humanReadableByteCount(in, false, getResources());
             String receiveOut = humanReadableByteCount(out, false, getResources());
-            String speedIn = humanReadableByteCount(diffIn / OpenVPNManagement.mBytecountInterval, true, getResources());
-            String speedOut = humanReadableByteCount(diffOut / OpenVPNManagement.mBytecountInterval, true, getResources());
+            String speedIn = humanReadableSpeed(diffIn / OpenVPNManagement.mBytecountInterval, true, getResources());
+            String speedOut = humanReadableSpeed(diffOut / OpenVPNManagement.mBytecountInterval, true, getResources());
 
             byteOut = String.format("↑%2$s", getString(R.string.statusline_bytecount),
                     humanReadableByteCount(out, false,getResources())) + " - " + humanReadableByteCount(diffOut / OpenVPNManagement.mBytecountInterval, false, getResources()) + "/s";
