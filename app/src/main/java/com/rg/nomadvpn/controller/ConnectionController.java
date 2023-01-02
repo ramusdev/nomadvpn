@@ -42,6 +42,10 @@ import com.rg.nomadvpn.ui.server.ServerFragment;
 import com.rg.nomadvpn.ui.speed.SpeedView;
 import com.rg.nomadvpn.utils.MyApplicationContext;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
 public class ConnectionController {
@@ -67,8 +71,7 @@ public class ConnectionController {
     private ConnectionViewModel connectionViewModel;
     private Handler handler = new Handler();
     private static ConnectionController instance;
-    private TextView downloadSpeedTextView;
-    private StringBuilder speedDownloadStore = new StringBuilder("0.0");
+    private SpeedView speedView;
 
     public ConnectionController() {
         instance = this;
@@ -93,11 +96,12 @@ public class ConnectionController {
         // this.layoutDisconnect = view.findViewById(R.id.layout_disconnect);
         // this.supportLayout = view.findViewById(R.id.support_layout);
 
-        downloadSpeedTextView = view.findViewById(R.id.download_speed);
+        speedView = view.findViewById(R.id.speed_view);
+        speedView.setView(view);
+        speedView.init();
 
         vpnConnectionService = (VpnConnectionService) ServiceLocator.getService(VpnConnectionService.class);
         vpnConnectionService.setFragment(fragment);
-
         notificationService = (NotificationService) ServiceLocator.getService(NotificationService.class);
 
         this.supportMessage = new SupportMessage(view);
@@ -334,6 +338,7 @@ public class ConnectionController {
                     String status = vpnConnectionService.getStatus();
                     if (status.equals("Connected")) {
                         notificationService.showConnectMessage();
+                        speedView.connectedAnimation();
                         break;
                     } else if (status.equals("Disconnected")) {
                         // initClick();
@@ -417,19 +422,16 @@ public class ConnectionController {
 
 
 
-        SpeedView speedView = view.findViewById(R.id.speed_view);
-        speedView.setView(view);
-        speedView.init();
+        // SpeedView speedView = view.findViewById(R.id.speed_view);
+        // speedView.setView(view);
+        // speedView.init();
+
         connectionViewModel.getSpeedIn().observe(fragment.getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(String value) {
-                String mbitString = value.replace(",", ".");
-                // downloadSpeedTextView.setText(mbitString);
-
                 speedView.downloadAnimation(value);
             }
         });
-
 
     }
 
@@ -472,8 +474,15 @@ public class ConnectionController {
                 connectionViewModel.setStatus(status);
                 connectionViewModel.setReceiveIn(receiveIn);
                 connectionViewModel.setReceiveOut(receiveOut);
-                connectionViewModel.setSpeedIn(speedIn);
                 connectionViewModel.setSpeedOut(speedOut);
+
+                DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+                LocalTime localTimeCurrent = LocalTime.parse(duration, dateTimeFormatter);
+                LocalTime localTimePlus = LocalTime.parse("00:00:10", dateTimeFormatter);
+
+                if (localTimeCurrent.isAfter(localTimePlus)) {
+                    connectionViewModel.setSpeedIn(speedIn);
+                }
             }
         };
 

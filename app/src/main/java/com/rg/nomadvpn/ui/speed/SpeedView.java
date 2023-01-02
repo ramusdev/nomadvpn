@@ -1,5 +1,7 @@
 package com.rg.nomadvpn.ui.speed;
 
+import android.animation.Animator;
+import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
@@ -8,15 +10,21 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
+import android.view.animation.LinearInterpolator;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
 import com.rg.nomadvpn.R;
+
+import java.util.logging.ConsoleHandler;
 
 public class SpeedView extends View {
     float cx = 0;
@@ -29,6 +37,8 @@ public class SpeedView extends View {
     private float valueSpeed = 0.0f;
     private View viewMain;
     private TextView textView;
+    private Handler handler = new Handler();
+    // private OnAnimationEnd onAnimationEnd;
 
     public SpeedView(Context context) {
         super(context);
@@ -50,6 +60,14 @@ public class SpeedView extends View {
         // this.colorUpload = MyApplicationContext.getAppContext().getResources().getColor(R.color.background_to_disconnect);
     }
 
+    public interface OnAnimationEnd {
+        void onAnimationEndAction();
+    }
+
+    // public void setOnAnimationEndAction(OnAnimationEnd onAnimationEnd) {
+        // this.onAnimationEnd = onAnimationEnd;
+    // }
+
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -61,12 +79,11 @@ public class SpeedView extends View {
 
         double valueDouble = (double) Math.round(this.valueSpeed * 10) / 10;
         String valueString = String.valueOf(valueDouble);
-
-        float degreeInMb = 260 / 60;
-        int valueDegree = (int) (this.valueSpeed * degreeInMb) + 18;
+        float factor = 965.714f;
+        int valueDegree = (int) Math.sqrt(this.valueSpeed * factor);
+        // int valueDegree = 14;
 
         textView.setText(valueString);
-
 
         // Draw first circle
         paint.setColor(Color.parseColor("#364049"));
@@ -113,23 +130,42 @@ public class SpeedView extends View {
         canvas.drawArc(ovalSpeedTwo, 140, valueDegree, false, paint);
         paint.setMaskFilter(null);
 
-        double radiusText = radius - 10;
-        double angleText = (valueDegree + 127) % 360;
-        double angle = Math.toRadians(angleText);
-        double angleTextDraw = (valueDegree + 220) % 360;
+        // double radiusText = radius - 12;
+        // double angleText = (valueDegree + 126) % 360;
+        // double angle = Math.toRadians(angleText);
+        // double angleTextDraw = (valueDegree + 220) % 360;
+
+        double degreeText = 146;
+        double rotationText = 238;
+        paint.setColor(Color.parseColor("#ffffff"));
+
+        if (valueDegree >= 20) {
+            rotationText += valueDegree - 16;
+            degreeText += valueDegree - 20;
+        }
+
+        if (valueDegree >= 14) {
+            paint.setColor(Color.parseColor("#0a5145"));
+        }
+
+        double radiusText = radius - 12;
+        double angle = Math.toRadians(degreeText);
+        // double angleTextDraw = (valueDegree + 220) % 360;
         float coordX = (float) (radiusText * Math.cos(angle));
         float coordY = (float) (radiusText * Math.sin(angle));
 
-        paint.setColor(Color.parseColor("#0a5145"));
+        // paint.setColor(Color.parseColor("#0a5145"));
+        // paint.setColor(Color.parseColor("#ffffff"));
         paint.setTextSize(34);
         paint.setStyle(Paint.Style.FILL);
-        canvas.rotate((float) angleTextDraw, coordX, coordY);
+        canvas.rotate((float) rotationText, coordX, coordY);
         canvas.drawText(valueString, coordX,  coordY, paint);
 
         canvas.restore();
         // invalidate();
     }
 
+    /*
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
@@ -140,6 +176,7 @@ public class SpeedView extends View {
                 return super.onTouchEvent(event);
         }
     }
+    */
 
     /*
     public void setValue(int valueDownload) {
@@ -170,10 +207,8 @@ public class SpeedView extends View {
 
     public void downloadAnimation(String speedTo) {
         float speedToFloat = Float.parseFloat(speedTo);
-        // float degreeInMb = 260 / 60;
-        // int degreeTo = (int) (speedTo * degreeInMb) + 20;
-
         float speedCurrent = this.valueSpeed;
+
         ValueAnimator valueAnimator = ObjectAnimator.ofFloat(speedCurrent, speedToFloat);
         valueAnimator.setDuration(1000);
         valueAnimator.setInterpolator(new DecelerateInterpolator());
@@ -185,42 +220,40 @@ public class SpeedView extends View {
             }
         });
         valueAnimator.start();
-
-
-        /*
-        int degreeCurrent = this.valueDownload;
-        ObjectAnimator objectAnimator = ObjectAnimator.ofInt(this, "value", degreeCurrent, degreeTo);
-        objectAnimator.setDuration(1000);
-        objectAnimator.setInterpolator(new DecelerateInterpolator());
-        objectAnimator.start();
-
-        TextView speedView = view.findViewById(R.id.download_speed);
-        String speedString = speedView.getText().toString();
-        float speedFloat = Float.parseFloat(speedString);
-
-        ValueAnimator valueAnimator = ValueAnimator.ofFloat(speedFloat, speedToFloat);
-        valueAnimator.setDuration(1000);
-        valueAnimator.setInterpolator(new DecelerateInterpolator());
-        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                float value = (float) animation.getAnimatedValue();
-                double valueDouble = (double) Math.round(value * 10) / 10;
-                speedView.setText(String.valueOf(valueDouble));
-            }
-        });
-        valueAnimator.start();
-        */
-
-
-
-
     }
 
-    public void valueAnimatorStartDownload() {
-        ObjectAnimator objectAnimator = ObjectAnimator.ofInt(this, "value", 20, 260);
-        objectAnimator.setDuration(1000);
-        objectAnimator.setInterpolator(new DecelerateInterpolator());
-        objectAnimator.start();
+    public void connectedAnimation() {
+        float speedFrom = 0.0f;
+        float speedTo = 70.0f;
+
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                ValueAnimator animatorSpeedToMax = ObjectAnimator.ofFloat(speedFrom, speedTo);
+                animatorSpeedToMax.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animation) {
+                        float value = (float) animation.getAnimatedValue();
+                        updateFrame(value);
+                    }
+                });
+                // animatorSpeedToMax.start();
+
+                ValueAnimator animatorSpeedToMin = ObjectAnimator.ofFloat(speedTo, speedFrom);
+                animatorSpeedToMin.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animation) {
+                        float value = (float) animation.getAnimatedValue();
+                        updateFrame(value);
+                    }
+                });
+
+                AnimatorSet animatorSet = new AnimatorSet();
+                animatorSet.setDuration(2000);
+                animatorSet.play(animatorSpeedToMax);
+                animatorSet.play(animatorSpeedToMin).after(animatorSpeedToMax);
+                animatorSet.start();
+            }
+        });
     }
 }
