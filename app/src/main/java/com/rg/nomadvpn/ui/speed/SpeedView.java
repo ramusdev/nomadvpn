@@ -86,7 +86,7 @@ public class SpeedView extends View {
         textView.setText(valueString);
 
         // Draw first circle
-        paint.setColor(Color.parseColor("#364049"));
+        paint.setColor(Color.parseColor("#374051"));
         paint.setStyle(Paint.Style.STROKE);
         paint.setAntiAlias(true);
         paint.setSubpixelText(true);
@@ -96,7 +96,7 @@ public class SpeedView extends View {
         canvas.drawArc(ovalFirst, 140, 260, false, paint);
 
         // Draw second circle
-        paint.setColor(Color.parseColor("#B3364049"));
+        paint.setColor(Color.parseColor("#B3374051"));
         paint.setStrokeWidth(50.0f);
         paint.setMaskFilter(new BlurMaskFilter(25, BlurMaskFilter.Blur.NORMAL));
         float radiusSecond = radius - 40.0f;
