@@ -20,7 +20,7 @@
     <color name="main_shadow">#313131</color>
 
     <!-- Main style -->
-    <color name="main_background">#1a2530</color>
+    <color name="main_background">#17212b</color>
     <color name="status_background">#303F50</color>
     <color name="data_text">#01494C</color>
 
@@ -55,7 +55,7 @@
     <color name="profile_text">#FFECDE</color>
     <color name="progress_item">#66BB6A</color> <!-- #62F811 -->
 
-    <color name="line_progress">#66BB6A</color>
+    <color name="line_progress">#0fd6b5</color>
     <color name="disconnect_progress">#E91E63</color>
     <color name="profile_background_animation">#CA5800</color>
 

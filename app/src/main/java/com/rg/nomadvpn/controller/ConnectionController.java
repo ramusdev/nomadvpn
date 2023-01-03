@@ -360,39 +360,11 @@ public class ConnectionController {
         TextView durationValue = view.findViewById(R.id.text_duration);
         String textStatus = MyApplicationContext.getAppContext().getString(R.string.connected_status);
         TextView statusValue = view.findViewById(R.id.text_status);
+        TextView receiveInValue = view.findViewById(R.id.text_trafficdownload);
+        TextView receiveOutValue = view.findViewById(R.id.text_trafficupload);
         connectionViewModel = new ViewModelProvider(fragment).get(ConnectionViewModel.class);
 
-
-
-
-
-
-
         /*
-        TextView receiveInValue = view.findViewById(R.id.value_receivein);
-        connectionViewModel.getReceiveIn().observe(fragment.getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(String value) {
-                receiveInValue.setText(value);
-            }
-        });
-
-        TextView receiveOutValue = view.findViewById(R.id.value_receiveout);
-        connectionViewModel.getReceiveOut().observe(fragment.getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(String value) {
-                receiveOutValue.setText(value);
-            }
-        });
-
-        TextView speedInValue = view.findViewById(R.id.value_speedin);
-        connectionViewModel.getSpeedIn().observe(fragment.getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(String value) {
-                speedInValue.setText(value);
-            }
-        });
-
         TextView speedOutValue = view.findViewById(R.id.value_speedout);
         connectionViewModel.getSpeedOut().observe(fragment.getViewLifecycleOwner(), new Observer<String>() {
             @Override
@@ -400,12 +372,21 @@ public class ConnectionController {
                 speedOutValue.setText(value);
             }
         });
+        */
 
-         */
+        connectionViewModel.getReceiveIn().observe(fragment.getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String value) {
+                receiveInValue.setText(value);
+            }
+        });
 
-
-
-
+        connectionViewModel.getReceiveOut().observe(fragment.getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String value) {
+                receiveOutValue.setText(value);
+            }
+        });
 
         connectionViewModel.getStatus().observe(fragment.getViewLifecycleOwner(), new Observer<String>() {
             @Override

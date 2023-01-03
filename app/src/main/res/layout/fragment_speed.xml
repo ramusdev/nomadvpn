@@ -192,8 +192,9 @@
         android:gravity="center"
         android:orientation="vertical"
         android:layout_marginStart="50dp"
+        android:layout_marginTop="100dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/speed_view">
+        app:layout_constraintTop_toBottomOf="@id/download_speed">
 
         <TextView
             android:id="@+id/title_duration"
@@ -230,8 +231,9 @@
         android:gravity="center"
         android:orientation="vertical"
         android:layout_marginEnd="50dp"
+        android:layout_marginTop="100dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/speed_view">
+        app:layout_constraintTop_toBottomOf="@id/download_speed">
 
         <TextView
             android:id="@+id/title_status"
@@ -261,6 +263,91 @@
             android:textSize="15sp" />
     </LinearLayout>
 
+    <ImageView
+        android:id="@+id/line_main"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/layout_mainline"
+        app:layout_constraintTop_toBottomOf="@id/linear_duration"/>
+
+    <LinearLayout
+        android:id="@+id/linear_trafficdownload"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/line_main">
+
+        <TextView
+            android:id="@+id/title_trafficdownload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto"
+            android:text="Downloaded"
+            android:textAllCaps="true"
+            android:textColor="#8CB6B0"
+            android:textSize="15sp" />
+
+        <ImageView
+            android:id="@+id/line_trafficdownload"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="1dp"
+            android:background="@drawable/layout_line" />
+
+        <TextView
+            android:id="@+id/text_trafficdownload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto"
+            android:text="0 Mbyte"
+            android:textColor="@color/statistics_textsecond"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linear_trafficupload"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="60dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/line_main">
+
+        <TextView
+            android:id="@+id/title_trafficupload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto"
+            android:text="Uploaded"
+            android:textAllCaps="true"
+            android:textColor="#8CB6B0"
+            android:textSize="15sp" />
+
+        <ImageView
+            android:id="@+id/line_trafficupload"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="1dp"
+            android:background="@drawable/layout_line" />
+
+        <TextView
+            android:id="@+id/text_trafficupload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto"
+            android:text="0 Mbyte"
+            android:textColor="@color/statistics_textsecond"
+            android:textSize="15sp" />
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/button_server"
