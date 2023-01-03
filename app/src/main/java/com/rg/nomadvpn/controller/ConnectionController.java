@@ -357,32 +357,18 @@ public class ConnectionController {
     }
 
     public void updateData() {
-        TextView durationValue = view.findViewById(R.id.value_time);
+        TextView durationValue = view.findViewById(R.id.text_duration);
         String textStatus = MyApplicationContext.getAppContext().getString(R.string.connected_status);
-
+        TextView statusValue = view.findViewById(R.id.text_status);
         connectionViewModel = new ViewModelProvider(fragment).get(ConnectionViewModel.class);
 
+
+
+
+
+
+
         /*
-        connectionViewModel.getDuration().observe(fragment.getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(String value) {
-                durationValue.setText(value);
-            }
-        });
-
-        TextView statusValue = view.findViewById(R.id.value_status);
-        connectionViewModel.getStatus().observe(fragment.getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(String value) {
-                statusValue.setText(value);
-                if (value.equals(textStatus)) {
-                    statusValue.setTextColor(MyApplicationContext.getAppContext().getResources().getColor(R.color.status_textconnected));
-                } else {
-                    statusValue.setTextColor(MyApplicationContext.getAppContext().getResources().getColor(R.color.status_text));
-                }
-            }
-        });
-
         TextView receiveInValue = view.findViewById(R.id.value_receivein);
         connectionViewModel.getReceiveIn().observe(fragment.getViewLifecycleOwner(), new Observer<String>() {
             @Override
@@ -415,16 +401,30 @@ public class ConnectionController {
             }
         });
 
-        */
+         */
 
 
 
 
 
+        connectionViewModel.getStatus().observe(fragment.getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String value) {
+                statusValue.setText(value);
+                if (value.equals(textStatus)) {
+                    statusValue.setTextColor(MyApplicationContext.getAppContext().getResources().getColor(R.color.status_textconnected));
+                } else {
+                    statusValue.setTextColor(MyApplicationContext.getAppContext().getResources().getColor(R.color.status_text));
+                }
+            }
+        });
 
-        // SpeedView speedView = view.findViewById(R.id.speed_view);
-        // speedView.setView(view);
-        // speedView.init();
+        connectionViewModel.getDuration().observe(fragment.getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String value) {
+                durationValue.setText(value);
+            }
+        });
 
         connectionViewModel.getSpeedIn().observe(fragment.getViewLifecycleOwner(), new Observer<String>() {
             @Override
@@ -432,7 +432,6 @@ public class ConnectionController {
                 speedView.downloadAnimation(value);
             }
         });
-
     }
 
     public void broadcastReceiverRegister() {

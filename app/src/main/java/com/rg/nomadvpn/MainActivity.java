@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
         windows.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         windows.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         windows.setStatusBarColor(MyApplicationContext.getAppContext().getResources().getColor(R.color.status_background));
-        windows.setNavigationBarColor(MyApplicationContext.getAppContext().getResources().getColor(R.color.status_background));
+        windows.setNavigationBarColor(MyApplicationContext.getAppContext().getResources().getColor(R.color.main_background));
     }
 
     @Override

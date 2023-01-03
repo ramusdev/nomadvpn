@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#252b37"
+    android:background="#17212b"
     android:paddingLeft="20dp"
     android:paddingRight="20dp"
     tools:context=".ui.speed.SpeedFragment">
@@ -36,8 +36,8 @@
         android:id="@+id/download_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_download"
         android:paddingTop="1dp"
+        android:src="@drawable/ic_download"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/download_mbit"
         app:layout_constraintHorizontal_chainStyle="packed"
@@ -137,7 +137,7 @@
         android:text="8"
         android:textColor="#FAFAD2"
         android:textSize="16sp"
-        app:layout_constraintHorizontal_bias="0.315"
+        app:layout_constraintHorizontal_bias="0.32"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -151,7 +151,7 @@
         android:text="4"
         android:textColor="#FAFAD2"
         android:textSize="16sp"
-        app:layout_constraintHorizontal_bias="0.245"
+        app:layout_constraintHorizontal_bias="0.25"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -165,7 +165,7 @@
         android:text="1"
         android:textColor="#FAFAD2"
         android:textSize="16sp"
-        app:layout_constraintHorizontal_bias="0.235"
+        app:layout_constraintHorizontal_bias="0.24"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -183,6 +183,83 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+
+    <LinearLayout
+        android:id="@+id/linear_duration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_marginStart="50dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/speed_view">
+
+        <TextView
+            android:id="@+id/title_duration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto"
+            android:text="Duration"
+            android:textAllCaps="true"
+            android:textColor="#8CB6B0"
+            android:textSize="15sp" />
+
+        <ImageView
+            android:id="@+id/line_duration"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="1dp"
+            android:background="@drawable/layout_line" />
+
+        <TextView
+            android:id="@+id/text_duration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto"
+            android:text="00:00:00"
+            android:textColor="@color/statistics_textsecond"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linear_status"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_marginEnd="50dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/speed_view">
+
+        <TextView
+            android:id="@+id/title_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto"
+            android:text="STATUS"
+            android:textAllCaps="true"
+            android:textColor="#8CB6B0"
+            android:textSize="15sp" />
+
+        <ImageView
+            android:id="@+id/line_status"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="1dp"
+            android:background="@drawable/layout_line" />
+
+        <TextView
+            android:id="@+id/text_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto"
+            android:text="Connected"
+            android:textColor="@color/statistics_textsecond"
+            android:textSize="15sp" />
+    </LinearLayout>
 
 
     <LinearLayout
@@ -220,7 +297,7 @@
                 android:layout_marginTop="-5dp"
                 android:fontFamily="@font/roboto"
                 android:text="Germany"
-                android:textColor="@color/statistics_text"
+                android:textColor="#8CB6B0"
                 android:textSize="14dp" />
 
             <TextView
@@ -389,7 +466,7 @@
                 android:fontFamily="@font/roboto_bold"
                 android:text="@string/start_connection"
                 android:textAllCaps="true"
-                android:textColor="@color/connection_text"
+                android:textColor="#8CB6B0"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"

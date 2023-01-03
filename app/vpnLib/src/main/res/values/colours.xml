@@ -20,8 +20,8 @@
     <color name="main_shadow">#313131</color>
 
     <!-- Main style -->
-    <color name="main_background">#006064</color>
-    <color name="status_background">#004F53</color>  <!-- #004B4E #007478 #005357 -->
+    <color name="main_background">#1a2530</color>
+    <color name="status_background">#303F50</color>
     <color name="data_text">#01494C</color>
 
     <!-- Statistics -->
@@ -43,8 +43,8 @@
     <color name="receive_value">#FF6F00</color>
 
     <color name="connection_text">#DBFDFA</color>
-    <color name="connection_background">#009688</color>
-    <color name="connection_border">#017C71</color>
+    <color name="connection_background">#232e3c</color>
+    <color name="connection_border">#303F50</color>
 
     <color name="disconnection_text">#FFDBE7</color>
     <color name="disconnect_border">#B11A4D</color>
