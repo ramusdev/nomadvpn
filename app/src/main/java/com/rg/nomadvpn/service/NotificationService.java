@@ -64,7 +64,7 @@ public class NotificationService extends ServiceBase {
 
         // Title
         title = new SpannableString(NOTIFICATION_TITLE);
-        int color = MyApplicationContext.getAppContext().getResources().getColor(R.color.main_background);
+        int color = MyApplicationContext.getAppContext().getResources().getColor(R.color.status_title);
         title.setSpan(new StyleSpan(Typeface.BOLD), 0, title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         title.setSpan(new ForegroundColorSpan(color), 0, title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
     }

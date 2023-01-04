@@ -256,4 +256,28 @@ public class SpeedView extends View {
             }
         });
     }
+
+    public void clearAnimation() {
+        float speedFrom = this.valueSpeed;
+        float speedTo = 0.0f;
+
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                ValueAnimator animatorSpeedToMin = ObjectAnimator.ofFloat(speedFrom, speedTo);
+                animatorSpeedToMin.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animation) {
+                        float value = (float) animation.getAnimatedValue();
+                        updateFrame(value);
+                    }
+                });
+
+                AnimatorSet animatorSet = new AnimatorSet();
+                animatorSet.setDuration(2000);
+                animatorSet.play(animatorSpeedToMin);
+                animatorSet.start();
+            }
+        });
+    }
 }

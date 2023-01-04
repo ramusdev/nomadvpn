@@ -10,7 +10,7 @@
     <string name="menu_settings">Settings</string>
     <string name="menu_server">Server</string>
     <string name="menu_slideshow">Slideshow</string>
-    <string name="support_message">The connection is taking to long.\n\nTo disconnection click on the button.</string>
+    <string name="support_message">If the connection freezes, select another server or reconnect.</string>
     <string name="traffic_download">Traffic</string>
     <string name="speed_download">Speed</string>
     <string name="duration_download">Duration</string>
@@ -21,12 +21,12 @@
     <string name="progress_text">Progress</string>
 
     <string name="exiting_status">Exiting</string>
-    <string name="reconnecting_status">Reconnecting</string>
+    <string name="reconnecting_status">Reconnect</string>
     <string name="retry_status">Retry</string>
-    <string name="disconnected_status">Disconnected</string>
+    <string name="disconnected_status">Disconnec</string>
     <string name="nonetwork_status">No network</string>
     <string name="noprocess_status">No process</string>
-    <string name="generateconf_status">Generate conf</string>
+    <string name="generateconf_status">Gen conf</string>
     <string name="wait_status">Wait</string>
     <string name="auth_status">Auth</string>
     <string name="getconfig_status">Get config</string>

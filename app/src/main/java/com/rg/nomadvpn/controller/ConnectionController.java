@@ -220,6 +220,8 @@ public class ConnectionController {
     public void disconnectClickUp() {
         vpnConnectionService.disconnectServer();
         notificationService.showDisconnectMessage();
+        speedView.clearAnimation();
+        supportMessage.showMessage(false);
         buttonDisconnect.clickAnimationUp(new ButtonDisconnect.AnimationEndInterface() {
             @Override
             public void animationEnd() {
@@ -458,7 +460,7 @@ public class ConnectionController {
 
                 DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
                 LocalTime localTimeCurrent = LocalTime.parse(duration, dateTimeFormatter);
-                LocalTime localTimePlus = LocalTime.parse("00:00:10", dateTimeFormatter);
+                LocalTime localTimePlus = LocalTime.parse("00:00:30", dateTimeFormatter);
 
                 if (localTimeCurrent.isAfter(localTimePlus)) {
                     connectionViewModel.setSpeedIn(speedIn);

@@ -21,17 +21,17 @@
     <string name="progress_text">Прогресс</string>
 
     <string name="exiting_status">Выход</string>
-    <string name="reconnecting_status">Переподключ</string>
+    <string name="reconnecting_status">Перепод</string>
     <string name="retry_status">Повтор</string>
     <string name="disconnected_status">Отключено</string>
-    <string name="nonetwork_status">Нет интернета</string>
-    <string name="noprocess_status">Нет процесса</string>
+    <string name="nonetwork_status">Нет интер</string>
+    <string name="noprocess_status">Нет проц</string>
     <string name="generateconf_status">Ген конф</string>
     <string name="wait_status">Ожидание</string>
     <string name="auth_status">Авторизация</string>
     <string name="getconfig_status">Пол конф</string>
-    <string name="assignip_status">Присвоение ип</string>
-    <string name="addroutes_status">Доб роутинга</string>
+    <string name="assignip_status">Присвоен ип</string>
+    <string name="addroutes_status">Доб роутинг</string>
     <string name="connected_status">Подключено</string>
     <string name="notification_connected">Статус подключения: подключено</string>
     <string name="notification_disconnected">Статус подключения: отключено</string>
