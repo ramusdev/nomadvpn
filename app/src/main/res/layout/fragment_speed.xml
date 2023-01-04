@@ -267,7 +267,7 @@
         android:id="@+id/line_main"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         android:background="@drawable/layout_mainline"
         app:layout_constraintTop_toBottomOf="@id/linear_duration"/>
 
@@ -278,7 +278,7 @@
         android:gravity="center"
         android:orientation="vertical"
         android:layout_marginStart="35dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/line_main">
 
@@ -316,7 +316,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="vertical"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         android:layout_marginEnd="60dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/line_main">
@@ -348,6 +348,36 @@
             android:textColor="@color/statistics_textsecond"
             android:textSize="15sp" />
     </LinearLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/support_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:paddingLeft="15dp"
+        android:paddingTop="15dp"
+        android:paddingRight="15dp"
+        android:paddingBottom="15dp"
+        android:alpha="0"
+        android:visibility="visible"
+        android:background="@drawable/item_background"
+        app:layout_constraintTop_toBottomOf="@+id/linear_trafficdownload"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/support_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/support_message"
+            android:textColor="@color/support_text"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.496"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
         android:id="@+id/button_server"
@@ -394,7 +424,7 @@
                 android:fontFamily="@font/roboto"
                 android:text="Frankfurt on main"
                 android:textColor="@color/statistics_textsecond"
-                android:textSize="12dp" />
+                android:textSize="12sp" />
         </LinearLayout>
 
         <LinearLayout

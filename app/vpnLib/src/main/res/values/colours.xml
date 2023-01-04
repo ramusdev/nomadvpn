@@ -30,7 +30,7 @@
     <color name="status_text">#F44336</color>
     <color name="status_textwaiting">#FF6F00</color>
     <color name="status_textconnected">#66BB6A</color>
-    <color name="support_text">#B2DFDB</color>
+    <color name="support_text">#708499</color>
     <color name="background_card">#01595E</color>
     <color name="background_cardborder">#005155</color>
     <color name="background_cardpressed">#009688</color>
