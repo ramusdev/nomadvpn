@@ -72,6 +72,7 @@ public class ButtonConnect {
             public void run() {
                 progressBar.setProgress(0);
                 titleConnect.setText(MyApplicationContext.getAppContext().getResources().getString(R.string.start_connection));
+                changeTitleColor(false);
             }
         });
     }
@@ -534,6 +535,22 @@ public class ButtonConnect {
             @Override
             public void run() {
                 cardConnect.setVisibility(View.VISIBLE);
+            }
+        });
+    }
+
+    public void changeTitleColor(boolean isFirst) {
+        int colorDefaultInt = MyApplicationContext.getAppContext().getResources().getColor(R.color.connect_textdefault);
+        int colorFirstInt = MyApplicationContext.getAppContext().getResources().getColor(R.color.connect_textsecond);
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (isFirst) {
+                    titleConnect.setTextColor(colorFirstInt);
+                } else {
+                    titleConnect.setTextColor(colorDefaultInt);
+                }
+
             }
         });
     }

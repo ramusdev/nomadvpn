@@ -201,7 +201,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto"
-            android:text="Duration"
+            android:text="@string/duration_download"
             android:textAllCaps="true"
             android:textColor="#8CB6B0"
             android:textSize="15sp" />
@@ -240,7 +240,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto"
-            android:text="STATUS"
+            android:text="@string/title_status"
             android:textAllCaps="true"
             android:textColor="#8CB6B0"
             android:textSize="15sp" />
@@ -258,7 +258,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto"
-            android:text="Connected"
+            android:text="@string/disconnected_status"
             android:textColor="@color/statistics_textsecond"
             android:textSize="15sp" />
     </LinearLayout>
@@ -287,7 +287,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto"
-            android:text="Downloaded"
+            android:text="@string/traffic_downloaded"
             android:textAllCaps="true"
             android:textColor="#8CB6B0"
             android:textSize="15sp" />
@@ -326,7 +326,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto"
-            android:text="Uploaded"
+            android:text="@string/traffic_uploaded"
             android:textAllCaps="true"
             android:textColor="#8CB6B0"
             android:textSize="15sp" />

@@ -19,6 +19,8 @@
     <string name="button_disconnect">Disconnect</string>
     <string name="button_profile">Add vpn profile</string>
     <string name="progress_text">Progress</string>
+    <string name="traffic_downloaded">Uploaded</string>
+    <string name="traffic_uploaded">Downloaded</string>
 
     <string name="exiting_status">Exiting</string>
     <string name="reconnecting_status">Reconnect</string>

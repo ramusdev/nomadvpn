@@ -19,6 +19,8 @@
     <string name="button_disconnect">Отключиться</string>
     <string name="button_profile">Добавить профиль подключения</string>
     <string name="progress_text">Прогресс</string>
+    <string name="traffic_downloaded">Загружено</string>
+    <string name="traffic_uploaded">Выгружено</string>
 
     <string name="exiting_status">Выход</string>
     <string name="reconnecting_status">Перепод</string>

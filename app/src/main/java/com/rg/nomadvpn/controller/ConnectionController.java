@@ -315,6 +315,9 @@ public class ConnectionController {
                     if (breakPointCurrent != breakPoint) {
                         breakPoint = breakPointCurrent;
                         buttonConnect.updateProgressBar(breakPoint);
+                        if (breakPointCurrent >= 70) {
+                            buttonConnect.changeTitleColor(true);
+                        }
                     }
 
                     // Support message
