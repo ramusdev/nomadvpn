@@ -78,7 +78,7 @@ public class ServerFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            ServerHolder serverHolder = new ServerHolder();
+            ServerHolder serverHolder = ServerHolder.getInstance();
             ArrayList<ServerHolderConfiguration> servers = serverHolder.getServerList();
             recyclerView.setAdapter(new MyItemRecyclerViewAdapter(servers));
         }

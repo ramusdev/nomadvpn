@@ -38,7 +38,10 @@
     <string name="notification_connected">Статус подключения: подключено</string>
     <string name="notification_disconnected">Статус подключения: отключено</string>
     <string name="notification_waiting">Статус подключения: ожидание</string>
+    <string name="ping_ms">мс</string>
 
+    <string name="country_germany">Германия</string>
+    <string name="city_saarbrucken">Саарбрюккен</string>
     <string name="country_notherland">Нидерланды</string>
     <string name="city_amsterdam">Амстердам</string>
     <string name="country_russia">Россия</string>
@@ -52,7 +55,7 @@
              Авторские права на содержащиеся изображения и материалы принадлежат Ronin Group и являются интеллектуальной собственностью Ronin Group. © 2023 Ronin Group. Все права защищены.<br><br>
              Nomad VPN и логотип Nomand VPN являются зарегистрированными товарными знаками или товарными знаками Ronin Group.<br><br>
              <font color=#ffffff>Дополнительная информация</font><br><br>
-             - Текущая версия: 1.2.9<br>
+             - Текущая версия: 2.0.5<br>
              - Разработчик: Ronin Group<br>
         ]]>
     </string>

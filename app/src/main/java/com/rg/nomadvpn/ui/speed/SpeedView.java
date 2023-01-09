@@ -64,10 +64,6 @@ public class SpeedView extends View {
         void onAnimationEndAction();
     }
 
-    // public void setOnAnimationEndAction(OnAnimationEnd onAnimationEnd) {
-        // this.onAnimationEnd = onAnimationEnd;
-    // }
-
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -81,7 +77,6 @@ public class SpeedView extends View {
         String valueString = String.valueOf(valueDouble);
         float factor = 965.714f;
         int valueDegree = (int) Math.sqrt(this.valueSpeed * factor);
-        // int valueDegree = 14;
 
         textView.setText(valueString);
 
@@ -130,11 +125,6 @@ public class SpeedView extends View {
         canvas.drawArc(ovalSpeedTwo, 140, valueDegree, false, paint);
         paint.setMaskFilter(null);
 
-        // double radiusText = radius - 12;
-        // double angleText = (valueDegree + 126) % 360;
-        // double angle = Math.toRadians(angleText);
-        // double angleTextDraw = (valueDegree + 220) % 360;
-
         double degreeText = 146;
         double rotationText = 238;
         paint.setColor(Color.parseColor("#ffffff"));
@@ -150,12 +140,10 @@ public class SpeedView extends View {
 
         double radiusText = radius - 12;
         double angle = Math.toRadians(degreeText);
-        // double angleTextDraw = (valueDegree + 220) % 360;
+
         float coordX = (float) (radiusText * Math.cos(angle));
         float coordY = (float) (radiusText * Math.sin(angle));
 
-        // paint.setColor(Color.parseColor("#0a5145"));
-        // paint.setColor(Color.parseColor("#ffffff"));
         paint.setTextSize(34);
         paint.setStyle(Paint.Style.FILL);
         canvas.rotate((float) rotationText, coordX, coordY);
@@ -164,33 +152,6 @@ public class SpeedView extends View {
         canvas.restore();
         // invalidate();
     }
-
-    /*
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                valueAnimatorStartDownload();
-                return true;
-            default:
-                return super.onTouchEvent(event);
-        }
-    }
-    */
-
-    /*
-    public void setValue(int valueDownload) {
-        this.valueDownload = valueDownload;
-        invalidate();
-    }
-    */
-
-    /*
-    public void setValue(float valueSpeed) {
-        this.valueSpeed = valueSpeed;
-        invalidate();
-    }
-    */
 
     public void setView(View viewMain) {
         this.viewMain = viewMain;

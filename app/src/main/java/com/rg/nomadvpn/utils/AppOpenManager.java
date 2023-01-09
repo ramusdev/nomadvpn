@@ -33,6 +33,7 @@ public class AppOpenManager implements LifecycleObserver, Application.ActivityLi
     private long loadTime = 0;
     public static final String APP_PREFERENCES = "settings";
     public static final String APP_PREFERENCES_DATE = "date";
+    public static final String APP_PREFERENCES_DATETOSHOW = "datetoshow";
     public static final String APP_PREFERENCES_ISHOW = "isshow";
 
     public AppOpenManager(MyApplication myApplication) {
@@ -87,13 +88,20 @@ public class AppOpenManager implements LifecycleObserver, Application.ActivityLi
                 @Override
                 public void onAdShowedFullScreenContent() {
                     isShowingAd = true;
+                    SharedPreferences sharedPreferences = MyApplicationContext.getAppContext().getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
+                    long currentDateTime = (new Date()).getTime();
+
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putLong(APP_PREFERENCES_DATETOSHOW, currentDateTime);
+                    editor.apply();
                 }
             };
 
             // appOpenAd.show(currentActivity, fullScreenContentCallback);
             appOpenAd.setFullScreenContentCallback(fullScreenContentCallback);
-            appOpenAd.show(currentActivity);
-
+            if (isTimeToShowAd()) {
+                appOpenAd.show(currentActivity);
+            }
         } else {
             Log.d(MainActivity.LOGTAG, "AppOpenManager: Can not show ad");
             // fetchAd();
@@ -110,6 +118,19 @@ public class AppOpenManager implements LifecycleObserver, Application.ActivityLi
         long numMilliSecondsInDay = numMilliSecondsPerHour * hoursInDay;
 
         return dateDifference > numMilliSecondsInDay;
+    }
+
+    public boolean isTimeToShowAd() {
+        SharedPreferences sharedPreferences = MyApplicationContext.getAppContext().getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
+        long dateTime = sharedPreferences.getLong(APP_PREFERENCES_DATETOSHOW, 0);
+        long currentDateTime = (new Date()).getTime();
+        long dateDifference = currentDateTime - dateTime;
+
+        long numMilliSecondsPerHour = 3600000;
+        long hours = 3;
+        long numMilliSecondsToWait = numMilliSecondsPerHour * hours;
+
+        return dateDifference > numMilliSecondsToWait;
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)

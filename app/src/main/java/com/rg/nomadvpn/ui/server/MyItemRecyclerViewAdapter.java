@@ -45,10 +45,11 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.countryText.setText(mValues.get(position).getCountry());
-        holder.cityText.setText(mValues.get(position).getCity());
+        holder.countryText.setText(holder.mItem.getCountry());
+        holder.cityText.setText(holder.mItem.getCity());
+        holder.timeText.setText(holder.mItem.getPing());
 
-        String imageName = mValues.get(position).getFlagName();
+        String imageName = holder.mItem.getFlagName();
         int drawableInt = MyApplicationContext.getAppContext().getResources().getIdentifier(imageName, "drawable", MyApplicationContext.getAppContext().getPackageName());
         Drawable drawable = MyApplicationContext.getAppContext().getResources().getDrawable(drawableInt);
         holder.flagImage.setImageDrawable(drawable);
@@ -60,8 +61,9 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public final TextView countryText;
-        public final TextView cityText;
+        public TextView countryText;
+        public TextView cityText;
+        public TextView timeText;
         public ImageView flagImage;
         public ServerHolderConfiguration mItem;
 
@@ -69,6 +71,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
             super(binding.getRoot());
             countryText = binding.itemCountry;
             cityText = binding.itemCity;
+            timeText = binding.itemTime;
             flagImage = binding.itemImage;
 
             binding.getRoot().setOnClickListener(this);

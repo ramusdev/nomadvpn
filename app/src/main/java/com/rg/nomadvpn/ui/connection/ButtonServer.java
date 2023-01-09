@@ -36,7 +36,7 @@ public class ButtonServer {
     public void initServerButton() {
         int serverIndex = ServerCurrent.getServerIndex();
 
-        ServerHolder serverHolder = new ServerHolder();
+        ServerHolder serverHolder = ServerHolder.getInstance();
         ServerHolderConfiguration serverHolderConfiguration = serverHolder.getServerById(serverIndex);
 
         handler.post(new Runnable() {

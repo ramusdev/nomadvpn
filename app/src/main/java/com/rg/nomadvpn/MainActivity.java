@@ -2,7 +2,6 @@ package com.rg.nomadvpn;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.Menu;
 import android.view.Window;
@@ -20,10 +19,11 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.rg.nomadvpn.locator.ServiceLocator;
+import com.rg.nomadvpn.service.PingServerService;
 import com.rg.nomadvpn.ui.server.ServerFragment;
 import com.rg.nomadvpn.ui.settings.SettingsFragment;
 import com.rg.nomadvpn.ui.connection.ConnectionFragment;
-import com.rg.nomadvpn.ui.speed.SpeedFragment;
 import com.rg.nomadvpn.utils.MyApplicationContext;
 
 public class MainActivity extends AppCompatActivity {
@@ -120,6 +120,13 @@ public class MainActivity extends AppCompatActivity {
         windows.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         windows.setStatusBarColor(MyApplicationContext.getAppContext().getResources().getColor(R.color.status_background));
         windows.setNavigationBarColor(MyApplicationContext.getAppContext().getResources().getColor(R.color.main_background));
+
+        // PingServer
+        // Thread thread = new Thread(new PingServerService());
+        // thread.start();
+
+        PingServerService pingServerService = (PingServerService) ServiceLocator.getService(PingServerService.class);
+        pingServerService.updateServerPing();
     }
 
     @Override

@@ -15,8 +15,8 @@
     <color name="rot">#ff0000</color>
 
     <!-- Main name -->
-    <color name="main_nameone">#B2DFDB</color>
-    <color name="main_nametwo">#e91e63</color>
+    <color name="main_nameone">#0fd6b5</color>
+    <color name="main_nametwo">#E91E63</color>
     <color name="main_shadow">#313131</color>
 
     <!-- Main style -->

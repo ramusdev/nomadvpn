@@ -7,10 +7,28 @@ public class ServerHolderConfiguration {
     private String city;
     private String fileName;
     private String flagName;
+    private String ip;
+    private String ping;
     private int id;
 
     public ServerHolderConfiguration() {
 
+    }
+
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
+
+    public String getPing() {
+        return ping;
+    }
+
+    public void setPing(String ping) {
+        this.ping = ping;
     }
 
     public void setId(int id) {

@@ -463,7 +463,7 @@ public class ConnectionController {
 
                 DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
                 LocalTime localTimeCurrent = LocalTime.parse(duration, dateTimeFormatter);
-                LocalTime localTimePlus = LocalTime.parse("00:00:30", dateTimeFormatter);
+                LocalTime localTimePlus = LocalTime.parse("00:00:20", dateTimeFormatter);
 
                 if (localTimeCurrent.isAfter(localTimePlus)) {
                     connectionViewModel.setSpeedIn(speedIn);
