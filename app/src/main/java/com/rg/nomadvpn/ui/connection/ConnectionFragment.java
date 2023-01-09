@@ -38,7 +38,7 @@ public class ConnectionFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         this.connectionViewModel = new ViewModelProvider(this).get(ConnectionViewModel.class);
-        view = inflater.inflate(R.layout.fragment_speed, container, false);
+        view = inflater.inflate(R.layout.fragment_connection, container, false);
 
         // Toolbar
         Toolbar toolbar = getActivity().findViewById(R.id.toolbar);

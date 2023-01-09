@@ -1,4 +1,4 @@
-package com.rg.nomadvpn.ui.speed;
+package com.rg.nomadvpn.ui.connection;
 
 import android.animation.Animator;
 import android.animation.AnimatorSet;
@@ -26,7 +26,7 @@ import com.rg.nomadvpn.R;
 
 import java.util.logging.ConsoleHandler;
 
-public class SpeedView extends View {
+public class ConnectionView extends View {
     float cx = 0;
     float cy = 0;
     int valueDownload = 20;
@@ -40,22 +40,22 @@ public class SpeedView extends View {
     private Handler handler = new Handler();
     // private OnAnimationEnd onAnimationEnd;
 
-    public SpeedView(Context context) {
+    public ConnectionView(Context context) {
         super(context);
         // this.colorUpload = MyApplicationContext.getAppContext().getResources().getColor(R.color.background_to_disconnect);
     }
 
-    public SpeedView(Context context, @Nullable AttributeSet attrs) {
+    public ConnectionView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         // this.colorUpload = MyApplicationContext.getAppContext().getResources().getColor(R.color.background_to_disconnect);
     }
 
-    public SpeedView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public ConnectionView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         // this.colorUpload = MyApplicationContext.getAppContext().getResources().getColor(R.color.background_to_disconnect);
     }
 
-    public SpeedView(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public ConnectionView(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         // this.colorUpload = MyApplicationContext.getAppContext().getResources().getColor(R.color.background_to_disconnect);
     }

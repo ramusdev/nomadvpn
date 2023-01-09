@@ -2,360 +2,445 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/constraint_main"
-    android:tag="home_tag"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/main_background"
+    android:background="#17212b"
     android:paddingLeft="20dp"
-    android:paddingTop="15dp"
     android:paddingRight="20dp"
-    tools:context=".ui.connection.ConnectionFragment">
+    tools:context=".ui.connection.ConnectionView">
+
+    <!-- TODO: Update blank fragment layout -->
+    <com.rg.nomadvpn.ui.connection.ConnectionView
+        android:id="@+id/speed_view"
+        android:layout_width="match_parent"
+        android:layout_height="330dp"
+        android:background="@drawable/layout_background2"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/title_nameone"
+        android:id="@+id/download_speed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/roboto_bold"
-        android:paddingLeft="15dp"
-        android:paddingRight="5dp"
-
-        android:shadowColor="@color/main_shadow"
-        android:shadowDx="10"
-        android:shadowDy="5"
-        android:shadowRadius="20"
-        android:text="Nomad"
-        android:textAllCaps="true"
-        android:textColor="@color/main_nameone"
+        android:text="0.0"
+        android:textColor="#8CB6B0"
         android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/title_nametwo"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintBottom_toBottomOf="@id/speed_view"
+        app:layout_constraintLeft_toLeftOf="@id/speed_view"
+        app:layout_constraintRight_toRightOf="@id/speed_view"
+        app:layout_constraintTop_toTopOf="@id/speed_view" />
+
+    <ImageView
+        android:id="@+id/download_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="1dp"
+        android:src="@drawable/ic_download"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/download_mbit"
         app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/speed_view"
+        app:layout_constraintTop_toBottomOf="@id/download_speed" />
+
+    <TextView
+        android:id="@+id/download_mbit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:fontFamily="@font/roboto_bold"
+        android:text="Mbit"
+        android:textColor="#8CB6B0"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/download_image"
+        app:layout_constraintEnd_toEndOf="@+id/speed_view"
+        app:layout_constraintStart_toEndOf="@+id/download_image"
+        app:layout_constraintTop_toTopOf="@+id/download_image" />
+
+    <TextView
+        android:id="@+id/speed_digest_30"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="128dp"
+        android:fontFamily="@font/roboto_bold"
+        android:text="45"
+        android:textColor="#FAFAD2"
+        android:textSize="16sp"
+        app:layout_constraintHorizontal_bias="0.73"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/title_nametwo"
+        android:id="@+id/speed_digest_40"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="213dp"
         android:fontFamily="@font/roboto_bold"
-        android:paddingLeft="5dp"
-        android:paddingRight="15dp"
-        android:shadowColor="@color/main_shadow"
-        android:shadowDx="10"
-        android:shadowDy="5"
-        android:shadowRadius="20"
-        android:text="VPN"
-        android:textAllCaps="true"
-        android:textColor="@color/main_nametwo"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/title_nameone"
+        android:text="70"
+        android:textColor="#FAFAD2"
+        android:textSize="16sp"
+        app:layout_constraintHorizontal_bias="0.68"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/speed_digest_35"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="170dp"
+        android:fontFamily="@font/roboto_bold"
+        android:text="55"
+        android:textColor="#FAFAD2"
+        android:textSize="16sp"
+        app:layout_constraintHorizontal_bias="0.74"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/speed_digest_25"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="65dp"
+        android:fontFamily="@font/roboto_bold"
+        android:text="17"
+        android:textColor="#FAFAD2"
+        android:textSize="16sp"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/speed_digest_20"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="90dp"
+        android:fontFamily="@font/roboto_bold"
+        android:text="30"
+        android:textColor="#FAFAD2"
+        android:textSize="16sp"
+        app:layout_constraintHorizontal_bias="0.66"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/speed_digest_15"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="90dp"
+        android:fontFamily="@font/roboto_bold"
+        android:text="8"
+        android:textColor="#FAFAD2"
+        android:textSize="16sp"
+        app:layout_constraintHorizontal_bias="0.32"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/speed_digest_10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="128dp"
+        android:fontFamily="@font/roboto_bold"
+        android:text="4"
+        android:textColor="#FAFAD2"
+        android:textSize="16sp"
+        app:layout_constraintHorizontal_bias="0.25"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/speed_digest_5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="170dp"
+        android:fontFamily="@font/roboto_bold"
+        android:text="1"
+        android:textColor="#FAFAD2"
+        android:textSize="16sp"
+        app:layout_constraintHorizontal_bias="0.24"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/speed_digest_0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="213dp"
+        android:fontFamily="@font/roboto_bold"
+        android:text="0"
+        android:textColor="#FAFAD2"
+        android:textSize="16sp"
+        app:layout_constraintHorizontal_bias="0.30"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout_receivein"
-        android:layout_width="0dp"
+    <LinearLayout
+        android:id="@+id/linear_duration"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_marginRight="20dp"
-        android:background="@drawable/layout_background"
-        android:paddingLeft="15dp"
-        android:paddingTop="20dp"
-        android:paddingRight="15dp"
-        android:paddingBottom="20dp"
-        android:layout_marginTop="20dp"
-        app:layout_constraintEnd_toStartOf="@+id/layout_receiveout"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintHorizontal_chainStyle="spread"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="100dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title_nameone">
+        app:layout_constraintTop_toBottomOf="@id/download_speed">
 
         <TextView
-            android:id="@+id/title_receivein"
+            android:id="@+id/title_duration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawablePadding="8dp"
-            android:fontFamily="@font/roboto"
-            android:text="@string/traffic_download"
-            android:textAllCaps="true"
-            android:textColor="@color/statistics_text"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:drawableLeftCompat="@drawable/ic_download"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/value_receivein"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:fontFamily="@font/roboto_bold"
-            android:text="0 MB"
-            android:textAllCaps="true"
-            android:textColor="@color/receive_value"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.496"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout_receiveout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/layout_background"
-        android:paddingLeft="15dp"
-        android:paddingTop="20dp"
-        android:paddingRight="15dp"
-        android:paddingBottom="20dp"
-        android:layout_marginTop="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/layout_receivein"
-        app:layout_constraintTop_toBottomOf="@+id/title_nametwo">
-
-        <TextView
-            android:id="@+id/title_receiveout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawablePadding="8dp"
-            android:fontFamily="@font/roboto"
-            android:text="@string/traffic_download"
-            android:textAllCaps="true"
-            android:textColor="@color/statistics_text"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:drawableLeftCompat="@drawable/ic_upload"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/value_receiveout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:fontFamily="@font/roboto_bold"
-            android:text="0 MB"
-            android:textAllCaps="true"
-            android:textColor="@color/receive_value"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.496"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout_speedin"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="20dp"
-        android:background="@drawable/layout_background"
-        android:paddingLeft="15dp"
-        android:paddingTop="20dp"
-        android:paddingRight="15dp"
-        android:paddingBottom="20dp"
-        app:layout_constraintEnd_toStartOf="@+id/layout_speedout"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintHorizontal_chainStyle="spread"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/layout_receivein">
-
-        <TextView
-            android:id="@+id/title_speedin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawablePadding="8dp"
-            android:fontFamily="@font/roboto"
-            android:text="@string/speed_download"
-            android:textAllCaps="true"
-            android:textColor="@color/statistics_text"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:drawableLeftCompat="@drawable/ic_download"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/value_speedin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:fontFamily="@font/roboto_bold"
-            android:text="0 Mbit/s"
-            android:textAllCaps="true"
-            android:textColor="@color/receive_value"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.496"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout_speedout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/layout_background"
-        android:paddingLeft="15dp"
-        android:paddingTop="20dp"
-        android:paddingRight="15dp"
-        android:paddingBottom="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/layout_speedin"
-        app:layout_constraintTop_toBottomOf="@id/layout_receiveout">
-
-        <TextView
-            android:id="@+id/title_speedout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawablePadding="8dp"
-            android:fontFamily="@font/roboto"
-            android:text="@string/speed_download"
-            android:textAllCaps="true"
-            android:textColor="@color/statistics_text"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:drawableLeftCompat="@drawable/ic_upload"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/value_speedout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:fontFamily="@font/roboto_bold"
-            android:text="0 Mbit/s"
-            android:textAllCaps="true"
-            android:textColor="@color/receive_value"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.496"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout_time"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
-        android:background="@drawable/layout_background"
-        android:paddingLeft="15dp"
-        android:paddingTop="20dp"
-        android:paddingRight="15dp"
-        android:paddingBottom="20dp"
-        app:layout_constraintEnd_toStartOf="@+id/layout_status"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintHorizontal_chainStyle="spread"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/layout_speedin">
-
-        <TextView
-            android:id="@+id/title_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawablePadding="8dp"
             android:fontFamily="@font/roboto"
             android:text="@string/duration_download"
             android:textAllCaps="true"
-            android:textColor="@color/statistics_text"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:drawableLeftCompat="@drawable/ic_duration"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:textColor="#8CB6B0"
+            android:textSize="15sp" />
+
+        <ImageView
+            android:id="@+id/line_duration"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="1dp"
+            android:background="@drawable/layout_line" />
 
         <TextView
-            android:id="@+id/value_time"
+            android:id="@+id/text_duration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:fontFamily="@font/roboto_bold"
+            android:fontFamily="@font/roboto"
             android:text="00:00:00"
-            android:textAllCaps="true"
-            android:textColor="@color/connect_text"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.496"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:textColor="@color/statistics_textsecond"
+            android:textSize="15sp" />
+    </LinearLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout_status"
-        android:layout_width="0dp"
+    <LinearLayout
+        android:id="@+id/linear_status"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/layout_background"
-        android:paddingLeft="15dp"
-        android:paddingTop="20dp"
-        android:paddingRight="15dp"
-        android:paddingBottom="20dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_marginEnd="40dp"
+        android:layout_marginTop="100dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/layout_time"
-        app:layout_constraintTop_toBottomOf="@id/layout_speedout">
+        app:layout_constraintTop_toBottomOf="@id/download_speed">
 
         <TextView
             android:id="@+id/title_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawablePadding="8dp"
             android:fontFamily="@font/roboto"
             android:text="@string/title_status"
             android:textAllCaps="true"
-            android:textColor="@color/statistics_text"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:drawableLeftCompat="@drawable/ic_status"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:textColor="#8CB6B0"
+            android:textSize="15sp" />
+
+        <ImageView
+            android:id="@+id/line_status"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="1dp"
+            android:background="@drawable/layout_line" />
 
         <TextView
-            android:id="@+id/value_status"
+            android:id="@+id/text_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:fontFamily="@font/roboto_bold"
+            android:fontFamily="@font/roboto"
             android:text="@string/disconnected_status"
+            android:textColor="@color/statistics_textsecond"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/line_main"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/layout_mainline"
+        app:layout_constraintTop_toBottomOf="@id/linear_duration"/>
+
+    <LinearLayout
+        android:id="@+id/linear_trafficdownload"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/line_main">
+
+        <TextView
+            android:id="@+id/title_trafficdownload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto"
+            android:text="@string/traffic_downloaded"
             android:textAllCaps="true"
-            android:textColor="@color/status_text"
-            android:textSize="15sp"
-            android:textStyle="bold"
+            android:textColor="#8CB6B0"
+            android:textSize="15sp" />
+
+        <ImageView
+            android:id="@+id/line_trafficdownload"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="1dp"
+            android:background="@drawable/layout_line" />
+
+        <TextView
+            android:id="@+id/text_trafficdownload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto"
+            android:text="0 Mbyte"
+            android:textColor="@color/statistics_textsecond"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linear_trafficupload"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/line_main">
+
+        <TextView
+            android:id="@+id/title_trafficupload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto"
+            android:text="@string/traffic_uploaded"
+            android:textAllCaps="true"
+            android:textColor="#8CB6B0"
+            android:textSize="15sp" />
+
+        <ImageView
+            android:id="@+id/line_trafficupload"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="1dp"
+            android:background="@drawable/layout_line" />
+
+        <TextView
+            android:id="@+id/text_trafficupload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto"
+            android:text="0 Mbyte"
+            android:textColor="@color/statistics_textsecond"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/support_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:paddingLeft="15dp"
+        android:paddingTop="15dp"
+        android:paddingRight="15dp"
+        android:paddingBottom="15dp"
+        android:alpha="0"
+        android:visibility="visible"
+        android:background="@drawable/item_background"
+        app:layout_constraintTop_toBottomOf="@+id/linear_trafficdownload"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/support_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/support_message"
+            android:textColor="@color/support_text"
+            android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.496"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:id="@+id/button_server"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginBottom="100dp"
+        android:background="@drawable/item_background"
+        android:foreground="?android:selectableItemBackgroundBorderless"
+        android:orientation="horizontal"
+        android:paddingLeft="15dp"
+        android:paddingTop="15dp"
+        android:paddingRight="15dp"
+        android:paddingBottom="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageView
+            android:id="@+id/item_image"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginRight="20dp"
+            android:scaleType="fitXY"
+            app:srcCompat="@drawable/notherland_flag" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/item_country"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-5dp"
+                android:fontFamily="@font/roboto"
+                android:text="Germany"
+                android:textColor="#8CB6B0"
+                android:textSize="14dp" />
+
+            <TextView
+                android:id="@+id/item_city"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto"
+                android:text="Frankfurt on main"
+                android:textColor="@color/statistics_textsecond"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/item_right"
+                android:layout_width="15dp"
+                android:layout_height="wrap_content"
+                android:scaleType="center"
+                app:srcCompat="@drawable/ic_right" />
+        </LinearLayout>
+    </LinearLayout>
 
 
     <androidx.cardview.widget.CardView
@@ -363,8 +448,8 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginBottom="25dp"
-        app:cardBackgroundColor="@android:color/transparent"
         android:visibility="gone"
+        app:cardBackgroundColor="@android:color/transparent"
         app:cardCornerRadius="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -392,9 +477,9 @@
                 android:id="@+id/title_disconnect"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_bold"
                 android:text="@string/button_disconnect"
                 android:textAllCaps="true"
-                android:fontFamily="@font/roboto_bold"
                 android:textColor="@color/disconnection_text"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -411,8 +496,8 @@
         android:layout_height="60dp"
         android:layout_marginBottom="25dp"
         android:visibility="gone"
-        app:cardCornerRadius="7dp"
         app:cardBackgroundColor="@android:color/transparent"
+        app:cardCornerRadius="7dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintWidth_percent="0">
@@ -439,9 +524,9 @@
                 android:id="@+id/title_profile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_bold"
                 android:text="@string/button_profile"
                 android:textAllCaps="true"
-                android:fontFamily="@font/roboto_bold"
                 android:textColor="@color/disconnection_text"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -452,105 +537,13 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/support_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:paddingLeft="20dp"
-        android:paddingTop="20dp"
-        android:paddingRight="20dp"
-        android:paddingBottom="20dp"
-        android:alpha="0"
-        android:visibility="visible"
-        android:background="@drawable/layout_background"
-        app:layout_constraintTop_toBottomOf="@+id/layout_time"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <TextView
-            android:id="@+id/support_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/support_message"
-            android:textColor="@color/support_text"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.496"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-    <LinearLayout
-        android:id="@+id/button_server"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:paddingTop="15dp"
-        android:paddingBottom="15dp"
-        android:layout_marginBottom="100dp"
-        android:background="@drawable/item_background"
-        android:foreground="?android:selectableItemBackgroundBorderless"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:orientation="horizontal">
-        <ImageView
-            android:id="@+id/item_image"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:layout_marginRight="20dp"
-            android:scaleType="fitXY"
-            app:srcCompat="@drawable/notherland_flag" />
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <TextView
-                android:id="@+id/item_country"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Germany"
-                android:layout_marginTop="-5dp"
-                android:layout_marginBottom="2dp"
-                android:fontFamily="@font/roboto"
-                android:textSize="15dp"
-                android:textColor="@color/statistics_text" />
-            <TextView
-                android:id="@+id/item_city"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Frankfurt on main"
-                android:fontFamily="@font/roboto"
-                android:textSize="14dp"
-                android:textColor="@color/statistics_textsecond" />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="right"
-            android:orientation="horizontal">
-            <ImageView
-                android:id="@+id/item_right"
-                android:layout_width="15dp"
-                android:layout_height="35dp"
-                android:scaleType="center"
-                app:srcCompat="@drawable/ic_right" />
-        </LinearLayout>
-    </LinearLayout>
-
-
-
-
     <androidx.cardview.widget.CardView
         android:id="@+id/button_card"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginBottom="25dp"
-        app:cardCornerRadius="5dp"
         app:cardBackgroundColor="@android:color/transparent"
+        app:cardCornerRadius="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
@@ -590,7 +583,7 @@
                 android:fontFamily="@font/roboto_bold"
                 android:text="@string/start_connection"
                 android:textAllCaps="true"
-                android:textColor="@color/connection_text"
+                android:textColor="#8CB6B0"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -599,6 +592,5 @@
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -17,7 +17,6 @@ import android.widget.TextView;
 import androidx.annotation.RequiresApi;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -39,13 +38,11 @@ import com.rg.nomadvpn.ui.connection.ConnectionFragment;
 import com.rg.nomadvpn.ui.connection.ConnectionViewModel;
 import com.rg.nomadvpn.ui.connection.SupportMessage;
 import com.rg.nomadvpn.ui.server.ServerFragment;
-import com.rg.nomadvpn.ui.speed.SpeedView;
+import com.rg.nomadvpn.ui.connection.ConnectionView;
 import com.rg.nomadvpn.utils.MyApplicationContext;
 
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
 public class ConnectionController {
@@ -71,7 +68,7 @@ public class ConnectionController {
     private ConnectionViewModel connectionViewModel;
     private Handler handler = new Handler();
     private static ConnectionController instance;
-    private SpeedView speedView;
+    private ConnectionView connectionView;
 
     public ConnectionController() {
         instance = this;
@@ -96,9 +93,9 @@ public class ConnectionController {
         // this.layoutDisconnect = view.findViewById(R.id.layout_disconnect);
         // this.supportLayout = view.findViewById(R.id.support_layout);
 
-        speedView = view.findViewById(R.id.speed_view);
-        speedView.setView(view);
-        speedView.init();
+        connectionView = view.findViewById(R.id.speed_view);
+        connectionView.setView(view);
+        connectionView.init();
 
         vpnConnectionService = (VpnConnectionService) ServiceLocator.getService(VpnConnectionService.class);
         vpnConnectionService.setFragment(fragment);
@@ -220,7 +217,7 @@ public class ConnectionController {
     public void disconnectClickUp() {
         vpnConnectionService.disconnectServer();
         notificationService.showDisconnectMessage();
-        speedView.clearAnimation();
+        connectionView.clearAnimation();
         supportMessage.showMessage(false);
         buttonDisconnect.clickAnimationUp(new ButtonDisconnect.AnimationEndInterface() {
             @Override
@@ -343,7 +340,7 @@ public class ConnectionController {
                     String status = vpnConnectionService.getStatus();
                     if (status.equals("Connected")) {
                         notificationService.showConnectMessage();
-                        speedView.connectedAnimation();
+                        connectionView.connectedAnimation();
                         break;
                     } else if (status.equals("Disconnected")) {
                         // initClick();
@@ -415,7 +412,7 @@ public class ConnectionController {
         connectionViewModel.getSpeedIn().observe(fragment.getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(String value) {
-                speedView.downloadAnimation(value);
+                connectionView.downloadAnimation(value);
             }
         });
     }
